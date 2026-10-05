@@ -1,0 +1,719 @@
+<!doctype html><html lang="fr"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Margots Kaarten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+:root{
+  --bg:#EDF1F3; --surface:#FFFFFF; --surface-2:#E2E8EC; --ink:#1B2530; --ink-dim:#56626E; --line:#CDD6DC;
+  --sky:#2F7FB5; --sky-tint:#DCEBF5; --red:#C8323A; --red-tint:#F6DEDF;
+  --amber:#A8741F; --amber-tint:#F3E7CF; --moss:#467A3C; --moss-tint:#DFECD9;
+  --shadow:0 1px 2px rgba(27,37,48,.06),0 10px 24px -14px rgba(27,37,48,.28);
+  --r:18px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#141A20; --surface:#1E262E; --surface-2:#27313A; --ink:#E8EDF1; --ink-dim:#9AA7B2; --line:#33404B;
+  --sky:#7DB8E0; --sky-tint:#1F3342; --red:#EE7A7F; --red-tint:#3D2327;
+  --amber:#E0AE5A; --amber-tint:#3A301F; --moss:#95C688; --moss-tint:#253424;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 28px -14px rgba(0,0,0,.7);}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#141A20; --surface:#1E262E; --surface-2:#27313A; --ink:#E8EDF1; --ink-dim:#9AA7B2; --line:#33404B;
+  --sky:#7DB8E0; --sky-tint:#1F3342; --red:#EE7A7F; --red-tint:#3D2327;
+  --amber:#E0AE5A; --amber-tint:#3A301F; --moss:#95C688; --moss-tint:#253424;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 28px -14px rgba(0,0,0,.7);}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-inline:16px}
+button{font-family:inherit;color:inherit}
+.app{max-width:520px;margin:0 auto;padding-block:18px 28px;display:flex;flex-direction:column;gap:14px;min-height:100%}
+.flag{display:flex;height:5px;border-radius:3px;overflow:hidden;width:54px}
+.flag i{flex:1}.flag i:nth-child(1){background:#C8323A}.flag i:nth-child(2){background:#fff;box-shadow:inset 0 0 0 1px var(--line)}.flag i:nth-child(3){background:#4AA3DF}
+header{display:flex;flex-direction:column;gap:12px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+h1{font-family:"Bricolage Grotesque",Georgia,sans-serif;font-weight:800;font-size:clamp(1.45rem,6vw,1.85rem);letter-spacing:-.02em;margin:4px 0 0;text-wrap:balance;line-height:1.1}
+.sub{color:var(--ink-dim);font-size:.9rem;margin:0}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:7px 13px;font-weight:700;font-size:.82rem;color:var(--ink-dim);cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 4px;text-align:center}
+.stat b{display:block;font-size:1.25rem;font-variant-numeric:tabular-nums;line-height:1.15}
+.stat span{font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-dim)}
+.stat.due b{color:var(--red)}.stat.lrn b{color:var(--amber)}.stat.known b{color:var(--moss)}
+.bar{display:flex;align-items:center;gap:10px;font-size:.78rem;color:var(--ink-dim)}
+.track{flex:1;height:10px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.track i{display:block;height:100%;background:var(--moss);border-radius:99px;transition:width .4s}
+.bar b{color:var(--moss);font-variant-numeric:tabular-nums;min-width:3ch;text-align:right}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:.84rem;font-weight:700;color:var(--ink-dim);cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--sky-tint);border-color:var(--sky);color:var(--sky)}
+.chip small{font-weight:400;opacity:.8}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.lbl{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
+.banner{display:flex;gap:10px;align-items:flex-start;background:var(--sky-tint);border:1px solid var(--sky);color:var(--ink);border-radius:14px;padding:11px 14px;font-size:.92rem}
+.banner.warm{background:var(--amber-tint);border-color:var(--amber)}
+.banner button{margin-left:auto;background:none;border:0;cursor:pointer;color:var(--ink-dim);font-size:1rem;padding:0 4px}
+main{flex:1;display:flex;flex-direction:column;gap:14px}
+.card{position:relative;min-height:290px;perspective:1200px;cursor:pointer;border-radius:var(--r)}
+.inner{position:absolute;inset:0;transition:transform .45s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.card.flip .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px 22px 30px;gap:12px}
+.face.back{transform:rotateY(180deg);background:var(--sky-tint)}
+.pill{position:absolute;top:14px;font-size:.7rem;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-dim)}
+.pill.l{left:14px}.pill.r{right:14px}
+.pill.new{background:var(--red-tint);border-color:var(--red);color:var(--red)}
+.pill.b1,.pill.b2,.pill.b3{background:var(--amber-tint);border-color:var(--amber);color:var(--amber)}
+.pill.b4,.pill.b5,.pill.b6{background:var(--moss-tint);border-color:var(--moss);color:var(--moss)}
+.lang{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
+.word{font-size:clamp(1.55rem,7vw,2.2rem);font-weight:700;line-height:1.25;text-wrap:balance;word-break:break-word}
+.back .word{color:var(--sky)}
+.note{font-size:.88rem;color:var(--ink-dim);font-style:italic}
+.cue{font-size:.86rem;color:var(--ink-dim)}
+.echo{font-size:.95rem;color:var(--ink-dim)}
+.rate{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rate button{border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 4px;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.rate button small{font-weight:400;font-size:.72rem;color:var(--ink-dim)}
+.rate .a{border-color:var(--red);color:var(--red)}.rate .h{border-color:var(--amber);color:var(--amber)}.rate .g{border-color:var(--moss);color:var(--moss)}
+.rate.off{visibility:hidden}
+.reveal{border:0;background:var(--ink);color:var(--bg);border-radius:14px;padding:14px;font-weight:700;font-size:1rem;cursor:pointer}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:14px 16px;font-size:1.05rem;cursor:pointer}
+.opt.ok{border-color:var(--moss);background:var(--moss-tint);color:var(--moss);font-weight:700}
+.opt.ko{border-color:var(--red);background:var(--red-tint);color:var(--red)}
+.opt:disabled{cursor:default}
+.prompt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px 20px;text-align:center;display:flex;flex-direction:column;gap:8px;position:relative}
+.next{border:1.5px solid var(--ink);background:transparent;border-radius:14px;padding:12px;font-weight:700;cursor:pointer}
+.empty{text-align:center;padding:36px 16px;display:flex;flex-direction:column;gap:10px;align-items:center;color:var(--ink-dim)}
+.empty .word{color:var(--moss)}
+.list{display:flex;flex-direction:column;gap:18px}
+.list h3{margin:0 0 6px;font-family:"Bricolage Grotesque",Georgia,sans-serif;font-size:1.05rem}
+.list ul{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.list li{display:grid;grid-template-columns:12px 1fr 1fr;gap:10px;align-items:baseline;padding:9px 12px;border-top:1px solid var(--line);font-size:.93rem}
+.list li:first-child{border-top:0}
+.list li .lb{font-weight:700}.list li .fr{color:var(--ink-dim)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--line);align-self:center}
+.dot.l{background:var(--amber)}.dot.k{background:var(--moss)}
+.legend{display:flex;gap:14px;font-size:.8rem;color:var(--ink-dim);flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+footer{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.8rem;color:var(--ink-dim);flex-wrap:wrap}
+.link{background:none;border:0;color:var(--ink-dim);text-decoration:underline;cursor:pointer;font-size:.8rem;padding:4px}
+.sheet{position:fixed;inset:0;z-index:5;background:rgba(10,14,18,.5);display:flex;align-items:flex-end;justify-content:center;padding:0 12px calc(env(safe-area-inset-bottom,0px) + 12px)}
+[hidden]{display:none!important}
+.sheet-card{width:100%;max-width:500px;max-height:85vh;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.sheet-card h2{margin:0;font-family:"Bricolage Grotesque",Georgia,sans-serif;font-size:1.2rem}
+.sheet-card p,.sheet-card li{font-size:.92rem;margin:0}
+.sheet-card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px}
+textarea{width:100%;font:.75rem/1.4 ui-monospace,Menlo,monospace;background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;resize:vertical}
+.btn{align-self:flex-start;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:9px 15px;font-weight:700;font-size:.88rem;cursor:pointer}
+.btn.primary{background:var(--sky);border-color:var(--sky);color:#fff}
+.btn.danger{background:var(--red-tint);border-color:var(--red);color:var(--red)}
+.status{font-size:.82rem;color:var(--moss);min-height:1.2em}
+details summary{cursor:pointer;font-weight:700;color:var(--red);font-size:.85rem}
+.x{background:none;border:0;cursor:pointer;font-size:1.1rem;color:var(--ink-dim)}
+:focus-visible{outline:2.5px solid var(--sky);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.inner,.track i{transition:none}}
+</style>
+
+<div class="app">
+  <header>
+    <div class="top">
+      <div>
+        <div class="flag" aria-hidden="true"><i></i><i></i><i></i></div>
+        <h1>Margots Kaarten</h1>
+        <p class="sub" id="deckInfo"></p>
+      </div>
+      <div class="seg" role="group" data-i18n-aria="ariaMode">
+        <button id="mCards" class="on" type="button" data-i18n="modeCards">Cartes</button>
+        <button id="mQuiz" type="button" data-i18n="modeQuiz">Quiz</button>
+        <button id="mList" type="button" data-i18n="modeList">Liste</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="sNew">0</b><span data-i18n="statNew">Nouveaux</span></div>
+      <div class="stat due"><b id="sDue">0</b><span data-i18n="statDue">À revoir</span></div>
+      <div class="stat lrn"><b id="sLrn">0</b><span data-i18n="statLrn">En cours</span></div>
+      <div class="stat known"><b id="sKnown">0</b><span data-i18n="statKnown">Acquis</span></div>
+    </div>
+    <div class="bar"><span data-i18n="totalKnownLabel">Acquis au total</span><div class="track"><i id="fill"></i></div><b id="pct">0%</b></div>
+    <div class="chips" id="chips" role="group" data-i18n-aria="ariaSessions"></div>
+    <div class="row">
+      <span class="lbl" data-i18n="sensLabel">Sens</span>
+      <div class="seg" id="dirSeg" role="group" data-i18n-aria="ariaSens">
+        <button data-d="fl" type="button" data-i18n="dirFL">FR → LB</button>
+        <button data-d="lf" type="button" data-i18n="dirLF">LB → FR</button>
+        <button data-d="mix" type="button" data-i18n="dirMix">Mélange</button>
+      </div>
+    </div>
+  </header>
+  <div id="banners"></div>
+  <main id="main"></main>
+  <footer>
+    <span id="streak"></span>
+    <span><button class="link" id="helpBtn" type="button" data-i18n="helpBtn">Mode d'emploi</button> · <button class="link" id="saveBtn" type="button" data-i18n="saveBtn">Sauvegarde</button></span>
+  </footer>
+</div>
+
+<div class="sheet" id="helpSheet" hidden>
+  <div class="sheet-card">
+    <div class="row"><h2 data-i18n="helpTitle">Mode d'emploi</h2><button class="x" data-close type="button" data-i18n-aria="ariaClose">✕</button></div>
+    <p data-i18n="helpIntro">Tous les mots de tes séances avec Jim. Les nouveaux mots s'ajoutent après chaque séance ; ta progression reste.</p>
+    <ul>
+      <li data-i18n-html="helpLi1"><b>Cartes :</b> lis la carte, <b>dis la réponse à voix haute</b>, puis touche la carte pour vérifier. Ensuite : <i>Pas encore</i>, <i>Presque</i> ou <i>Je sais</i>.</li>
+      <li data-i18n="helpLi2">Ce que tu sais revient de moins en moins souvent (1 jour, 3 jours, 1 semaine…). Ce qui est difficile revient tout de suite.</li>
+      <li data-i18n-html="helpLi3"><b>FR → LB</b> est le sens le plus utile pour parler. Commence par <b>LB → FR</b> si un mot est tout nouveau.</li>
+      <li data-i18n-html="helpLi4"><b>Quiz :</b> quatre réponses, une seule est juste.</li>
+      <li data-i18n-html="helpLi5"><b>Liste :</b> tous les mots par séance. Point vert = acquis.</li>
+      <li data-i18n="helpLi6">10 minutes par jour valent mieux qu'une heure le dimanche.</li>
+      <li data-i18n-html="helpLi7">Ta progression est enregistrée dans ce navigateur, sur cet appareil, en double. Tous les quelques jours, l'appli te propose un <b>fichier de sauvegarde</b> : accepte-le, 10 secondes. Avec ce fichier, tu récupères tout — même sur un autre téléphone. Voir <b>Sauvegarde</b>, en bas.</li>
+    </ul>
+    <button class="btn primary" data-close type="button" data-i18n="helpGo">On y va</button>
+  </div>
+</div>
+
+<div class="sheet" id="saveSheet" hidden>
+  <div class="sheet-card">
+    <div class="row"><h2 data-i18n="saveTitle">Sauvegarde</h2><button class="x" data-close type="button" data-i18n-aria="ariaClose">✕</button></div>
+    <p data-i18n-html="saveIntro">Ta progression vit dans ce navigateur. Un <b>fichier de sauvegarde</b> la met à l'abri : garde-le (Fichiers, iCloud, un e-mail à toi-même). Pour tout récupérer — ici ou sur un autre appareil — ouvre ce fichier avec <b>Restaurer depuis un fichier</b>.</p>
+    <p class="note" id="bkInfo" style="font-style:normal"></p>
+    <button class="btn primary" id="bkBtn" type="button" data-i18n="saveBtnDo">Enregistrer un fichier de sauvegarde</button>
+    <span class="lbl" style="margin-top:6px" data-i18n="restoreFileLabel">Restaurer depuis un fichier</span>
+    <input type="file" id="bkFile" accept=".txt,.json,text/plain,application/json" style="font:inherit;font-size:.85rem">
+    <details style="margin-top:4px"><summary style="color:var(--ink-dim)" data-i18n="codeSummary">Ou avec un code (copier / coller)</summary>
+    <span class="lbl" data-i18n="yourCodeLabel">Ton code</span>
+    <textarea id="exportBox" rows="4" readonly></textarea>
+    <button class="btn" id="copyBtn" type="button" data-i18n="copyCodeBtn">Copier le code</button>
+    <span class="lbl" style="margin-top:6px" data-i18n="restoreCodeLabel">Restaurer un code</span>
+    <textarea id="importBox" rows="3" placeholder="Colle ton code ici" data-i18n-placeholder="pasteCodePlaceholder"></textarea>
+    <button class="btn" id="importBtn" type="button" data-i18n="restoreBtn">Restaurer</button>
+    </details>
+    <p class="status" id="saveStatus" role="status"></p>
+    <details>
+      <summary data-i18n="resetSummary">Tout recommencer</summary>
+      <p style="margin-top:8px" data-i18n="resetIntro">Efface toute ta progression sur cet appareil.</p>
+      <button class="btn danger" id="resetBtn" type="button" data-i18n="resetBtn2">Effacer ma progression</button>
+      <button class="btn danger" id="resetConfirm" type="button" hidden data-i18n="resetConfirmBtn">Oui, tout effacer</button>
+    </details>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ============ DATA ============
+   To add a session: append its label to SESSIONS and its items to DECK.
+   Progress is keyed by each item's "id" — never change an existing id. */
+var SESSIONS = {"1": "Séance 1 · Premiers mots", "2": "Séance 2 · Eng Woch", "3": "Séance 3 · Um Büro", "4": "Séance 4 · Aussprooch", "5": "Séance 5 · Am Café", "6": "Séance 6 · D'Verben", "90": "Histoire · D'Kou"};
+var DECK = [{"id": "moien", "lb": "Moien!", "fr": "Bonjour / Salut (à toute heure)", "topic": "Salutations", "s": 1, "note": ""}, {"id": "gudde-moien", "lb": "Gudde Moien!", "fr": "Bonjour (le matin)", "topic": "Salutations", "s": 1, "note": ""}, {"id": "gudde-metteg", "lb": "Gudde Mëtteg!", "fr": "Bonjour / bon après-midi (midi)", "topic": "Salutations", "s": 1, "note": ""}, {"id": "gudden-owend", "lb": "Gudden Owend!", "fr": "Bonsoir", "topic": "Salutations", "s": 1, "note": ""}, {"id": "salut", "lb": "Salut!", "fr": "Salut", "topic": "Salutations", "s": 1, "note": "informel, entre amis"}, {"id": "addi", "lb": "Äddi!", "fr": "Au revoir !", "topic": "Salutations", "s": 1, "note": ""}, {"id": "awar", "lb": "Awar!", "fr": "Salut ! (familier)", "topic": "Salutations", "s": 1, "note": "informel"}, {"id": "scheinen-dag", "lb": "Schéinen Dag!", "fr": "Bonne journée !", "topic": "Salutations", "s": 1, "note": ""}, {"id": "scheinen-owend", "lb": "Schéinen Owend!", "fr": "Bonne soirée !", "topic": "Salutations", "s": 1, "note": ""}, {"id": "gutt-nuecht", "lb": "Gutt Nuecht!", "fr": "Bonne nuit !", "topic": "Salutations", "s": 1, "note": ""}, {"id": "merci", "lb": "Merci!", "fr": "Merci !", "topic": "Petits mots", "s": 1, "note": ""}, {"id": "glaichfalls", "lb": "gläichfalls", "fr": "à vous aussi / de même", "topic": "Petits mots", "s": 1, "note": ""}, {"id": "wei-geet-et-iech", "lb": "Wéi geet et Iech?", "fr": "Comment allez-vous ?", "topic": "Salutations", "s": 1, "note": "formel"}, {"id": "wei-geet-et-dir", "lb": "Wéi geet et dir?", "fr": "Comment vas-tu ?", "topic": "Salutations", "s": 1, "note": "informel"}, {"id": "mir-geet-et-gutt-an-iech", "lb": "Mir geet et gutt. An Iech?", "fr": "Je vais bien. Et vous ?", "topic": "Salutations", "s": 1, "note": "formel"}, {"id": "mir-geet-et-gutt-an-dir", "lb": "Mir geet et gutt. An dir?", "fr": "Je vais bien. Et toi ?", "topic": "Salutations", "s": 1, "note": "informel"}, {"id": "wei-geet-et", "lb": "Wéi geet et?", "fr": "Comment ça va ?", "topic": "Salutations", "s": 1, "note": "version courte, tout usage"}, {"id": "tipptopp", "lb": "Tipptopp!", "fr": "Au top !", "topic": "Salutations", "s": 1, "note": ""}, {"id": "ganz-gutt", "lb": "Ganz gutt.", "fr": "Très bien.", "topic": "Salutations", "s": 1, "note": ""}, {"id": "gutt", "lb": "Gutt.", "fr": "Bien.", "topic": "Salutations", "s": 1, "note": ""}, {"id": "et-geet", "lb": "Et geet.", "fr": "Ça va, bof.", "topic": "Salutations", "s": 1, "note": ""}, {"id": "net-gutt", "lb": "Net gutt.", "fr": "Pas bien.", "topic": "Salutations", "s": 1, "note": ""}, {"id": "gutt-bien", "lb": "gutt", "fr": "bien", "topic": "Petits mots", "s": 1, "note": ""}, {"id": "net", "lb": "net", "fr": "pas (négation)", "topic": "Petits mots", "s": 1, "note": ""}, {"id": "ech-heesche-margot", "lb": "Ech heesche Margot.", "fr": "Je m'appelle Margot.", "topic": "Se présenter", "s": 1, "note": ""}, {"id": "ech-sinn-aus-frankraich", "lb": "Ech sinn aus Frankräich.", "fr": "Je viens de France.", "topic": "Se présenter", "s": 1, "note": ""}, {"id": "ech-wunnen-zu-schieren", "lb": "Ech wunnen zu Schieren.", "fr": "J'habite à Schieren.", "topic": "Se présenter", "s": 1, "note": ""}, {"id": "wei-heeschs-du", "lb": "Wéi heeschs du?", "fr": "Tu t'appelles comment ?", "topic": "Se présenter", "s": 1, "note": ""}, {"id": "wou-wunns-du", "lb": "Wou wunns du?", "fr": "Tu habites où ?", "topic": "Se présenter", "s": 1, "note": ""}, {"id": "jo", "lb": "Jo", "fr": "Oui", "topic": "Petits mots", "s": 1, "note": ""}, {"id": "nee", "lb": "Nee", "fr": "Non", "topic": "Petits mots", "s": 1, "note": ""}, {"id": "pardon", "lb": "Pardon", "fr": "Pardon", "topic": "Petits mots", "s": 1, "note": ""}, {"id": "bis-geschwenn", "lb": "Bis geschwënn!", "fr": "À bientôt !", "topic": "Salutations", "s": 1, "note": ""}, {"id": "meindeg", "lb": "Méindeg", "fr": "lundi", "topic": "Jours", "s": 2, "note": ""}, {"id": "denschdeg", "lb": "Dënschdeg", "fr": "mardi", "topic": "Jours", "s": 2, "note": ""}, {"id": "mettwoch", "lb": "Mëttwoch", "fr": "mercredi", "topic": "Jours", "s": 2, "note": ""}, {"id": "donneschdeg", "lb": "Donneschdeg", "fr": "jeudi", "topic": "Jours", "s": 2, "note": ""}, {"id": "freideg", "lb": "Freideg", "fr": "vendredi", "topic": "Jours", "s": 2, "note": ""}, {"id": "samschdeg", "lb": "Samschdeg", "fr": "samedi", "topic": "Jours", "s": 2, "note": ""}, {"id": "sonndeg", "lb": "Sonndeg", "fr": "dimanche", "topic": "Jours", "s": 2, "note": ""}, {"id": "geschter", "lb": "gëschter", "fr": "hier", "topic": "Jours", "s": 2, "note": ""}, {"id": "haut", "lb": "haut", "fr": "aujourd'hui", "topic": "Jours", "s": 2, "note": ""}, {"id": "muer", "lb": "muer", "fr": "demain", "topic": "Jours", "s": 2, "note": ""}, {"id": "haut-ass-geschter-war-muer-ass", "lb": "Haut ass … Gëschter war … Muer ass …", "fr": "Aujourd'hui c'est … Hier c'était … Demain c'est …", "topic": "Jours", "s": 2, "note": "amorce de phrase du devoir"}, {"id": "du", "lb": "du", "fr": "tu (sujet)", "topic": "Pronoms", "s": 2, "note": ""}, {"id": "dir", "lb": "dir", "fr": "à toi", "topic": "Pronoms", "s": 2, "note": "minuscule"}, {"id": "dir-vous-politesse", "lb": "Dir", "fr": "vous (politesse)", "topic": "Pronoms", "s": 2, "note": "majuscule"}, {"id": "iech", "lb": "Iech", "fr": "à vous", "topic": "Pronoms", "s": 2, "note": ""}, {"id": "hie-seet", "lb": "hie seet", "fr": "il dit (un homme)", "topic": "Verbes", "s": 2, "note": ""}, {"id": "si-seet", "lb": "si seet", "fr": "elle dit (une femme)", "topic": "Verbes", "s": 2, "note": ""}, {"id": "hatt-seet", "lb": "hatt seet", "fr": "elle dit (une fille, une jeune femme)", "topic": "Verbes", "s": 2, "note": "hatt = neutre, grammaticalement correct pour une fille"}, {"id": "nach", "lb": "nach", "fr": "encore", "topic": "Petits mots", "s": 2, "note": ""}, {"id": "nach-net", "lb": "nach net", "fr": "pas encore", "topic": "Petits mots", "s": 2, "note": ""}, {"id": "och", "lb": "och", "fr": "aussi", "topic": "Petits mots", "s": 2, "note": ""}, {"id": "och-net", "lb": "och net", "fr": "non plus", "topic": "Petits mots", "s": 2, "note": ""}, {"id": "net-mei", "lb": "net méi", "fr": "ne… plus", "topic": "Petits mots", "s": 2, "note": ""}, {"id": "meiglech", "lb": "méiglech", "fr": "possible", "topic": "Petits mots", "s": 2, "note": ""}, {"id": "onmeiglech", "lb": "onméiglech", "fr": "impossible", "topic": "Petits mots", "s": 2, "note": "préfixe on- = in-/im-"}, {"id": "neideg", "lb": "néideg", "fr": "nécessaire", "topic": "Petits mots", "s": 2, "note": ""}, {"id": "onneideg", "lb": "onnéideg", "fr": "pas nécessaire, inutile", "topic": "Petits mots", "s": 2, "note": "préfixe on-"}, {"id": "frendlech", "lb": "frëndlech", "fr": "aimable", "topic": "Petits mots", "s": 2, "note": ""}, {"id": "onfrendlech", "lb": "onfrëndlech", "fr": "pas aimable", "topic": "Petits mots", "s": 2, "note": "préfixe on-"}, {"id": "wei-heescht-dir", "lb": "Wéi heescht Dir?", "fr": "Comment vous appelez-vous ?", "topic": "Questions/réponses", "s": 2, "note": "formel"}, {"id": "wou-wunnt-dir", "lb": "Wou wunnt Dir?", "fr": "Où habitez-vous ?", "topic": "Questions/réponses", "s": 2, "note": "formel"}, {"id": "wei-geet-et-iech-haut", "lb": "Wéi geet et Iech haut?", "fr": "Comment allez-vous aujourd'hui ?", "topic": "Questions/réponses", "s": 2, "note": "formel"}, {"id": "wat-ass-haut", "lb": "Wat ass haut?", "fr": "On est quel jour aujourd'hui ?", "topic": "Questions/réponses", "s": 2, "note": ""}, {"id": "wat-war-geschter", "lb": "Wat war gëschter?", "fr": "C'était quel jour hier ?", "topic": "Questions/réponses", "s": 2, "note": ""}, {"id": "wat-ass-muer", "lb": "Wat ass muer?", "fr": "Quel jour est-ce demain ?", "topic": "Questions/réponses", "s": 2, "note": ""}, {"id": "schwatzt-dir-letzebuergesch", "lb": "Schwätzt Dir Lëtzebuergesch?", "fr": "Vous parlez luxembourgeois ?", "topic": "Questions/réponses", "s": 2, "note": "formel"}, {"id": "schafft-dir-haut", "lb": "Schafft Dir haut?", "fr": "Vous travaillez aujourd'hui ?", "topic": "Questions/réponses", "s": 2, "note": "formel"}, {"id": "wat-maacht-dir-e-samschdeg", "lb": "Wat maacht Dir e Samschdeg?", "fr": "Que faites-vous le samedi ?", "topic": "Questions/réponses", "s": 2, "note": "formel"}, {"id": "ass-letzebuergesch-schweier", "lb": "Ass Lëtzebuergesch schwéier?", "fr": "Le luxembourgeois est-il difficile ?", "topic": "Questions/réponses", "s": 2, "note": ""}, {"id": "ech-schaffen", "lb": "ech schaffen", "fr": "je travaille", "topic": "Verbes", "s": 3, "note": ""}, {"id": "du-schaffs", "lb": "du schaffs", "fr": "tu travailles", "topic": "Verbes", "s": 3, "note": ""}, {"id": "hien-si-hatt-schafft", "lb": "hien / si / hatt schafft", "fr": "il / elle travaille", "topic": "Verbes", "s": 3, "note": ""}, {"id": "mir-schaffen", "lb": "mir schaffen", "fr": "nous travaillons", "topic": "Verbes", "s": 3, "note": ""}, {"id": "dir-dir-schafft", "lb": "dir / Dir schafft", "fr": "vous travaillez", "topic": "Verbes", "s": 3, "note": ""}, {"id": "si-schaffen", "lb": "si schaffen", "fr": "ils / elles travaillent", "topic": "Verbes", "s": 3, "note": ""}, {"id": "ech-schwatzen", "lb": "ech schwätzen", "fr": "je parle", "topic": "Verbes", "s": 3, "note": ""}, {"id": "du-schwatz", "lb": "du schwätz", "fr": "tu parles", "topic": "Verbes", "s": 3, "note": ""}, {"id": "hien-si-hatt-schwatzt", "lb": "hien / si / hatt schwätzt", "fr": "il / elle parle", "topic": "Verbes", "s": 3, "note": ""}, {"id": "mir-schwatzen", "lb": "mir schwätzen", "fr": "nous parlons", "topic": "Verbes", "s": 3, "note": ""}, {"id": "dir-dir-schwatzt", "lb": "dir / Dir schwätzt", "fr": "vous parlez", "topic": "Verbes", "s": 3, "note": ""}, {"id": "si-schwatzen", "lb": "si schwätzen", "fr": "ils / elles parlent", "topic": "Verbes", "s": 3, "note": ""}, {"id": "ech-soen", "lb": "ech soen", "fr": "je dis", "topic": "Verbes", "s": 3, "note": ""}, {"id": "du-sees", "lb": "du sees", "fr": "tu dis", "topic": "Verbes", "s": 3, "note": ""}, {"id": "hien-si-hatt-seet", "lb": "hien / si / hatt seet", "fr": "il / elle dit", "topic": "Verbes", "s": 3, "note": ""}, {"id": "mir-soen", "lb": "mir soen", "fr": "nous disons", "topic": "Verbes", "s": 3, "note": ""}, {"id": "dir-dir-sot", "lb": "dir / Dir sot", "fr": "vous dites", "topic": "Verbes", "s": 3, "note": ""}, {"id": "si-soen", "lb": "si soen", "fr": "ils / elles disent", "topic": "Verbes", "s": 3, "note": ""}, {"id": "ech-ginn", "lb": "ech ginn", "fr": "je vais", "topic": "Verbes", "s": 3, "note": "attention : aussi 'je donne / je deviens' selon le contexte"}, {"id": "du-gees", "lb": "du gees", "fr": "tu vas", "topic": "Verbes", "s": 3, "note": ""}, {"id": "hien-si-hatt-geet", "lb": "hien / si / hatt geet", "fr": "il / elle va", "topic": "Verbes", "s": 3, "note": ""}, {"id": "mir-ginn", "lb": "mir ginn", "fr": "nous allons", "topic": "Verbes", "s": 3, "note": ""}, {"id": "dir-dir-gitt", "lb": "dir / Dir gitt", "fr": "vous allez", "topic": "Verbes", "s": 3, "note": ""}, {"id": "si-ginn", "lb": "si ginn", "fr": "ils / elles vont", "topic": "Verbes", "s": 3, "note": ""}, {"id": "schwatze-mir", "lb": "schwätze mir", "fr": "parlons-nous / nous parlons (inversé)", "topic": "Grammaire", "s": 3, "note": "règle du -n (Eifeler Regel) : -n tombe devant m"}, {"id": "schaffe-mir", "lb": "schaffe mir", "fr": "travaillons-nous / nous travaillons (inversé)", "topic": "Grammaire", "s": 3, "note": "Eifeler Regel"}, {"id": "e-samschdeg", "lb": "e Samschdeg", "fr": "ce samedi (un samedi précis)", "topic": "Jours", "s": 3, "note": ""}, {"id": "samschdes", "lb": "samschdes", "fr": "le samedi (habituellement)", "topic": "Jours", "s": 3, "note": ""}, {"id": "meindes", "lb": "méindes", "fr": "le lundi (habituellement)", "topic": "Jours", "s": 3, "note": ""}, {"id": "denschdes", "lb": "dënschdes", "fr": "le mardi (habituellement)", "topic": "Jours", "s": 3, "note": ""}, {"id": "mettwochs", "lb": "mëttwochs", "fr": "le mercredi (habituellement)", "topic": "Jours", "s": 3, "note": ""}, {"id": "donneschdes", "lb": "donneschdes", "fr": "le jeudi (habituellement)", "topic": "Jours", "s": 3, "note": ""}, {"id": "freides", "lb": "freides", "fr": "le vendredi (habituellement)", "topic": "Jours", "s": 3, "note": ""}, {"id": "sonndes", "lb": "sonndes", "fr": "le dimanche (habituellement)", "topic": "Jours", "s": 3, "note": ""}, {"id": "moies", "lb": "moies", "fr": "le matin", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "owes", "lb": "owes", "fr": "le soir", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "dacks", "lb": "dacks", "fr": "souvent", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "doheem", "lb": "doheem", "fr": "à la maison", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "mam-auto", "lb": "mam Auto", "fr": "en voiture", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "mam-zuch", "lb": "mam Zuch", "fr": "en train", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "mam-bus", "lb": "mam Bus", "fr": "en bus", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "mann", "lb": "Mann", "fr": "mari / homme", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "kanner", "lb": "Kanner", "fr": "enfants", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "noperen", "lb": "Noperen", "fr": "voisins", "topic": "Au bureau", "s": 3, "note": ""}, {"id": "kee-problem", "lb": "Kee Problem.", "fr": "Pas de problème.", "topic": "Petits mots", "s": 3, "note": ""}, {"id": "du-kanns-dat", "lb": "Du kanns dat!", "fr": "Tu en es capable !", "topic": "Verbes", "s": 3, "note": "informel"}, {"id": "wou-schafft-dir", "lb": "Wou schafft Dir?", "fr": "Où travaillez-vous ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "wat-schwatzt-dir-doheem", "lb": "Wat schwätzt Dir doheem?", "fr": "Que parlez-vous à la maison ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "wat-sot-dir-moies", "lb": "Wat sot Dir moies?", "fr": "Que dites-vous le matin ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "wat-sot-dir-owes", "lb": "Wat sot Dir owes?", "fr": "Que dites-vous le soir ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "wou-gitt-dir-e-samschdeg", "lb": "Wou gitt Dir e Samschdeg?", "fr": "Où allez-vous le samedi ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "gitt-dir-mam-auto-oder-mam-zuch", "lb": "Gitt Dir mam Auto oder mam Zuch?", "fr": "Vous y allez en voiture ou en train ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "schafft-are-mann-och", "lb": "Schafft Äre Mann och?", "fr": "Votre mari travaille aussi ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "wat-seet-are-mann", "lb": "Wat seet Äre Mann?", "fr": "Que dit votre mari ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "schwatzt-dir-mat-den-noperen", "lb": "Schwätzt Dir mat den Noperen?", "fr": "Vous parlez avec les voisins ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "ass-letzebuergesch-meiglech-fir-iech", "lb": "Ass Lëtzebuergesch méiglech fir Iech?", "fr": "Le luxembourgeois est-il possible pour vous ?", "topic": "Questions/réponses", "s": 3, "note": ""}, {"id": "wunnen", "lb": "wunnen", "fr": "habiter", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "kommen-aus", "lb": "kommen aus", "fr": "venir de", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "leieren", "lb": "léieren", "fr": "apprendre", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "soen", "lb": "soen", "fr": "dire", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "frou", "lb": "frou", "fr": "content", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "dnopesch", "lb": "d'Nopesch", "fr": "la voisine", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "de-buttek", "lb": "de Buttek", "fr": "le magasin", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "dkeess", "lb": "d'Keess", "fr": "la caisse", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "kucken", "lb": "kucken", "fr": "regarder", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "wessen", "lb": "wëssen", "fr": "savoir", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "vergiessen", "lb": "vergiessen", "fr": "oublier", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "dbrout", "lb": "d'Brout", "fr": "le pain", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "dschweiermamm", "lb": "d'Schwéiermamm", "fr": "la belle-mère", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "de-kuch", "lb": "de Kuch", "fr": "le gâteau", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "dkou", "lb": "d'Kou", "fr": "la vache", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "laachen", "lb": "laachen", "fr": "rire", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "den-hond", "lb": "den Hond", "fr": "le chien", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "billen", "lb": "billen", "fr": "aboyer", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "huet-gesot", "lb": "huet gesot", "fr": "a dit", "topic": "Grammaire", "s": 90, "note": "passé composé : huet + participe"}, {"id": "huet-gelaacht", "lb": "huet gelaacht", "fr": "a ri", "topic": "Grammaire", "s": 90, "note": "passé composé : huet + participe"}, {"id": "datt-dass", "lb": "datt / dass", "fr": "que (conjonction)", "topic": "Grammaire", "s": 90, "note": "envoie le verbe conjugué en toute fin de phrase"}, {"id": "heiansdo", "lb": "heiansdo", "fr": "parfois", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "feeler-maachen", "lb": "Feeler maachen", "fr": "faire des fautes", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "mierken", "lb": "mierken", "fr": "se rendre compte", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "dobai-dozougeheieren", "lb": "dobäi- / dozougehéieren", "fr": "faire partie, appartenir", "topic": "Histoire graduée", "s": 90, "note": ""}, {"id": "s5-ech-hatt-gar", "lb": "Ech hätt gär …", "fr": "Je voudrais …", "topic": "Commander", "s": 5, "note": "la formule polie — le bon réflexe au café"}, {"id": "s5-fir-mech", "lb": "Fir mech …", "fr": "Pour moi …", "topic": "Commander", "s": 5, "note": ""}, {"id": "s5-ech-huelen", "lb": "Ech huelen …", "fr": "Je prends …", "topic": "Commander", "s": 5, "note": ""}, {"id": "s5-wat-hatt-dir-gar", "lb": "Wat hätt Dir gär?", "fr": "Qu'est-ce que vous désirez ?", "topic": "Commander", "s": 5, "note": "formel"}, {"id": "s5-ass-desen-desch-frai", "lb": "Ass dësen Dësch fräi?", "fr": "Cette table est libre ?", "topic": "Commander", "s": 5, "note": ""}, {"id": "s5-setzt-iech", "lb": "Setzt Iech!", "fr": "Asseyez-vous !", "topic": "Commander", "s": 5, "note": "formel"}, {"id": "s5-wannechgelift", "lb": "wannechgelift", "fr": "s'il vous plaît", "topic": "Petits mots", "s": 5, "note": ""}, {"id": "s5-villmools-merci", "lb": "Villmools merci!", "fr": "Merci beaucoup !", "topic": "Petits mots", "s": 5, "note": ""}, {"id": "s5-entschellegt", "lb": "Entschëllegt!", "fr": "Excusez-moi !", "topic": "Petits mots", "s": 5, "note": "pour appeler la serveuse"}, {"id": "s5-gudden-appetit", "lb": "Gudden Appetit!", "fr": "Bon appétit !", "topic": "Petits mots", "s": 5, "note": ""}, {"id": "s5-soss-nach-eppes", "lb": "Soss nach eppes?", "fr": "Autre chose ?", "topic": "Commander", "s": 5, "note": ""}, {"id": "s5-dat-ass-alles", "lb": "Dat ass alles.", "fr": "C'est tout.", "topic": "Commander", "s": 5, "note": ""}, {"id": "s5-wat-kascht-dat", "lb": "Wat kascht dat?", "fr": "Combien ça coûte ?", "topic": "Payer", "s": 5, "note": ""}, {"id": "s5-mir-welle-bezuelen", "lb": "Mir wëlle bezuelen, wannechgelift.", "fr": "Nous voudrions payer, s'il vous plaît.", "topic": "Payer", "s": 5, "note": ""}, {"id": "s5-zesummen-oder-separat", "lb": "Zesummen oder separat?", "fr": "Ensemble ou séparément ?", "topic": "Payer", "s": 5, "note": ""}, {"id": "s5-mat-der-kaart", "lb": "mat der Kaart bezuelen", "fr": "payer par carte", "topic": "Payer", "s": 5, "note": ""}, {"id": "s5-dat-mecht", "lb": "Dat mécht … Euro.", "fr": "Ça fait … euros.", "topic": "Payer", "s": 5, "note": ""}, {"id": "s5-veier-euro-fofzeg", "lb": "véier Euro fofzeg", "fr": "4,50 €", "topic": "Payer", "s": 5, "note": "« euro » au milieu, comme en français"}, {"id": "s5-hei-ass-et-gemittlech", "lb": "Hei ass et gemittlech.", "fr": "C'est agréable ici.", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-de-kaffi", "lb": "de Kaffi", "fr": "le café", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-den-tei", "lb": "den Téi", "fr": "le thé", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-dwaasser", "lb": "d'Waasser", "fr": "l'eau", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-e-glas-waasser", "lb": "e Glas Waasser", "fr": "un verre d'eau", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-dmellech", "lb": "d'Mëllech", "fr": "le lait", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-mat-mellech", "lb": "mat Mëllech", "fr": "avec du lait", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-den-zocker", "lb": "den Zocker", "fr": "le sucre", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-ouni-zocker", "lb": "ouni Zocker", "fr": "sans sucre", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-de-wain", "lb": "de Wäin", "fr": "le vin", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-de-beier", "lb": "de Béier", "fr": "la bière", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-dzopp", "lb": "d'Zopp", "fr": "la soupe", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-dbouneschlupp", "lb": "d'Bouneschlupp", "fr": "la soupe aux haricots (plat typique)", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-dtaart", "lb": "d'Taart", "fr": "la tarte", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-e-steck-appeltaart", "lb": "e Stéck Äppeltaart", "fr": "une part de tarte aux pommes", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-de-keis", "lb": "de Kéis", "fr": "le fromage", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-drechnung", "lb": "d'Rechnung", "fr": "l'addition", "topic": "Payer", "s": 5, "note": ""}, {"id": "s5-dkaart", "lb": "d'Kaart", "fr": "la carte (bancaire)", "topic": "Payer", "s": 5, "note": ""}, {"id": "s5-den-desch", "lb": "den Dësch", "fr": "la table", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-dserveuse", "lb": "d'Serveuse", "fr": "la serveuse", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-heiflech", "lb": "héiflech", "fr": "poli", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-deck", "lb": "déck", "fr": "épais", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-speck", "lb": "de Speck", "fr": "le lard", "topic": "Au café", "s": 5, "note": ""}, {"id": "s5-zeng", "lb": "zéng", "fr": "10", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-eelef", "lb": "eelef", "fr": "11", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-zwielef", "lb": "zwielef", "fr": "12", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-draizeng", "lb": "dräizéng", "fr": "13", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-veierzeng", "lb": "véierzéng", "fr": "14", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-fofzeng", "lb": "fofzéng", "fr": "15", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-siechzeng", "lb": "siechzéng", "fr": "16", "topic": "Chiffres", "s": 5, "note": "siechzéng (16) ≠ sechzeg (60)"}, {"id": "s5-siwwenzeng", "lb": "siwwenzéng", "fr": "17", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-uechtzeng", "lb": "uechtzéng", "fr": "18", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-nonzeng", "lb": "nonzéng", "fr": "19", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-zwanzeg", "lb": "zwanzeg", "fr": "20", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-dresseg", "lb": "drësseg", "fr": "30", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-veierzeg", "lb": "véierzeg", "fr": "40", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-fofzeg", "lb": "fofzeg", "fr": "50", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-sechzeg", "lb": "sechzeg", "fr": "60", "topic": "Chiffres", "s": 5, "note": "sechzeg (60) ≠ siechzéng (16)"}, {"id": "s5-siwwenzeg", "lb": "siwwenzeg", "fr": "70", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-achtzeg", "lb": "achtzeg", "fr": "80", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-nonzeg", "lb": "nonzeg", "fr": "90", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s5-honnert", "lb": "honnert", "fr": "100", "topic": "Chiffres", "s": 5, "note": ""}, {"id": "s4-besch", "lb": "Bësch", "fr": "la forêt", "topic": "Prononciation", "s": 4, "note": "« bèch » — ë = e muet de « le »"}, {"id": "s4-keis", "lb": "Kéis", "fr": "le fromage", "topic": "Prononciation", "s": 4, "note": "« kéïss » — é long et fermé"}, {"id": "s4-eent", "lb": "eent", "fr": "un / une (un seul)", "topic": "Prononciation", "s": 4, "note": "« éïnt » — ei bref"}, {"id": "s4-schei", "lb": "schéi", "fr": "beau / belle", "topic": "Prononciation", "s": 4, "note": "« chèï » — éi long, presque « aï »"}, {"id": "s4-lidder", "lb": "Lidder", "fr": "les chansons", "topic": "Prononciation", "s": 4, "note": "« LID-der » — ie = « î » long, jamais « yé »"}, {"id": "s4-muerten", "lb": "Muerten", "fr": "les carottes", "topic": "Prononciation", "s": 4, "note": "« MOUER-ten » — ue, pas « ou »"}, {"id": "s4-bouf", "lb": "Bouf", "fr": "le garçon (fils)", "topic": "Prononciation", "s": 4, "note": "« bouf » — ou, pas « ue »"}, {"id": "s4-ech", "lb": "ech", "fr": "je", "topic": "Prononciation", "s": 4, "note": "« èch » — ch doux, comme « ich » en allemand"}, {"id": "s4-buch", "lb": "Buch", "fr": "le livre", "topic": "Prononciation", "s": 4, "note": "« boukh » — ch dur, raclé comme « ach » en allemand"}, {"id": "s4-mech", "lb": "mech", "fr": "moi (réfléchi)", "topic": "Prononciation", "s": 4, "note": "« mèch » — ch doux"}, {"id": "s4-maachen", "lb": "maachen", "fr": "faire", "topic": "Prononciation", "s": 4, "note": "« MA-khen » — ch dur"}, {"id": "s4-richteg", "lb": "richteg", "fr": "correct / juste", "topic": "Prononciation", "s": 4, "note": "« RICH-teg » — ch doux, accent sur la 1re syllabe"}, {"id": "s4-scheff", "lb": "Schëff", "fr": "le bateau", "topic": "Prononciation", "s": 4, "note": "« chèf » — sch = le « ch » français de « chat »"}, {"id": "s4-waasser", "lb": "Waasser", "fr": "l'eau", "topic": "Prononciation", "s": 4, "note": "« VA-sser » — w = « v », -er final = « a » affaibli"}, {"id": "s4-zwee", "lb": "zwee", "fr": "deux", "topic": "Prononciation", "s": 4, "note": "« tsvé » — z = « ts »"}, {"id": "s4-zuch", "lb": "Zuch", "fr": "le train", "topic": "Prononciation", "s": 4, "note": "« tsoukh » — z = « ts », ch dur"}, {"id": "s4-plaz", "lb": "Plaz", "fr": "la place / l'endroit", "topic": "Prononciation", "s": 4, "note": "« plats » — z final = « ts »"}, {"id": "s4-kanner-drenke-waasser-beim-backer", "lb": "Kanner drénke Waasser beim Bäcker.", "fr": "Les enfants boivent de l'eau chez le boulanger.", "topic": "Prononciation", "s": 4, "note": "virelangue — écoute le « -er » en « a » : KANna, WAASsa"}, {"id": "s4-ech-schwatzen-du-schwatz-mir-schwatzen", "lb": "Ech schwätzen, du schwätz, mir schwätzen.", "fr": "Je parle, tu parles, nous parlons.", "topic": "Prononciation", "s": 4, "note": "un seul mot à écouter : « mir schwätzen » → « schwätze mir » quand le mot suivant commence par m"}, {"id": "s4-zwee-zich-fueren-op-d-plaz", "lb": "Zwee Zich fueren op d'Plaz.", "fr": "Deux trains vont sur la place.", "topic": "Prononciation", "s": 4, "note": "« ts » partout : tsvé tsich foueren"}, {"id": "s4-ch-apres-e-i-e", "lb": "ch après e, i, ë", "fr": "se prononce doux, comme « ich » en allemand", "topic": "Prononciation", "s": 4, "note": "ech · mech · richteg"}, {"id": "s4-ch-apres-a-o-u", "lb": "ch après a, o, u", "fr": "se prononce dur, raclé au fond de la gorge, comme « ach » en allemand", "topic": "Prononciation", "s": 4, "note": "Buch · maachen · kachen"}, {"id": "s4-z-tz", "lb": "z / tz", "fr": "se prononcent toujours « ts »", "topic": "Prononciation", "s": 4, "note": "zwee · Zuch · Plaz"}, {"id": "s4-w", "lb": "w", "fr": "se prononce « v »", "topic": "Prononciation", "s": 4, "note": "Waasser · wunnen"}, {"id": "s4-v", "lb": "v", "fr": "se prononce « f » dans certains mots", "topic": "Prononciation", "s": 4, "note": "l'oreille l'entend à la séance"}, {"id": "s4-er-final", "lb": "-er final", "fr": "un « a » affaibli, jamais un r roulé à la française", "topic": "Prononciation", "s": 4, "note": "Kanner · Waasser · Noperen"}, {"id": "s4-l-accent-tonique", "lb": "l'accent tonique", "fr": "toujours sur la première syllabe", "topic": "Prononciation", "s": 4, "note": "KAN-ner · WAA-sser · RICH-teg, jamais à la fin comme en français"}, {"id": "s4-haart", "lb": "haart", "fr": "dur (un son)", "topic": "Prononciation", "s": 4, "note": "« haart » — Buch, maachen, kachen sont haart"}, {"id": "s4-mell", "lb": "mëll", "fr": "doux (un son)", "topic": "Prononciation", "s": 4, "note": "« mèl » — ech, mech, richteg sont mëll"}, {"id": "s4-et-schellt", "lb": "et schellt", "fr": "le téléphone sonne", "topic": "Au téléphone", "s": 4, "note": "« et CHELLT » — sch = « ch » de « chat »"}, {"id": "s4-setzen", "lb": "sëtzen", "fr": "être assis", "topic": "Au téléphone", "s": 4, "note": "« SÈ-tsen »"}, {"id": "s4-d-kichen", "lb": "d'Kichen", "fr": "la cuisine (la pièce)", "topic": "Au téléphone", "s": 4, "note": "« KI-chen » — ch doux"}, {"id": "s4-kachen", "lb": "kachen", "fr": "cuisiner, faire la cuisine", "topic": "Au téléphone", "s": 4, "note": "« KA-khen » — ch dur"}, {"id": "s4-ech-kachen-eppes-gutt", "lb": "Ech kachen eppes gutt.", "fr": "Je cuisine quelque chose de bon.", "topic": "Au téléphone", "s": 4, "note": "« èch KA-khen è-pes goutt »"}, {"id": "s4-wat-kachs-du", "lb": "Wat kachs du?", "fr": "Qu'est-ce que tu cuisines ?", "topic": "Au téléphone", "s": 4, "note": "« vat kakhs dou »"}, {"id": "s4-wat-kachs-du-gar", "lb": "Wat kachs du gär?", "fr": "Qu'est-ce que tu aimes cuisiner ?", "topic": "Au téléphone", "s": 4, "note": "« gär » = volontiers, avec plaisir"}, {"id": "s4-d-gromperen", "lb": "d'Gromperen", "fr": "les pommes de terre", "topic": "À table", "s": 4, "note": "« GROM-pe-ren »"}, {"id": "s4-d-muerten", "lb": "d'Muerten", "fr": "les carottes", "topic": "À table", "s": 4, "note": "« MOUER-ten »"}, {"id": "s4-drenken", "lb": "drénken", "fr": "boire", "topic": "À table", "s": 4, "note": "« DRÉN-ken »"}, {"id": "s4-d-beier", "lb": "d'Béier", "fr": "la bière", "topic": "À table", "s": 4, "note": "« béï-er » — éi long"}, {"id": "s4-just-waasser", "lb": "Just Waasser.", "fr": "Juste de l'eau.", "topic": "À table", "s": 4, "note": "« youst VA-sser »"}, {"id": "s4-drenks-du-waasser-oder-beier", "lb": "Drénks du Waasser oder Béier?", "fr": "Tu bois de l'eau ou de la bière ?", "topic": "À table", "s": 4, "note": "« drénks dou VA-sser o-der béï-er »"}, {"id": "s4-iessen", "lb": "iessen", "fr": "manger", "topic": "À table", "s": 4, "note": "« I-ssen » — ie = « î » long"}, {"id": "s4-mir-iessen-em-siwen-auer", "lb": "mir iessen ëm siwen Auer", "fr": "on mange à sept heures", "topic": "À table", "s": 4, "note": "« ëm SI-wen AOU-er »"}, {"id": "s4-de-backer", "lb": "de Bäcker", "fr": "le boulanger", "topic": "À table", "s": 4, "note": "« BÈ-ker » — -er final = « a »"}, {"id": "s4-beim-backer", "lb": "beim Bäcker", "fr": "chez le boulanger", "topic": "À table", "s": 4, "note": "« beim BÈ-ker »"}, {"id": "s4-hues-du-och-brout-kaaft", "lb": "Hues du och Brout kaaft?", "fr": "Tu as aussi acheté du pain ?", "topic": "À table", "s": 4, "note": "« hous dou och brout kaaft »"}, {"id": "s4-zwee-breit", "lb": "zwee Bréit", "fr": "deux pains", "topic": "À table", "s": 4, "note": "« tsvé bréït »"}, {"id": "s4-wou-keefs-du-brout", "lb": "Wou keefs du Brout?", "fr": "Où achètes-tu le pain ?", "topic": "À table", "s": 4, "note": "« vou keefs dou brout »"}, {"id": "s4-kafen", "lb": "kafen", "fr": "acheter", "topic": "À table", "s": 4, "note": "« KA-fen »"}, {"id": "s4-heess-kakao", "lb": "heess Kakao", "fr": "du chocolat chaud", "topic": "À table", "s": 4, "note": "« héss ka-KAO »"}, {"id": "s4-kaffi", "lb": "Kaffi", "fr": "le café", "topic": "À table", "s": 4, "note": "« KA-fi »"}, {"id": "s4-wei-vill-kanner-kommen-haut", "lb": "Wéi vill Kanner kommen haut?", "fr": "Combien d'enfants viennent aujourd'hui ?", "topic": "Au téléphone", "s": 4, "note": "« véï fil KAN-na KO-men haout »"}, {"id": "s4-wei-vill-kanner-hues-du", "lb": "Wéi vill Kanner hues du?", "fr": "Combien d'enfants as-tu ?", "topic": "Au téléphone", "s": 4, "note": "« véï fil KAN-na hous dou »"}, {"id": "s4-d-meedchen", "lb": "d'Meedchen", "fr": "la fille (jeune fille, enfant)", "topic": "Famille", "s": 4, "note": "« MÉ-dchen »"}, {"id": "s4-krank", "lb": "krank", "fr": "malade", "topic": "Famille", "s": 4, "note": "« krank »"}, {"id": "s4-et-bleift-doheem", "lb": "et bleift doheem", "fr": "elle / il reste à la maison", "topic": "Famille", "s": 4, "note": "« et bléïft do-hemm »"}, {"id": "s4-mam-velo", "lb": "mam Vëlo", "fr": "à vélo", "topic": "Au marché", "s": 4, "note": "« mam VÈ-lo » — w/v prononcés « v »"}, {"id": "s4-zu-fouss", "lb": "zu Fouss", "fr": "à pied", "topic": "Au marché", "s": 4, "note": "« tsou fouss »"}, {"id": "s4-no-der-aarbecht", "lb": "no der Aarbecht", "fr": "après le travail", "topic": "Au bureau", "s": 4, "note": "« no der AAR-becht »"}, {"id": "s4-ech-kommen-no-der-aarbecht", "lb": "Ech kommen no der Aarbecht.", "fr": "J'arrive après le travail.", "topic": "Au bureau", "s": 4, "note": "« èch KO-men no der AAR-becht »"}, {"id": "s4-mat-mengem-mann", "lb": "mat mengem Mann", "fr": "avec mon mari", "topic": "Famille", "s": 4, "note": "« mat MENG-em mann »"}, {"id": "s4-mir-sinn-a-fennef-minutten-do", "lb": "Mir sinn a fënnef Minutten do.", "fr": "On y est en cinq minutes.", "topic": "Au téléphone", "s": 4, "note": "« mi sinn a FÈ-nef mi-NOU-ten do »"}, {"id": "s4-bis-herno", "lb": "Bis herno!", "fr": "À tout à l'heure !", "topic": "Salutations", "s": 4, "note": "« bis her-NO »"}, {"id": "s4-weini", "lb": "wéini", "fr": "quand", "topic": "Petits mots", "s": 4, "note": "« VÉÏ-ni »"}, {"id": "s4-bei-eis", "lb": "bei eis", "fr": "chez nous", "topic": "Petits mots", "s": 4, "note": "« baï aïss »"}, {"id": "s4-wait", "lb": "wäit", "fr": "loin", "topic": "Petits mots", "s": 4, "note": "« vaït »"}, {"id": "s4-guer-net", "lb": "guer net", "fr": "pas du tout", "topic": "Petits mots", "s": 4, "note": "« gouer nét »"}, {"id": "s4-genau", "lb": "genau", "fr": "exactement", "topic": "Petits mots", "s": 4, "note": "« ge-NAOU »"}, {"id": "s4-just", "lb": "just", "fr": "juste, seulement", "topic": "Petits mots", "s": 4, "note": "« youst »"}, {"id": "s4-ouni", "lb": "ouni", "fr": "sans", "topic": "Petits mots", "s": 4, "note": "« OU-ni »"}, {"id": "s4-iwwert", "lb": "iwwert", "fr": "sur, à propos de", "topic": "Petits mots", "s": 4, "note": "« I-wert »"}, {"id": "s4-gar", "lb": "gär", "fr": "volontiers, avec plaisir", "topic": "Petits mots", "s": 4, "note": "« gär »"}, {"id": "s4-schweier", "lb": "schwéier", "fr": "difficile, lourd", "topic": "Petits mots", "s": 4, "note": "« chvéï-er »"}, {"id": "s4-ech-weess", "lb": "Ech weess.", "fr": "Je sais.", "topic": "Au bureau", "s": 4, "note": "« èch véss »"}, {"id": "s4-jiddereen", "lb": "jiddereen", "fr": "tout le monde", "topic": "Au bureau", "s": 4, "note": "« YI-de-réïn »"}, {"id": "s4-ech-probeieren", "lb": "Ech probéieren.", "fr": "J'essaie.", "topic": "Au bureau", "s": 4, "note": "« èch pro-BÉÏ-ren »"}, {"id": "s4-an-d-stad", "lb": "an d'Stad", "fr": "en ville", "topic": "Au bureau", "s": 4, "note": "« an d'stat »"}, {"id": "s4-op-de-maart", "lb": "op de Maart", "fr": "au marché", "topic": "Au marché", "s": 4, "note": "« op de maart »"}, {"id": "s4-de-maart", "lb": "de Maart", "fr": "le marché", "topic": "Au marché", "s": 4, "note": "« de maart »"}, {"id": "s4-an-de-besch", "lb": "an de Bësch", "fr": "en forêt", "topic": "Au bureau", "s": 4, "note": "« an de bèch »"}, {"id": "s4-de-proff", "lb": "de Proff", "fr": "le prof", "topic": "Au bureau", "s": 4, "note": "« de prof »"}, {"id": "s4-ginn-heem", "lb": "ginn heem", "fr": "rentrer à la maison", "topic": "Au bureau", "s": 4, "note": "« gin hémm »"}, {"id": "s4-ass-dat-esou-richteg", "lb": "Ass dat esou richteg?", "fr": "C'est bien comme ça ?", "topic": "Les jours", "s": 4, "note": "« ass dat e-sou RICH-teg »"}, {"id": "s4-d-noperen", "lb": "D'Noperen", "fr": "les voisins", "topic": "Famille", "s": 4, "note": "« NO-pe-ren » — -er = « a »"}, {"id": "s4-fesch", "lb": "Fësch", "fr": "le poisson", "topic": "Au marché", "s": 4, "note": "« fèch »"}, {"id": "s4-frescht-brout", "lb": "frëscht Brout", "fr": "du pain frais", "topic": "Au marché", "s": 4, "note": "« frècht brout »"}, {"id": "s4-et-gett", "lb": "et gëtt", "fr": "il y a", "topic": "Au marché", "s": 4, "note": "« et guett »"}, {"id": "s4-et-gett-et", "lb": "et gëtt et", "fr": "il y en a", "topic": "Au marché", "s": 4, "note": "« et guett et »"}, {"id": "s4-d-leit", "lb": "d'Leit", "fr": "les gens", "topic": "Au marché", "s": 4, "note": "« déit »"}, {"id": "s4-e-bauer", "lb": "e Bauer", "fr": "un fermier, un paysan", "topic": "Au marché", "s": 4, "note": "« e BAOU-er »"}, {"id": "s4-verkeeft", "lb": "verkeeft", "fr": "vend / vendre", "topic": "Au marché", "s": 4, "note": "« fer-KÉFT »"}, {"id": "s4-fleesch", "lb": "Fleesch", "fr": "la viande", "topic": "Au marché", "s": 4, "note": "« fléïch »"}, {"id": "s4-en-anere", "lb": "en anere", "fr": "un autre", "topic": "Au marché", "s": 4, "note": "« en A-ne-re »"}, {"id": "s4-hunneg", "lb": "Hunneg", "fr": "le miel", "topic": "Au marché", "s": 4, "note": "« HOU-neg »"}, {"id": "s4-d-erwuessener", "lb": "d'Erwuessener", "fr": "les adultes", "topic": "Au marché", "s": 4, "note": "« er-VOU-e-se-ner »"}, {"id": "s4-anescht", "lb": "anescht", "fr": "différemment, autre", "topic": "Au marché", "s": 4, "note": "« A-nescht »"}, {"id": "s4-d-bank", "lb": "d'Bänk", "fr": "le banc", "topic": "Au marché", "s": 4, "note": "« bengk » — ä nasal"}, {"id": "s4-duerno", "lb": "duerno", "fr": "ensuite, après ça", "topic": "Au marché", "s": 4, "note": "« DOUER-no »"}, {"id": "s4-dohin", "lb": "dohin", "fr": "là-bas, y", "topic": "Au marché", "s": 4, "note": "« do-HINN »"}, {"id": "s4-all-keier", "lb": "All Kéier", "fr": "chaque fois", "topic": "Au marché", "s": 4, "note": "« al KÉÏ-er »"}, {"id": "s4-en-neit-wuert", "lb": "en neit Wuert", "fr": "un mot nouveau", "topic": "Au marché", "s": 4, "note": "« en néït vouert »"}, {"id": "s4-z-uben", "lb": "z'üben", "fr": "s'entraîner (à)", "topic": "Au marché", "s": 4, "note": "« TSU-ben »"}, {"id": "s4-et-reent", "lb": "et reent", "fr": "il pleut", "topic": "Le temps", "s": 4, "note": "« et rént »"}, {"id": "s4-d-wieder", "lb": "d'Wieder", "fr": "le temps (la météo)", "topic": "Le temps", "s": 4, "note": "« VI-der » — w = v"}, {"id": "s4-d-wieder-ass-haut-net-esou-gutt", "lb": "D'Wieder ass haut net esou gutt.", "fr": "Le temps n'est pas si bon aujourd'hui.", "topic": "Le temps", "s": 4, "note": "« VI-der ass haout nét e-sou goutt »"}, {"id": "s4-kanns-du-mei-lues-schwatzen", "lb": "Kanns du méi lues schwätzen?", "fr": "Tu peux parler plus lentement ?", "topic": "Au téléphone", "s": 4, "note": "« kanst dou méï loues chvé-tsen »"}, {"id": "s4-lues", "lb": "lues", "fr": "lentement", "topic": "Petits mots", "s": 4, "note": "« loues »"}, {"id": "s4-nach-eng-keier", "lb": "nach eng Kéier", "fr": "encore une fois", "topic": "Petits mots", "s": 4, "note": "« nach eng KÉÏ-er »"}, {"id": "s4-ech-heieren-dech-gutt", "lb": "Ech héieren dech gutt.", "fr": "Je t'entends bien.", "topic": "Au téléphone", "s": 4, "note": "« èch HÉÏ-e-ren dèch goutt »"}, {"id": "s4-ech-verstinn-dech", "lb": "ech verstinn dech", "fr": "je te comprends", "topic": "Au téléphone", "s": 4, "note": "« èch fer-STINN dèch »"}, {"id": "s4-mir-wunnen-net-wait-vun-arer-plaz", "lb": "Mir wunnen net wäit vun Ärer Plaz.", "fr": "On n'habite pas loin de chez vous.", "topic": "Habiter", "s": 4, "note": "« mi VOU-nen nét vaït fon É-rer plats »"}, {"id": "s4-wunns-du-wait-vum-maart", "lb": "Wunns du wäit vum Maart?", "fr": "Tu habites loin du marché ?", "topic": "Habiter", "s": 4, "note": "« vouns dou vaït foum maart »"}, {"id": "s4-ass-letzebuergesch-schweier-fir-dech", "lb": "Ass Lëtzebuergesch schwéier fir dech?", "fr": "Le luxembourgeois est-il difficile pour toi ?", "topic": "Petits mots", "s": 4, "note": "« ass le-tsou-BUER-gesch chvéï-er fir dèch »"}, {"id": "s6-sinn", "lb": "sinn", "fr": "être", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-hunn", "lb": "hunn", "fr": "avoir", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-kommen", "lb": "kommen", "fr": "venir", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-wellen", "lb": "wëllen", "fr": "vouloir", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-kennen", "lb": "kënnen", "fr": "pouvoir", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-mussen", "lb": "mussen", "fr": "devoir", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-huelen", "lb": "huelen", "fr": "prendre", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-opstoen", "lb": "opstoen", "fr": "se lever", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-ufanken", "lb": "ufänken", "fr": "commencer", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-akafen", "lb": "akafen", "fr": "faire les courses", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-zoumaachen", "lb": "zoumaachen", "fr": "fermer", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-ukommen", "lb": "ukommen", "fr": "arriver", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-hellefen", "lb": "hëllefen", "fr": "aider", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-brauchen", "lb": "brauchen", "fr": "avoir besoin (de)", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-mengen", "lb": "mengen", "fr": "penser, croire", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-gesinn", "lb": "gesinn", "fr": "voir", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-spadseiere-goen", "lb": "spadséiere goen", "fr": "aller se promener", "topic": "Verbes du jour", "s": 6, "note": ""}, {"id": "s6-du-bass", "lb": "du bass", "fr": "tu es", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-hien-ass", "lb": "hien ass", "fr": "il est", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-dir-sidd", "lb": "dir sidd", "fr": "vous êtes", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-du-hues", "lb": "du hues", "fr": "tu as", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-hien-huet", "lb": "hien huet", "fr": "il a", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-dir-hutt", "lb": "dir hutt", "fr": "vous avez", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-du-kenns", "lb": "du kënns", "fr": "tu viens", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-hie-kennt", "lb": "hie kënnt", "fr": "il vient", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-du-mechs", "lb": "du méchs", "fr": "tu fais", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-hie-mecht", "lb": "hie mécht", "fr": "il fait", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-du-wells", "lb": "du wëlls", "fr": "tu veux", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-hie-well", "lb": "hie wëll", "fr": "il veut", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-du-kanns", "lb": "du kanns", "fr": "tu peux", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-hie-kann", "lb": "hie kann", "fr": "il peut", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-du-muss", "lb": "du muss", "fr": "tu dois", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-hie-muss", "lb": "hie muss", "fr": "il doit", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-du-hels", "lb": "du hëls", "fr": "tu prends", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-hien-helt", "lb": "hien hëlt", "fr": "il prend", "topic": "Conjugaison", "s": 6, "note": ""}, {"id": "s6-ech-stinn-all-moien-em-siwen-auer-op", "lb": "Ech stinn all Moien ëm siwen Auer op.", "fr": "Je me lève tous les matins à sept heures.", "topic": "Phrases avec verbes", "s": 6, "note": "verbe séparable / modal : 2e partie à la fin"}, {"id": "s6-mir-fanken-elo-mam-projet-un", "lb": "Mir fänken elo mam Projet un.", "fr": "Nous commençons maintenant le projet.", "topic": "Phrases avec verbes", "s": 6, "note": "verbe séparable / modal : 2e partie à la fin"}, {"id": "s6-ech-kafen-haut-gemeis-an", "lb": "Ech kafen haut Geméis an.", "fr": "J'achète des légumes aujourd'hui.", "topic": "Phrases avec verbes", "s": 6, "note": "verbe séparable / modal : 2e partie à la fin"}, {"id": "s6-si-mecht-d-dier-zou", "lb": "Si mécht d'Dier zou.", "fr": "Elle ferme la porte.", "topic": "Phrases avec verbes", "s": 6, "note": "verbe séparable / modal : 2e partie à la fin"}, {"id": "s6-mir-kommen-owes-un", "lb": "Mir kommen owes un.", "fr": "Nous arrivons le soir.", "topic": "Phrases avec verbes", "s": 6, "note": "verbe séparable / modal : 2e partie à la fin"}, {"id": "s6-ech-well-muer-schaffen", "lb": "Ech wëll muer schaffen.", "fr": "Je veux travailler demain.", "topic": "Phrases avec verbes", "s": 6, "note": "verbe séparable / modal : 2e partie à la fin"}, {"id": "s6-du-kanns-muer-kommen", "lb": "Du kanns muer kommen.", "fr": "Tu peux venir demain.", "topic": "Phrases avec verbes", "s": 6, "note": "verbe séparable / modal : 2e partie à la fin"}, {"id": "s6-mir-mussen-d-aarbecht-maachen", "lb": "Mir mussen d'Aarbecht maachen.", "fr": "Nous devons faire le travail.", "topic": "Phrases avec verbes", "s": 6, "note": "verbe séparable / modal : 2e partie à la fin"}, {"id": "s6-kanns-du-mir-hellefen", "lb": "Kanns du mir hëllefen?", "fr": "Tu peux m'aider ?", "topic": "Phrases avec verbes", "s": 6, "note": "verbe séparable / modal : 2e partie à la fin"}];
+
+/* ============ UI STRINGS ============
+   UI_LANG picks the interface language ("fr" or "en"); deck content (lb/fr fields) is untouched.
+   Every user-visible interface string must live here — never hard-code French/English in the render code. */
+var UI_LANG = "fr";
+var UI = {
+  fr: {
+    modeCards:"Cartes", modeQuiz:"Quiz", modeList:"Liste",
+    statNew:"Nouveaux", statDue:"À revoir", statLrn:"En cours", statKnown:"Acquis",
+    totalKnownLabel:"Acquis au total",
+    sensLabel:"Sens",
+    dirFL:"FR → LB", dirLF:"LB → FR", dirMix:"Mélange",
+    ariaMode:"Mode", ariaSens:"Sens", ariaSessions:"Séances", ariaClose:"Fermer", ariaFlip:"Retourner la carte",
+    helpBtn:"Mode d'emploi", saveBtn:"Sauvegarde",
+    helpTitle:"Mode d'emploi",
+    helpIntro:"Tous les mots de tes séances avec Jim. Les nouveaux mots s'ajoutent après chaque séance ; ta progression reste.",
+    helpLi1:'<b>Cartes :</b> lis la carte, <b>dis la réponse à voix haute</b>, puis touche la carte pour vérifier. Ensuite : <i>Pas encore</i>, <i>Presque</i> ou <i>Je sais</i>.',
+    helpLi2:"Ce que tu sais revient de moins en moins souvent (1 jour, 3 jours, 1 semaine…). Ce qui est difficile revient tout de suite.",
+    helpLi3:'<b>FR → LB</b> est le sens le plus utile pour parler. Commence par <b>LB → FR</b> si un mot est tout nouveau.',
+    helpLi4:'<b>Quiz :</b> quatre réponses, une seule est juste.',
+    helpLi5:'<b>Liste :</b> tous les mots par séance. Point vert = acquis.',
+    helpLi6:"10 minutes par jour valent mieux qu'une heure le dimanche.",
+    helpLi7:"Ta progression est enregistrée dans ce navigateur, sur cet appareil, en double. Tous les quelques jours, l'appli te propose un <b>fichier de sauvegarde</b> : accepte-le, 10 secondes. Avec ce fichier, tu récupères tout — même sur un autre téléphone. Voir <b>Sauvegarde</b>, en bas.",
+    helpGo:"On y va",
+    saveTitle:"Sauvegarde",
+    saveIntro:"Ta progression vit dans ce navigateur. Un <b>fichier de sauvegarde</b> la met à l'abri : garde-le (Fichiers, iCloud, un e-mail à toi-même). Pour tout récupérer — ici ou sur un autre appareil — ouvre ce fichier avec <b>Restaurer depuis un fichier</b>.",
+    saveBtnDo:"Enregistrer un fichier de sauvegarde",
+    restoreFileLabel:"Restaurer depuis un fichier",
+    codeSummary:"Ou avec un code (copier / coller)",
+    yourCodeLabel:"Ton code",
+    copyCodeBtn:"Copier le code",
+    restoreCodeLabel:"Restaurer un code",
+    pasteCodePlaceholder:"Colle ton code ici",
+    restoreBtn:"Restaurer",
+    resetSummary:"Tout recommencer",
+    resetIntro:"Efface toute ta progression sur cet appareil.",
+    resetBtn2:"Effacer ma progression",
+    resetConfirmBtn:"Oui, tout effacer",
+    sessionDefault:function(s){ return "Séance "+s; },
+    deckInfo:function(n,ns){ return n+" mots · "+ns+" séances"; },
+    chipAll:"Tout",
+    streakN:function(n){ return n+" jours d'affilée"; },
+    streakToday:"Fait aujourd'hui ✓",
+    streakNone:"Pas encore pratiqué aujourd'hui",
+    bannerAdded:function(n,ss){ return "<b>"+n+" nouveaux mots</b> ajoutés ("+ss+"). Ta progression est intacte."; },
+    bannerBackup:'<b>Mets ta progression à l\'abri.</b> Enregistre ton fichier de sauvegarde — 10 secondes.',
+    bannerBackupBtn:"Sauvegarder",
+    bannerRecovered:"<b>Progression récupérée</b> depuis la copie de secours de cet appareil.",
+    emptyNewCap:function(n){ return "Tu as vu "+n+" nouveaux mots aujourd'hui. C'est assez : ils doivent reposer. Reviens demain."; },
+    emptyNoSelection:"Aucun mot dans cette sélection.",
+    emptyNothingDue:"Rien à revoir pour le moment. Les prochaines cartes reviennent quand ta mémoire en a besoin.",
+    emptyMoreBtn:"Encore 5 nouveaux mots",
+    emptyWord:"Äddi fir haut!",
+    pillNew:"Nouveau", pillKnown:"Acquis", pillLearning:"En cours",
+    langFront:"Français", langLB:"Lëtzebuergesch",
+    cueSpeak:"Dis-le en luxembourgeois, à voix haute.",
+    cueMeaning:"Qu'est-ce que ça veut dire ?",
+    cueRepeat:"Répète-le encore une fois, à voix haute.",
+    revealBtn:"Voir la réponse",
+    rateAgain:"Pas encore", rateAgainSmall:"tout de suite",
+    ratePresque:"Presque", ratePresqueSmall:"bientôt",
+    rateGood:"Je sais",
+    next1Day:"dans 1 jour",
+    nextDays:function(d){ return "dans "+d+" jours"; },
+    nextWeeks:function(w){ return "dans "+w+" sem."; },
+    nextMonth:"dans 1 mois",
+    quizCorrect:"Juste ! Question suivante",
+    quizWrong:"Suivante — ce mot revient bientôt",
+    legendNew:"nouveau", legendLearning:"en cours", legendKnown:"acquis",
+    backupSaved:"Fichier enregistré. Garde-le bien !",
+    backupDeclined:"Pas de fichier cette fois. Tu peux aussi copier le code ci-dessous.",
+    backupRateLimited:"Un instant, puis réessaie.",
+    backupFallback:"Si aucun fichier n'est apparu, copie le code ci-dessous et garde-le dans une note.",
+    backupFallbackErr:"Copie le code ci-dessous et garde-le dans une note.",
+    lastBackupToday:"Dernière sauvegarde : aujourd'hui.",
+    lastBackupAgo:function(s){ return "Dernière sauvegarde : "+s+"."; },
+    noBackupYet:"Pas encore de fichier de sauvegarde.",
+    agoToday:"aujourd'hui", agoYesterday:"hier",
+    agoDays:function(d){ return "il y a "+d+" jours"; },
+    restoreSuccess:"Progression restaurée.",
+    restoreError:function(code){ return "Ce code n'est pas valide. Vérifie qu'il commence par "+code+" et qu'il est complet."; },
+    copyOk:"Code copié.",
+    copyFallback:"Sélectionné : copie-le avec Ctrl/Cmd + C.",
+    resetDone:"Progression effacée.",
+    fileReadError:"Impossible de lire ce fichier.",
+    backupFileWord:"kaarten-sauvegarde"
+  },
+  en: {
+    modeCards:"Cards", modeQuiz:"Quiz", modeList:"List",
+    statNew:"New", statDue:"Due", statLrn:"Learning", statKnown:"Known",
+    totalKnownLabel:"Known overall",
+    sensLabel:"Direction",
+    dirFL:"EN → LB", dirLF:"LB → EN", dirMix:"Mix",
+    ariaMode:"Mode", ariaSens:"Direction", ariaSessions:"Sessions", ariaClose:"Close", ariaFlip:"Flip the card",
+    helpBtn:"How it works", saveBtn:"Backup",
+    helpTitle:"How it works",
+    helpIntro:"All the words from your sessions with Jim. New words are added after each session; your progress stays.",
+    helpLi1:'<b>Cards:</b> read the card, <b>say the answer out loud</b>, then tap the card to check. Then: <i>Not yet</i>, <i>Almost</i> or <i>I know it</i>.',
+    helpLi2:"What you know comes back less and less often (1 day, 3 days, 1 week…). What's hard comes back right away.",
+    helpLi3:'<b>EN → LB</b> is the most useful direction for speaking. Start with <b>LB → EN</b> if a word is brand new.',
+    helpLi4:'<b>Quiz:</b> four answers, only one is correct.',
+    helpLi5:'<b>List:</b> every word by session. Green dot = known.',
+    helpLi6:"10 minutes a day beats an hour on Sunday.",
+    helpLi7:"Your progress is saved in this browser, on this device, twice over. Every few days the app offers you a <b>backup file</b>: accept it, 10 seconds. With this file you get everything back — even on another phone. See <b>Backup</b>, below.",
+    helpGo:"Let's go",
+    saveTitle:"Backup",
+    saveIntro:"Your progress lives in this browser. A <b>backup file</b> keeps it safe: keep it somewhere (Files, iCloud, an email to yourself). To get everything back — here or on another device — open this file with <b>Restore from a file</b>.",
+    saveBtnDo:"Save a backup file",
+    restoreFileLabel:"Restore from a file",
+    codeSummary:"Or with a code (copy / paste)",
+    yourCodeLabel:"Your code",
+    copyCodeBtn:"Copy the code",
+    restoreCodeLabel:"Restore a code",
+    pasteCodePlaceholder:"Paste your code here",
+    restoreBtn:"Restore",
+    resetSummary:"Start over",
+    resetIntro:"Clears all your progress on this device.",
+    resetBtn2:"Clear my progress",
+    resetConfirmBtn:"Yes, clear everything",
+    sessionDefault:function(s){ return "Session "+s; },
+    deckInfo:function(n,ns){ return n+" words · "+ns+" sessions"; },
+    chipAll:"All",
+    streakN:function(n){ return n+" days in a row"; },
+    streakToday:"Done today ✓",
+    streakNone:"Not practised yet today",
+    bannerAdded:function(n,ss){ return "<b>"+n+" new words</b> added ("+ss+"). Your progress is untouched."; },
+    bannerBackup:'<b>Keep your progress safe.</b> Save your backup file — 10 seconds.',
+    bannerBackupBtn:"Save",
+    bannerRecovered:"<b>Progress recovered</b> from this device's backup copy.",
+    emptyNewCap:function(n){ return "You've seen "+n+" new words today. That's enough: they need to rest. Come back tomorrow."; },
+    emptyNoSelection:"No words in this selection.",
+    emptyNothingDue:"Nothing to review right now. The next cards come back when your memory needs them.",
+    emptyMoreBtn:"5 more new words",
+    emptyWord:"Äddi fir haut!",
+    pillNew:"New", pillKnown:"Known", pillLearning:"Learning",
+    langFront:"English", langLB:"Lëtzebuergesch",
+    cueSpeak:"Say it in Luxembourgish, out loud.",
+    cueMeaning:"What does it mean?",
+    cueRepeat:"Say it once more, out loud.",
+    revealBtn:"Show the answer",
+    rateAgain:"Not yet", rateAgainSmall:"right away",
+    ratePresque:"Almost", ratePresqueSmall:"soon",
+    rateGood:"I know it",
+    next1Day:"in 1 day",
+    nextDays:function(d){ return "in "+d+" days"; },
+    nextWeeks:function(w){ return "in "+w+" wk"; },
+    nextMonth:"in 1 month",
+    quizCorrect:"Correct! Next question",
+    quizWrong:"Next — this word will come back soon",
+    legendNew:"new", legendLearning:"learning", legendKnown:"known",
+    backupSaved:"File saved. Keep it safe!",
+    backupDeclined:"No file this time. You can also copy the code below.",
+    backupRateLimited:"One moment, then try again.",
+    backupFallback:"If no file appeared, copy the code below and keep it in a note.",
+    backupFallbackErr:"Copy the code below and keep it in a note.",
+    lastBackupToday:"Last backup: today.",
+    lastBackupAgo:function(s){ return "Last backup: "+s+"."; },
+    noBackupYet:"No backup file yet.",
+    agoToday:"today", agoYesterday:"yesterday",
+    agoDays:function(d){ return d+" days ago"; },
+    restoreSuccess:"Progress restored.",
+    restoreError:function(code){ return "This code isn't valid. Check that it starts with "+code+" and is complete."; },
+    copyOk:"Code copied.",
+    copyFallback:"Selected: copy it with Ctrl/Cmd + C.",
+    resetDone:"Progress cleared.",
+    fileReadError:"Couldn't read this file.",
+    backupFileWord:"cards-backup"
+  }
+};
+var T = UI[UI_LANG] || UI.fr;
+function applyI18n(){
+  document.querySelectorAll("[data-i18n]").forEach(function(el){ var k=el.getAttribute("data-i18n"); if(T[k]!==undefined) el.textContent = T[k]; });
+  document.querySelectorAll("[data-i18n-html]").forEach(function(el){ var k=el.getAttribute("data-i18n-html"); if(T[k]!==undefined) el.innerHTML = T[k]; });
+  document.querySelectorAll("[data-i18n-aria]").forEach(function(el){ var k=el.getAttribute("data-i18n-aria"); if(T[k]!==undefined) el.setAttribute("aria-label", T[k]); });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){ var k=el.getAttribute("data-i18n-placeholder"); if(T[k]!==undefined) el.setAttribute("placeholder", T[k]); });
+}
+
+var KEY = "margot-lb-trainer";        /* per-student storage key — never change after go-live */
+var CODE = "MARGOT1:";                  /* backup-code prefix, e.g. MARGOT1: */
+var DAY = 864e5;
+var IV = [0, 0, 1, 3, 7, 16, 35]; // days per box
+var NEW_PER_DAY = 12;
+
+function load(){ try{ var r = localStorage.getItem(KEY); return r ? JSON.parse(r) : null; }catch(e){ return null; } }
+/* second copy in IndexedDB — survives a cleared localStorage */
+function idb(cb){ try{ var q=indexedDB.open("margot-kaarten",1); q.onupgradeneeded=function(){ q.result.createObjectStore("s"); }; q.onsuccess=function(){ cb(q.result); }; q.onerror=function(){}; }catch(e){} }
+function idbPut(o){ idb(function(db){ try{ db.transaction("s","readwrite").objectStore("s").put(o,"state"); }catch(e){} }); }
+function idbGet(cb){ var done=false; setTimeout(function(){ if(!done){done=true;cb(null);} },1500);
+  idb(function(db){ try{ var r=db.transaction("s").objectStore("s").get("state"); r.onsuccess=function(){ if(!done){done=true;cb(r.result||null);} }; r.onerror=function(){ if(!done){done=true;cb(null);} }; }catch(e){ if(!done){done=true;cb(null);} } }); }
+var idbReady = !!load(); // on a fresh device, read the IndexedDB copy before ever overwriting it
+function save(){ S.savedAt = Date.now(); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} if(idbReady) idbPut(JSON.parse(JSON.stringify(S))); }
+try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+var dlP = (window.claude && window.claude.use) ? window.claude.use("downloads").catch(function(){ return null; }) : Promise.resolve(null);
+
+var S = load();
+var fresh = !S;
+if(!S || S.v !== 1) S = {v:1, p:{}, known:[], dir:"fl", filter:"all", mode:"cards", streak:{d:"",n:0}, newToday:{d:"",n:0}};
+S.p = S.p || {};
+S.bk = S.bk || {t:0, n:0}; // last backup time, reviews since
+// Detect items added since last visit
+var byId = {}; DECK.forEach(function(c){ byId[c.id] = c; });
+var knownSet = {}; (S.known||[]).forEach(function(id){ knownSet[id]=1; });
+var added = fresh ? [] : DECK.filter(function(c){ return !knownSet[c.id]; });
+S.known = Object.keys(Object.assign(knownSet, byId)); // keeps old ids too
+save();
+
+function today(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+function st(id, d){ var p = S.p[id]; return (p && p[d]) || null; }
+function setSt(id, d, v){ S.p[id] = S.p[id] || {}; S.p[id][d] = v; }
+function dirsFor(){ return S.dir === "mix" ? ["fl","lf"] : [S.dir]; }
+
+function inFilter(c){ return S.filter === "all" || String(c.s) === S.filter; }
+function pool(){ return DECK.filter(inFilter); }
+
+function counts(){
+  var now = Date.now(), n=0, due=0, lrn=0, kn=0, total=0, knAll=0, totAll=0;
+  var ds = dirsFor();
+  DECK.forEach(function(c){
+    ds.forEach(function(d){
+      var x = st(c.id, d);
+      totAll++; if(x && x.b>=4) knAll++;
+      if(!inFilter(c)) return;
+      total++;
+      if(!x) n++;
+      else { if(x.due<=now) due++; if(x.b>=4) kn++; else lrn++; }
+    });
+  });
+  return {n:n,due:due,lrn:lrn,kn:kn,total:total,pct: totAll? Math.round(knAll/totAll*100):0};
+}
+
+function newLeft(){ if(S.newToday.d!==today()) S.newToday={d:today(),n:0}; return Math.max(0, NEW_PER_DAY - S.newToday.n); }
+
+var recent = []; // avoid immediate repeats
+function pick(){
+  var now = Date.now(), ds = dirsFor(), dueL = [], newL = [];
+  pool().forEach(function(c, i){
+    ds.forEach(function(d){
+      var x = st(c.id, d), k = c.id+"|"+d;
+      if(recent.indexOf(k) !== -1) return;
+      if(!x) newL.push({c:c,d:d,o:i});
+      else if(x.due<=now) dueL.push({c:c,d:d,due:x.due});
+    });
+  });
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  // Spaced repetition decides WHICH cards are eligible (due cards before new ones,
+  // daily cap on new cards); chance decides the ORDER among the eligible ones.
+  if(dueL.length) return rnd(dueL);
+  if(newL.length && newLeft()>0){
+    // new cards: random, within the earliest session that still has unseen cards
+    var s0 = Math.min.apply(null, newL.map(function(x){ return x.c.s; }));
+    var cand = newL.filter(function(x){ return x.c.s===s0; });
+    // in "Mélange", a word is met LB → FR before FR → LB
+    if(S.dir==="mix"){ var pref = cand.filter(function(x){ return x.d==="lf" || st(x.c.id,"lf"); }); if(pref.length) cand = pref; }
+    return rnd(cand);
+  }
+  return null;
+}
+
+function rate(item, g){
+  var x = st(item.c.id, item.d), wasNew = !x, now = Date.now();
+  x = x || {b:0, due:0, ok:0, ko:0};
+  if(g===0){ x.b=1; x.due=now+60e3; x.ko++; }
+  else if(g===1){ x.b=Math.max(2, x.b); x.due=now+Math.max(0.5, IV[x.b]*0.5)*DAY; x.ok++; }
+  else { x.b=Math.min(6, Math.max(2, x.b+1)); x.due=now+IV[x.b]*DAY; x.ok++; }
+  x.t = now;
+  setSt(item.c.id, item.d, x);
+  if(wasNew){ newLeft(); S.newToday.n++; }
+  S.bk.n++;
+  var t=today();
+  if(S.streak.d!==t){
+    var y=new Date(Date.now()-DAY), yd=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate();
+    S.streak = {d:t, n: S.streak.d===yd ? S.streak.n+1 : 1};
+  }
+  recent.push(item.c.id+"|"+item.d); if(recent.length>3) recent.shift();
+  save();
+}
+
+var $ = function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/[&<>"]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];}); }
+function sideText(c, d, front){ return (d==="fl") === front ? c.fr : c.lb; }
+function sideLang(d, front){ return (d==="fl") === front ? T.langFront : T.langLB; }
+function boxPill(x){ if(!x) return '<span class="pill r new">'+T.pillNew+'</span>'; if(x.b>=4) return '<span class="pill r b'+x.b+'">'+T.pillKnown+'</span>'; return '<span class="pill r b'+x.b+'">'+T.pillLearning+'</span>'; }
+function sesShort(s){ var l = SESSIONS[s] || T.sessionDefault(s); return l.split(" · ")[0]; }
+
+function header(){
+  var k = counts();
+  $("sNew").textContent=k.n; $("sDue").textContent=k.due; $("sLrn").textContent=k.lrn; $("sKnown").textContent=k.kn;
+  $("fill").style.width=k.pct+"%"; $("pct").textContent=k.pct+"%";
+  var keys = Object.keys(SESSIONS).sort(function(a,b){return a-b;});
+  $("deckInfo").textContent = T.deckInfo(DECK.length, keys.filter(function(s){return s<90;}).length);
+  var h = '<button class="chip'+(S.filter==="all"?" on":"")+'" data-f="all" type="button">'+T.chipAll+' <small>'+DECK.length+'</small></button>';
+  keys.forEach(function(s){
+    var n = DECK.filter(function(c){return String(c.s)===s;}).length;
+    h += '<button class="chip'+(S.filter===s?" on":"")+'" data-f="'+s+'" type="button">'+esc(SESSIONS[s])+' <small>'+n+'</small></button>';
+  });
+  $("chips").innerHTML = h;
+  Array.prototype.forEach.call($("dirSeg").children, function(b){ b.classList.toggle("on", b.dataset.d===S.dir); });
+  ["Cards","Quiz","List"].forEach(function(m){ $("m"+m).classList.toggle("on", S.mode===m.toLowerCase()); });
+  $("dirSeg").parentNode.hidden = S.mode==="list";
+  $("streak").textContent = S.streak.n>1 && (S.streak.d===today()) ? T.streakN(S.streak.n) : (S.streak.d===today() ? T.streakToday : T.streakNone);
+}
+
+function banners(){
+  var h = "";
+  if(added.length){
+    var ss = {}; added.forEach(function(c){ ss[c.s]=1; });
+    h += '<div class="banner" id="bNew"><span>'+T.bannerAdded(added.length, Object.keys(ss).map(sesShort).join(", "))+'</span><button type="button" data-dismiss="bNew" aria-label="'+T.ariaClose+'">✕</button></div>';
+  }
+  if(needBackup()){
+    h += '<div class="banner warm" id="bBk"><span>'+T.bannerBackup+'</span><button type="button" class="btn primary" id="bkBanner" style="margin-left:auto;padding:6px 12px;font-size:.82rem;color:#fff">'+T.bannerBackupBtn+'</button></div>';
+  }
+  if(recovered){
+    h += '<div class="banner" id="bRec"><span>'+T.bannerRecovered+'</span><button type="button" data-dismiss="bRec" aria-label="'+T.ariaClose+'">✕</button></div>';
+  }
+  $("banners").innerHTML = h;
+}
+function reviewed(){ return Object.keys(S.p).length > 0; }
+function needBackup(){ return reviewed() && S.bk.n >= 15 && (Date.now() - (S.bk.t||0)) > 3*DAY; }
+var recovered = false;
+
+var cur = null, flipped = false, answered = false;
+
+function empty(){
+  var k = counts(), msg;
+  if(k.n>0 && newLeft()===0) msg = T.emptyNewCap(NEW_PER_DAY);
+  else if(k.total===0) msg = T.emptyNoSelection;
+  else msg = T.emptyNothingDue;
+  var more = (k.n>0 && newLeft()===0) ? '<button class="next" id="moreNew" type="button">'+T.emptyMoreBtn+'</button>' : '';
+  return '<div class="empty"><div class="word">'+T.emptyWord+'</div><p>'+esc(msg)+'</p>'+more+'</div>';
+}
+
+function renderCards(){
+  cur = pick(); flipped = false;
+  if(!cur){ $("main").innerHTML = empty(); return; }
+  var c=cur.c, d=cur.d, x=st(c.id,d);
+  var note = c.note ? '<div class="note">'+esc(c.note)+'</div>' : '';
+  $("main").innerHTML =
+    '<div class="card" id="card" role="button" tabindex="0" aria-label="'+T.ariaFlip+'">'+
+     '<div class="inner">'+
+      '<div class="face"><span class="pill l">'+esc(sesShort(c.s))+' · '+esc(c.topic)+'</span>'+boxPill(x)+
+        '<div class="lang">'+esc(sideLang(d,true))+'</div><div class="word">'+esc(sideText(c,d,true))+'</div>'+
+        (d==="fl"?note:'')+'<div class="cue">'+esc(d==="fl"?T.cueSpeak:T.cueMeaning)+'</div></div>'+
+      '<div class="face back"><span class="pill l">'+esc(sesShort(c.s))+' · '+esc(c.topic)+'</span>'+
+        '<div class="lang">'+esc(sideLang(d,false))+'</div><div class="word">'+esc(sideText(c,d,false))+'</div>'+note+
+        '<div class="echo">'+esc(sideText(c,d,true))+'</div>'+(d==="fl"?'<div class="cue">'+esc(T.cueRepeat)+'</div>':'')+'</div>'+
+     '</div></div>'+
+    '<button class="reveal" id="reveal" type="button">'+esc(T.revealBtn)+'</button>'+
+    '<div class="rate off" id="rate">'+
+      '<button class="a" data-g="0" type="button">'+esc(T.rateAgain)+'<small>'+esc(T.rateAgainSmall)+'</small></button>'+
+      '<button class="h" data-g="1" type="button">'+esc(T.ratePresque)+'<small>'+esc(T.ratePresqueSmall)+'</small></button>'+
+      '<button class="g" data-g="2" type="button">'+esc(T.rateGood)+'<small>'+esc(nextLabel(x))+'</small></button>'+
+    '</div>';
+}
+function nextLabel(x){ var b = x ? Math.min(6, Math.max(2,x.b+1)) : 2; var d=IV[b]; return d===1?T.next1Day:(d<7?T.nextDays(d):(d<30?T.nextWeeks(Math.round(d/7)):T.nextMonth)); }
+function flip(){
+  if(!cur || flipped) return; flipped = true;
+  $("card").classList.add("flip"); $("reveal").hidden = true; $("rate").classList.remove("off");
+}
+
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+function renderQuiz(){
+  cur = pick(); answered = false;
+  if(!cur){ $("main").innerHTML = empty(); return; }
+  var c=cur.c, d=cur.d, ans = sideText(c,d,false);
+  var same = DECK.filter(function(o){ return o.id!==c.id && o.topic===c.topic && sideText(o,d,false)!==ans; });
+  var other = DECK.filter(function(o){ return o.id!==c.id && o.topic!==c.topic && sideText(o,d,false)!==ans; });
+  var picks = shuffle(same).slice(0,3); if(picks.length<3) picks = picks.concat(shuffle(other).slice(0,3-picks.length));
+  var seen = {}; seen[ans]=1;
+  var opts = [ans]; picks.forEach(function(o){ var t=sideText(o,d,false); if(!seen[t]){ seen[t]=1; opts.push(t); } });
+  shuffle(opts);
+  $("main").innerHTML =
+    '<div class="prompt"><span class="pill l">'+esc(sesShort(c.s))+' · '+esc(c.topic)+'</span>'+boxPill(st(c.id,d))+
+      '<div class="lang" style="margin-top:18px">'+esc(sideLang(d,true))+'</div><div class="word">'+esc(sideText(c,d,true))+'</div>'+
+      (c.note?'<div class="note">'+esc(c.note)+'</div>':'')+'</div>'+
+    '<div class="opts" id="opts">'+opts.map(function(o){ return '<button class="opt" type="button" data-v="'+esc(o)+'">'+esc(o)+'</button>'; }).join("")+'</div>';
+  $("main").dataset.ans = ans;
+}
+function answer(btn){
+  if(answered) return; answered = true;
+  var ans = $("main").dataset.ans, ok = btn.dataset.v===ans;
+  Array.prototype.forEach.call($("opts").children, function(b){ b.disabled=true; if(b.dataset.v===ans) b.classList.add("ok"); });
+  if(!ok) btn.classList.add("ko");
+  rate(cur, ok?2:0); header();
+  var nx = document.createElement("button"); nx.className="next"; nx.type="button"; nx.id="nextQ"; nx.textContent = ok ? T.quizCorrect : T.quizWrong;
+  $("main").appendChild(nx); nx.focus();
+}
+
+function renderList(){
+  var keys = Object.keys(SESSIONS).sort(function(a,b){return a-b;}).filter(function(s){ return S.filter==="all"||S.filter===s; });
+  var h = '<div class="legend"><span><i class="dot"></i>'+esc(T.legendNew)+'</span><span><i class="dot l"></i>'+esc(T.legendLearning)+'</span><span><i class="dot k"></i>'+esc(T.legendKnown)+'</span></div><div class="list">';
+  keys.forEach(function(s){
+    var items = DECK.filter(function(c){ return String(c.s)===s; });
+    if(!items.length) return;
+    h += '<section><h3>'+esc(SESSIONS[s])+'</h3><ul>';
+    items.forEach(function(c){
+      var a=st(c.id,"fl"), b=st(c.id,"lf"), best=Math.max(a?a.b:-1, b?b.b:-1);
+      var cls = best<0 ? "" : (best>=4 ? " k" : " l");
+      h += '<li><i class="dot'+cls+'"></i><span class="lb">'+esc(c.lb)+'</span><span class="fr">'+esc(c.fr)+'</span></li>';
+    });
+    h += '</ul></section>';
+  });
+  $("main").innerHTML = h + '</div>';
+}
+
+function render(){ header(); if(S.mode==="quiz") renderQuiz(); else if(S.mode==="list") renderList(); else renderCards(); }
+
+// ---- events
+document.addEventListener("click", function(e){
+  var t = e.target.closest("button,[data-close],#card"); if(!t) return;
+  if(t.id==="card"||t.id==="reveal"){ flip(); return; }
+  if(t.dataset.g!==undefined && cur){ rate(cur, +t.dataset.g); render(); return; }
+  if(t.classList.contains("opt")){ answer(t); return; }
+  if(t.id==="nextQ"){ renderQuiz(); return; }
+  if(t.id==="moreNew"){ S.newToday.n = Math.max(0, S.newToday.n-5); save(); render(); return; }
+  if(t.dataset.f){ S.filter=t.dataset.f; recent=[]; save(); render(); return; }
+  if(t.dataset.d){ S.dir=t.dataset.d; recent=[]; save(); render(); return; }
+  if(t.id==="mCards"||t.id==="mQuiz"||t.id==="mList"){ S.mode=t.id.slice(1).toLowerCase(); save(); render(); return; }
+  if(t.dataset.dismiss){ var b=$(t.dataset.dismiss); if(b) b.remove(); added=[]; return; }
+  if(t.id==="helpBtn"){ $("helpSheet").hidden=false; return; }
+  if(t.id==="saveBtn"){ openSave(); return; }
+  if(t.hasAttribute("data-close")){ t.closest(".sheet").hidden=true; try{localStorage.setItem(KEY+"-help","1");}catch(_){} render(); return; }
+  if(t.id==="copyBtn"){ var v=$("exportBox").value; var ok=function(){ $("saveStatus").textContent=T.copyOk; };
+    try{ navigator.clipboard.writeText(v).then(ok, function(){ $("exportBox").select(); $("saveStatus").textContent=T.copyFallback; }); }
+    catch(_){ $("exportBox").select(); $("saveStatus").textContent=T.copyFallback; } return; }
+  if(t.id==="importBtn"){ doImport(); return; }
+  if(t.id==="bkBtn"||t.id==="bkBanner"){ doBackup(); return; }
+  if(t.id==="resetBtn"){ t.hidden=true; $("resetConfirm").hidden=false; return; }
+  if(t.id==="resetConfirm"){ S.p={}; S.streak={d:"",n:0}; S.newToday={d:"",n:0}; save(); $("saveStatus").textContent=T.resetDone; t.hidden=true; $("resetBtn").hidden=false; render(); return; }
+});
+document.addEventListener("keydown", function(e){
+  if(!$("helpSheet").hidden || !$("saveSheet").hidden) return;
+  if(S.mode!=="cards" || !cur) return;
+  if((e.key===" "||e.key==="Enter") && !flipped){ e.preventDefault(); flip(); }
+  else if(flipped && (e.key==="1"||e.key==="2"||e.key==="3")){ rate(cur, +e.key-1); render(); }
+});
+document.querySelectorAll(".sheet").forEach(function(s){ s.addEventListener("click", function(e){ if(e.target===s){ s.hidden=true; render(); } }); });
+
+function makeCode(){
+  var data = {v:1, p:S.p, streak:S.streak, known:S.known, at:Date.now()};
+  return CODE+btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+}
+function ago(t){ var d=Math.floor((Date.now()-t)/DAY); return d<=0?T.agoToday:(d===1?T.agoYesterday:T.agoDays(d)); }
+function stamp(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
+function backupDone(){ S.bk={t:Date.now(), n:0}; save(); banners(); if(!$("saveSheet").hidden) $("bkInfo").textContent=T.lastBackupToday; }
+function doBackup(){
+  var code = makeCode(), name = "margot-"+T.backupFileWord+"-"+stamp()+".txt";
+  var say = function(m){ $("saveStatus").textContent = m; };
+  dlP.then(function(dl){
+    if(dl){
+      return dl.save({filename:name, data:code}).then(function(){ backupDone(); say(T.backupSaved); },
+        function(e){ var c=e&&e.code;
+          if(c==="declined"){ if($("saveSheet").hidden) openSave(); say(T.backupDeclined); }
+          else if(c==="rate_limited"){ say(T.backupRateLimited); }
+          else fallback(); });
+    }
+    fallback();
+  });
+  function fallback(){
+    try{
+      var a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([code],{type:"text/plain"})); a.download=name;
+      document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },1000);
+      backupDone(); if($("saveSheet").hidden) openSave(); say(T.backupFallback);
+    }catch(_){ if($("saveSheet").hidden) openSave(); say(T.backupFallbackErr); }
+  }
+}
+function openSave(){
+  var code = makeCode();
+  $("exportBox").value = code; $("importBox").value=""; $("saveStatus").textContent="";
+  $("resetConfirm").hidden=true; $("resetBtn").hidden=false;
+  $("bkInfo").textContent = S.bk.t ? T.lastBackupAgo(ago(S.bk.t)) : T.noBackupYet;
+  $("saveSheet").hidden=false;
+}
+function doImport(txt){
+  var raw = (typeof txt==="string" ? txt : $("importBox").value).trim();
+  try{
+    if(raw.indexOf(CODE)!==0) throw 0;
+    var d = JSON.parse(decodeURIComponent(escape(atob(raw.slice(CODE.length)))));
+    if(!d || typeof d.p!=="object") throw 0;
+    // merge: for each item/direction keep the more advanced state
+    Object.keys(d.p).forEach(function(id){
+      Object.keys(d.p[id]).forEach(function(dir){
+        var a = st(id,dir), b = d.p[id][dir];
+        if(!a || (b.t||0) > (a.t||0)) setSt(id,dir,b);
+      });
+    });
+    if(d.streak && d.streak.n > S.streak.n) S.streak = d.streak;
+    if(d.at) S.bk = {t: Math.max(S.bk.t||0, d.at), n: 0};
+    $("bkInfo").textContent = S.bk.t ? T.lastBackupAgo(ago(S.bk.t)) : "";
+    save(); $("saveStatus").textContent = T.restoreSuccess; banners(); render();
+  }catch(_){ $("saveStatus").textContent = T.restoreError(CODE); }
+}
+
+$("bkFile").addEventListener("change", function(){
+  var f=this.files && this.files[0]; if(!f) return;
+  var r=new FileReader(); r.onload=function(){ doImport(String(r.result)); }; r.onerror=function(){ $("saveStatus").textContent=T.fileReadError; };
+  r.readAsText(f); this.value="";
+});
+applyI18n(); banners(); render();
+/* localStorage empty but the IndexedDB copy survived → bring it back */
+if(fresh){ idbGet(function(o){
+  idbReady = true;
+  if(!(o && o.v===1 && o.p && Object.keys(o.p).length)){ save(); return; }
+  {
+    S = o; S.bk = S.bk || {t:0,n:0}; S.known = Object.keys(byId); added = []; recovered = true;
+    save(); banners(); render(); $("helpSheet").hidden = true;
+  }
+}); }
+var seenHelp = false; try{ seenHelp = localStorage.getItem(KEY+"-help")==="1"; }catch(_){}
+if(fresh && !seenHelp) $("helpSheet").hidden = false;
+})();
+</script>
+
+</body></html>
