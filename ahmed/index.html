@@ -1,0 +1,719 @@
+<!doctype html><html lang="en"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ahmed's Kaarten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+:root{
+  --bg:#EDF1F3; --surface:#FFFFFF; --surface-2:#E2E8EC; --ink:#1B2530; --ink-dim:#56626E; --line:#CDD6DC;
+  --sky:#2F7FB5; --sky-tint:#DCEBF5; --red:#C8323A; --red-tint:#F6DEDF;
+  --amber:#A8741F; --amber-tint:#F3E7CF; --moss:#467A3C; --moss-tint:#DFECD9;
+  --shadow:0 1px 2px rgba(27,37,48,.06),0 10px 24px -14px rgba(27,37,48,.28);
+  --r:18px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#141A20; --surface:#1E262E; --surface-2:#27313A; --ink:#E8EDF1; --ink-dim:#9AA7B2; --line:#33404B;
+  --sky:#7DB8E0; --sky-tint:#1F3342; --red:#EE7A7F; --red-tint:#3D2327;
+  --amber:#E0AE5A; --amber-tint:#3A301F; --moss:#95C688; --moss-tint:#253424;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 28px -14px rgba(0,0,0,.7);}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#141A20; --surface:#1E262E; --surface-2:#27313A; --ink:#E8EDF1; --ink-dim:#9AA7B2; --line:#33404B;
+  --sky:#7DB8E0; --sky-tint:#1F3342; --red:#EE7A7F; --red-tint:#3D2327;
+  --amber:#E0AE5A; --amber-tint:#3A301F; --moss:#95C688; --moss-tint:#253424;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 28px -14px rgba(0,0,0,.7);}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-inline:16px}
+button{font-family:inherit;color:inherit}
+.app{max-width:520px;margin:0 auto;padding-block:18px 28px;display:flex;flex-direction:column;gap:14px;min-height:100%}
+.flag{display:flex;height:5px;border-radius:3px;overflow:hidden;width:54px}
+.flag i{flex:1}.flag i:nth-child(1){background:#C8323A}.flag i:nth-child(2){background:#fff;box-shadow:inset 0 0 0 1px var(--line)}.flag i:nth-child(3){background:#4AA3DF}
+header{display:flex;flex-direction:column;gap:12px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+h1{font-family:"Bricolage Grotesque",Georgia,sans-serif;font-weight:800;font-size:clamp(1.45rem,6vw,1.85rem);letter-spacing:-.02em;margin:4px 0 0;text-wrap:balance;line-height:1.1}
+.sub{color:var(--ink-dim);font-size:.9rem;margin:0}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:7px 13px;font-weight:700;font-size:.82rem;color:var(--ink-dim);cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 4px;text-align:center}
+.stat b{display:block;font-size:1.25rem;font-variant-numeric:tabular-nums;line-height:1.15}
+.stat span{font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-dim)}
+.stat.due b{color:var(--red)}.stat.lrn b{color:var(--amber)}.stat.known b{color:var(--moss)}
+.bar{display:flex;align-items:center;gap:10px;font-size:.78rem;color:var(--ink-dim)}
+.track{flex:1;height:10px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.track i{display:block;height:100%;background:var(--moss);border-radius:99px;transition:width .4s}
+.bar b{color:var(--moss);font-variant-numeric:tabular-nums;min-width:3ch;text-align:right}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:.84rem;font-weight:700;color:var(--ink-dim);cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--sky-tint);border-color:var(--sky);color:var(--sky)}
+.chip small{font-weight:400;opacity:.8}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.lbl{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
+.banner{display:flex;gap:10px;align-items:flex-start;background:var(--sky-tint);border:1px solid var(--sky);color:var(--ink);border-radius:14px;padding:11px 14px;font-size:.92rem}
+.banner.warm{background:var(--amber-tint);border-color:var(--amber)}
+.banner button{margin-left:auto;background:none;border:0;cursor:pointer;color:var(--ink-dim);font-size:1rem;padding:0 4px}
+main{flex:1;display:flex;flex-direction:column;gap:14px}
+.card{position:relative;min-height:290px;perspective:1200px;cursor:pointer;border-radius:var(--r)}
+.inner{position:absolute;inset:0;transition:transform .45s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.card.flip .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px 22px 30px;gap:12px}
+.face.back{transform:rotateY(180deg);background:var(--sky-tint)}
+.pill{position:absolute;top:14px;font-size:.7rem;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-dim)}
+.pill.l{left:14px}.pill.r{right:14px}
+.pill.new{background:var(--red-tint);border-color:var(--red);color:var(--red)}
+.pill.b1,.pill.b2,.pill.b3{background:var(--amber-tint);border-color:var(--amber);color:var(--amber)}
+.pill.b4,.pill.b5,.pill.b6{background:var(--moss-tint);border-color:var(--moss);color:var(--moss)}
+.lang{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
+.word{font-size:clamp(1.55rem,7vw,2.2rem);font-weight:700;line-height:1.25;text-wrap:balance;word-break:break-word}
+.back .word{color:var(--sky)}
+.note{font-size:.88rem;color:var(--ink-dim);font-style:italic}
+.cue{font-size:.86rem;color:var(--ink-dim)}
+.echo{font-size:.95rem;color:var(--ink-dim)}
+.rate{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rate button{border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 4px;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.rate button small{font-weight:400;font-size:.72rem;color:var(--ink-dim)}
+.rate .a{border-color:var(--red);color:var(--red)}.rate .h{border-color:var(--amber);color:var(--amber)}.rate .g{border-color:var(--moss);color:var(--moss)}
+.rate.off{visibility:hidden}
+.reveal{border:0;background:var(--ink);color:var(--bg);border-radius:14px;padding:14px;font-weight:700;font-size:1rem;cursor:pointer}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:14px 16px;font-size:1.05rem;cursor:pointer}
+.opt.ok{border-color:var(--moss);background:var(--moss-tint);color:var(--moss);font-weight:700}
+.opt.ko{border-color:var(--red);background:var(--red-tint);color:var(--red)}
+.opt:disabled{cursor:default}
+.prompt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px 20px;text-align:center;display:flex;flex-direction:column;gap:8px;position:relative}
+.next{border:1.5px solid var(--ink);background:transparent;border-radius:14px;padding:12px;font-weight:700;cursor:pointer}
+.empty{text-align:center;padding:36px 16px;display:flex;flex-direction:column;gap:10px;align-items:center;color:var(--ink-dim)}
+.empty .word{color:var(--moss)}
+.list{display:flex;flex-direction:column;gap:18px}
+.list h3{margin:0 0 6px;font-family:"Bricolage Grotesque",Georgia,sans-serif;font-size:1.05rem}
+.list ul{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.list li{display:grid;grid-template-columns:12px 1fr 1fr;gap:10px;align-items:baseline;padding:9px 12px;border-top:1px solid var(--line);font-size:.93rem}
+.list li:first-child{border-top:0}
+.list li .lb{font-weight:700}.list li .fr{color:var(--ink-dim)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--line);align-self:center}
+.dot.l{background:var(--amber)}.dot.k{background:var(--moss)}
+.legend{display:flex;gap:14px;font-size:.8rem;color:var(--ink-dim);flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+footer{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.8rem;color:var(--ink-dim);flex-wrap:wrap}
+.link{background:none;border:0;color:var(--ink-dim);text-decoration:underline;cursor:pointer;font-size:.8rem;padding:4px}
+.sheet{position:fixed;inset:0;z-index:5;background:rgba(10,14,18,.5);display:flex;align-items:flex-end;justify-content:center;padding:0 12px calc(env(safe-area-inset-bottom,0px) + 12px)}
+[hidden]{display:none!important}
+.sheet-card{width:100%;max-width:500px;max-height:85vh;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.sheet-card h2{margin:0;font-family:"Bricolage Grotesque",Georgia,sans-serif;font-size:1.2rem}
+.sheet-card p,.sheet-card li{font-size:.92rem;margin:0}
+.sheet-card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px}
+textarea{width:100%;font:.75rem/1.4 ui-monospace,Menlo,monospace;background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;resize:vertical}
+.btn{align-self:flex-start;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:9px 15px;font-weight:700;font-size:.88rem;cursor:pointer}
+.btn.primary{background:var(--sky);border-color:var(--sky);color:#fff}
+.btn.danger{background:var(--red-tint);border-color:var(--red);color:var(--red)}
+.status{font-size:.82rem;color:var(--moss);min-height:1.2em}
+details summary{cursor:pointer;font-weight:700;color:var(--red);font-size:.85rem}
+.x{background:none;border:0;cursor:pointer;font-size:1.1rem;color:var(--ink-dim)}
+:focus-visible{outline:2.5px solid var(--sky);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.inner,.track i{transition:none}}
+</style>
+
+<div class="app">
+  <header>
+    <div class="top">
+      <div>
+        <div class="flag" aria-hidden="true"><i></i><i></i><i></i></div>
+        <h1>Ahmed's Kaarten</h1>
+        <p class="sub" id="deckInfo"></p>
+      </div>
+      <div class="seg" role="group" data-i18n-aria="ariaMode">
+        <button id="mCards" class="on" type="button" data-i18n="modeCards">Cartes</button>
+        <button id="mQuiz" type="button" data-i18n="modeQuiz">Quiz</button>
+        <button id="mList" type="button" data-i18n="modeList">Liste</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="sNew">0</b><span data-i18n="statNew">Nouveaux</span></div>
+      <div class="stat due"><b id="sDue">0</b><span data-i18n="statDue">À revoir</span></div>
+      <div class="stat lrn"><b id="sLrn">0</b><span data-i18n="statLrn">En cours</span></div>
+      <div class="stat known"><b id="sKnown">0</b><span data-i18n="statKnown">Acquis</span></div>
+    </div>
+    <div class="bar"><span data-i18n="totalKnownLabel">Acquis au total</span><div class="track"><i id="fill"></i></div><b id="pct">0%</b></div>
+    <div class="chips" id="chips" role="group" data-i18n-aria="ariaSessions"></div>
+    <div class="row">
+      <span class="lbl" data-i18n="sensLabel">Sens</span>
+      <div class="seg" id="dirSeg" role="group" data-i18n-aria="ariaSens">
+        <button data-d="fl" type="button" data-i18n="dirFL">FR → LB</button>
+        <button data-d="lf" type="button" data-i18n="dirLF">LB → FR</button>
+        <button data-d="mix" type="button" data-i18n="dirMix">Mélange</button>
+      </div>
+    </div>
+  </header>
+  <div id="banners"></div>
+  <main id="main"></main>
+  <footer>
+    <span id="streak"></span>
+    <span><button class="link" id="helpBtn" type="button" data-i18n="helpBtn">Mode d'emploi</button> · <button class="link" id="saveBtn" type="button" data-i18n="saveBtn">Sauvegarde</button></span>
+  </footer>
+</div>
+
+<div class="sheet" id="helpSheet" hidden>
+  <div class="sheet-card">
+    <div class="row"><h2 data-i18n="helpTitle">Mode d'emploi</h2><button class="x" data-close type="button" data-i18n-aria="ariaClose">✕</button></div>
+    <p data-i18n="helpIntro">Tous les mots de tes séances avec Jim. Les nouveaux mots s'ajoutent après chaque séance ; ta progression reste.</p>
+    <ul>
+      <li data-i18n-html="helpLi1"><b>Cartes :</b> lis la carte, <b>dis la réponse à voix haute</b>, puis touche la carte pour vérifier. Ensuite : <i>Pas encore</i>, <i>Presque</i> ou <i>Je sais</i>.</li>
+      <li data-i18n="helpLi2">Ce que tu sais revient de moins en moins souvent (1 jour, 3 jours, 1 semaine…). Ce qui est difficile revient tout de suite.</li>
+      <li data-i18n-html="helpLi3"><b>FR → LB</b> est le sens le plus utile pour parler. Commence par <b>LB → FR</b> si un mot est tout nouveau.</li>
+      <li data-i18n-html="helpLi4"><b>Quiz :</b> quatre réponses, une seule est juste.</li>
+      <li data-i18n-html="helpLi5"><b>Liste :</b> tous les mots par séance. Point vert = acquis.</li>
+      <li data-i18n="helpLi6">10 minutes par jour valent mieux qu'une heure le dimanche.</li>
+      <li data-i18n-html="helpLi7">Ta progression est enregistrée dans ce navigateur, sur cet appareil, en double. Tous les quelques jours, l'appli te propose un <b>fichier de sauvegarde</b> : accepte-le, 10 secondes. Avec ce fichier, tu récupères tout — même sur un autre téléphone. Voir <b>Sauvegarde</b>, en bas.</li>
+    </ul>
+    <button class="btn primary" data-close type="button" data-i18n="helpGo">On y va</button>
+  </div>
+</div>
+
+<div class="sheet" id="saveSheet" hidden>
+  <div class="sheet-card">
+    <div class="row"><h2 data-i18n="saveTitle">Sauvegarde</h2><button class="x" data-close type="button" data-i18n-aria="ariaClose">✕</button></div>
+    <p data-i18n-html="saveIntro">Ta progression vit dans ce navigateur. Un <b>fichier de sauvegarde</b> la met à l'abri : garde-le (Fichiers, iCloud, un e-mail à toi-même). Pour tout récupérer — ici ou sur un autre appareil — ouvre ce fichier avec <b>Restaurer depuis un fichier</b>.</p>
+    <p class="note" id="bkInfo" style="font-style:normal"></p>
+    <button class="btn primary" id="bkBtn" type="button" data-i18n="saveBtnDo">Enregistrer un fichier de sauvegarde</button>
+    <span class="lbl" style="margin-top:6px" data-i18n="restoreFileLabel">Restaurer depuis un fichier</span>
+    <input type="file" id="bkFile" accept=".txt,.json,text/plain,application/json" style="font:inherit;font-size:.85rem">
+    <details style="margin-top:4px"><summary style="color:var(--ink-dim)" data-i18n="codeSummary">Ou avec un code (copier / coller)</summary>
+    <span class="lbl" data-i18n="yourCodeLabel">Ton code</span>
+    <textarea id="exportBox" rows="4" readonly></textarea>
+    <button class="btn" id="copyBtn" type="button" data-i18n="copyCodeBtn">Copier le code</button>
+    <span class="lbl" style="margin-top:6px" data-i18n="restoreCodeLabel">Restaurer un code</span>
+    <textarea id="importBox" rows="3" placeholder="Colle ton code ici" data-i18n-placeholder="pasteCodePlaceholder"></textarea>
+    <button class="btn" id="importBtn" type="button" data-i18n="restoreBtn">Restaurer</button>
+    </details>
+    <p class="status" id="saveStatus" role="status"></p>
+    <details>
+      <summary data-i18n="resetSummary">Tout recommencer</summary>
+      <p style="margin-top:8px" data-i18n="resetIntro">Efface toute ta progression sur cet appareil.</p>
+      <button class="btn danger" id="resetBtn" type="button" data-i18n="resetBtn2">Effacer ma progression</button>
+      <button class="btn danger" id="resetConfirm" type="button" hidden data-i18n="resetConfirmBtn">Oui, tout effacer</button>
+    </details>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ============ DATA ============
+   To add a session: append its label to SESSIONS and its items to DECK.
+   Progress is keyed by each item's "id" — never change an existing id. */
+var SESSIONS = {"1": "Session 1 · First words", "2": "Session 2 · How are you? / Where, what & how many", "3": "Session 3 · Och, nach, net & keen", "5": "Session 5 · Gär, questions & dës", "6": "Session 6 · Recap & consolidation", "100": "Book · Lessons 1–6"};
+var DECK = [{"id": "b-moien", "lb": "Moien", "fr": "Hi/Hello (any time)", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-gudde-moien", "lb": "Gudde Moien", "fr": "Good morning", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-gudde-metteg", "lb": "Gudde Mëtteg", "fr": "Good afternoon", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-gudden-owend", "lb": "Gudden Owend", "fr": "Good evening", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-salut", "lb": "Salut", "fr": "Hi/Hey (casual)", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-addi", "lb": "Äddi", "fr": "Bye", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-scheinen-dag", "lb": "Schéinen Dag", "fr": "Have a nice day", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-scheinen-owend", "lb": "Schéinen Owend", "fr": "Have a nice evening", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-gutt-nuecht", "lb": "Gutt Nuecht", "fr": "Good night", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-schlof-gutt", "lb": "Schlof gutt", "fr": "Sleep well", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-merci", "lb": "Merci", "fr": "Thank you", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-merci-villmools", "lb": "Merci villmools", "fr": "Thank you very much", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-merci-glaichfalls", "lb": "Merci gläichfalls", "fr": "Thanks, you too", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-bis-geschwenn", "lb": "Bis geschwënn", "fr": "See you soon", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-bis-muer", "lb": "Bis muer", "fr": "See you tomorrow", "topic": "Greetings", "s": 100, "note": ""}, {"id": "b-wei-geet-et", "lb": "Wéi geet et?", "fr": "How are you? (casual)", "topic": "How-are-you", "s": 100, "note": ""}, {"id": "b-wei-geet-et-iech", "lb": "Wéi geet et Iech?", "fr": "How are you? (formal)", "topic": "How-are-you", "s": 100, "note": ""}, {"id": "b-an-iech", "lb": "An Iech?", "fr": "And you? (formal)", "topic": "How-are-you", "s": 100, "note": ""}, {"id": "b-an-dir", "lb": "An dir?", "fr": "And you? (casual)", "topic": "How-are-you", "s": 100, "note": ""}, {"id": "b-ganz-gutt", "lb": "Ganz gutt", "fr": "Very well", "topic": "How-are-you", "s": 100, "note": ""}, {"id": "b-et-geet", "lb": "Et geet", "fr": "So-so / OK", "topic": "How-are-you", "s": 100, "note": ""}, {"id": "b-net-immens", "lb": "Net immens", "fr": "Not amazing", "topic": "How-are-you", "s": 100, "note": ""}, {"id": "b-schlecht", "lb": "Schlecht", "fr": "Bad", "topic": "How-are-you", "s": 100, "note": ""}, {"id": "b-guer-net-gutt", "lb": "Guer net gutt", "fr": "Not good at all", "topic": "How-are-you", "s": 100, "note": ""}, {"id": "b-wei-heescht-dir", "lb": "Wéi heescht Dir?", "fr": "What are you called? (formal)", "topic": "Names", "s": 100, "note": ""}, {"id": "b-wei-heeschs-du", "lb": "Wéi heeschs du?", "fr": "What are you called? (informal)", "topic": "Names", "s": 100, "note": ""}, {"id": "b-ech-heeschen", "lb": "Ech heeschen...", "fr": "I'm called...", "topic": "Names", "s": 100, "note": ""}, {"id": "b-virnumm", "lb": "Virnumm", "fr": "First name", "topic": "Names", "s": 100, "note": ""}, {"id": "b-familljennumm", "lb": "Familljennumm", "fr": "Surname", "topic": "Names", "s": 100, "note": ""}, {"id": "b-wei-schreift-een-dat", "lb": "Wéi schreift een dat?", "fr": "How do you write that?", "topic": "Names", "s": 100, "note": ""}, {"id": "b-buschtaweieren", "lb": "buschtawéieren", "fr": "to spell", "topic": "Names", "s": 100, "note": ""}, {"id": "b-ech-sinn-den-d", "lb": "Ech sinn den/d'...", "fr": "I'm... (name)", "topic": "Names", "s": 100, "note": ""}, {"id": "b-wien-ass-dat", "lb": "Wien ass dat?", "fr": "Who is that?", "topic": "Names", "s": 100, "note": ""}, {"id": "b-dat-ass-den-d", "lb": "Dat ass den/d'...", "fr": "That's...", "topic": "Names", "s": 100, "note": ""}, {"id": "b-et-freet-mech", "lb": "Et freet mech", "fr": "Nice to meet you", "topic": "Names", "s": 100, "note": ""}, {"id": "b-mech-och", "lb": "Mech och", "fr": "You too", "topic": "Names", "s": 100, "note": ""}, {"id": "b-sinn", "lb": "sinn", "fr": "to be", "topic": "Grammar", "s": 100, "note": ""}, {"id": "b-vu-wou-kommt-dir", "lb": "Vu wou kommt Dir?", "fr": "Where are you from? (formal)", "topic": "Origin", "s": 100, "note": ""}, {"id": "b-vu-wou-kenns-du", "lb": "Vu wou kënns du?", "fr": "Where are you from? (informal)", "topic": "Origin", "s": 100, "note": ""}, {"id": "b-ech-kommen-aus", "lb": "Ech kommen aus...", "fr": "I come from...", "topic": "Origin", "s": 100, "note": ""}, {"id": "b-aus", "lb": "aus", "fr": "from (country)", "topic": "Origin", "s": 100, "note": ""}, {"id": "b-vu-vun", "lb": "vu / vun", "fr": "from (town)", "topic": "Origin", "s": 100, "note": ""}, {"id": "b-letzebuerg", "lb": "Lëtzebuerg", "fr": "Luxembourg", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-letzebuerger-letzebuergerin", "lb": "Lëtzebuerger / Lëtzebuergerin", "fr": "Luxembourger (m/f)", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-letzebuergesch", "lb": "Lëtzebuergesch", "fr": "Luxembourgish (language)", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-frankraich", "lb": "Frankräich", "fr": "France", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-fransous-franseisin", "lb": "Fransous / Franséisin", "fr": "French person (male / female)", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-franseisch", "lb": "Franséisch", "fr": "French language", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-italien", "lb": "Italien", "fr": "Italy", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-italiener-italienerin", "lb": "Italiener / Italienerin", "fr": "Italian (person/language)", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-spuenien", "lb": "Spuenien", "fr": "Spain", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-spuenier-spuenierin", "lb": "Spuenier / Spuenierin", "fr": "Spanish person", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-spuenesch", "lb": "Spuenesch", "fr": "Spanish language", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-daitschland", "lb": "Däitschland", "fr": "Germany", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-daitschen-daitsch", "lb": "Däitschen / Däitsch", "fr": "German person or language", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-portugal", "lb": "Portugal", "fr": "Portugal", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-portugis-portugisesch", "lb": "Portugis / Portugisesch", "fr": "Portuguese (person/language)", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-arabesch", "lb": "Arabesch", "fr": "Arabic (language)", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-englesch", "lb": "Englesch", "fr": "English (language)", "topic": "Countries", "s": 100, "note": ""}, {"id": "b-wat-fir-eng-nationaliteit-hutt-dir", "lb": "Wat fir eng Nationalitéit hutt Dir?", "fr": "What's your nationality? (formal)", "topic": "Nationality", "s": 100, "note": ""}, {"id": "b-wat-fir-sproochen-schwatzt-dir", "lb": "Wat fir Sproochen schwätzt Dir?", "fr": "What languages do you speak? (formal)", "topic": "Nationality", "s": 100, "note": ""}, {"id": "b-ech-schwatzen", "lb": "Ech schwätzen...", "fr": "I speak...", "topic": "Nationality", "s": 100, "note": ""}, {"id": "b-nee-ech-schwatze-kee-n-keng", "lb": "Nee, ech schwätze kee(n)/keng...", "fr": "No, I don't speak any...", "topic": "Nationality", "s": 100, "note": ""}, {"id": "b-eent", "lb": "eent", "fr": "one", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-zwee", "lb": "zwee", "fr": "two", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-drai", "lb": "dräi", "fr": "three", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-veier", "lb": "véier", "fr": "four", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-fennef", "lb": "fënnef", "fr": "five", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-sechs", "lb": "sechs", "fr": "six", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-siwen", "lb": "siwen", "fr": "seven", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-aacht", "lb": "aacht", "fr": "eight", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-neng", "lb": "néng", "fr": "nine", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-zeng", "lb": "zéng", "fr": "ten", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-eelef", "lb": "eelef", "fr": "eleven", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-zwielef", "lb": "zwielef", "fr": "twelve", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-draizeng", "lb": "dräizéng", "fr": "thirteen", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-veierzeng", "lb": "véierzéng", "fr": "fourteen", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-fofzeng", "lb": "fofzéng", "fr": "fifteen", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-siechzeng", "lb": "siechzéng", "fr": "sixteen", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-siwwenzeng", "lb": "siwwenzéng", "fr": "seventeen", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-uechtzeng", "lb": "uechtzéng", "fr": "eighteen", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-nonzeng", "lb": "nonzéng", "fr": "nineteen", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-zwanzeg", "lb": "zwanzeg", "fr": "twenty", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-honnert", "lb": "honnert", "fr": "hundred", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-dausend", "lb": "dausend", "fr": "thousand", "topic": "Numbers", "s": 100, "note": ""}, {"id": "b-wei-ass-ar-telefonsnummer", "lb": "Wéi ass Är Telefonsnummer?", "fr": "What's your phone number? (formal)", "topic": "Contact", "s": 100, "note": ""}, {"id": "b-meng-handysnummer-ass", "lb": "Meng Handysnummer ass...", "fr": "My mobile number is...", "topic": "Contact", "s": 100, "note": ""}, {"id": "b-wei-al-sidd-dir", "lb": "Wéi al sidd Dir?", "fr": "How old are you? (formal)", "topic": "Age", "s": 100, "note": ""}, {"id": "b-ech-sinn-x-joer-al", "lb": "Ech sinn [x] Joer al", "fr": "I am [x] years old", "topic": "Age", "s": 100, "note": ""}, {"id": "b-weini-hutt-dir-gebuertsdag", "lb": "Wéini hutt Dir Gebuertsdag?", "fr": "When is your birthday? (formal)", "topic": "Age", "s": 100, "note": ""}, {"id": "b-gebuertsdag", "lb": "Gebuertsdag", "fr": "birthday", "topic": "Age", "s": 100, "note": ""}, {"id": "b-den-eischten", "lb": "den éischten", "fr": "the 1st", "topic": "Ordinals", "s": 100, "note": ""}, {"id": "b-den-zweeten", "lb": "den zweeten", "fr": "the 2nd", "topic": "Ordinals", "s": 100, "note": ""}, {"id": "b-den-dretten", "lb": "den drëtten", "fr": "the 3rd", "topic": "Ordinals", "s": 100, "note": ""}, {"id": "b-och", "lb": "och", "fr": "also / too / as well", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-ech-och", "lb": "Ech och", "fr": "Me too", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-nach", "lb": "nach", "fr": "still / yet / another", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-nach-eng-keier", "lb": "nach eng Kéier", "fr": "one more time / again", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-net-mei", "lb": "net méi", "fr": "not any more", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-nach-net", "lb": "nach net", "fr": "not yet", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-net", "lb": "net", "fr": "not (verbs, adjectives, prepositions)", "topic": "Negation", "s": 100, "note": ""}, {"id": "b-kee-keen-keng", "lb": "kee / keen / keng", "fr": "not any (masc./before vowel/fem.)", "topic": "Negation", "s": 100, "note": ""}, {"id": "b-elo", "lb": "elo", "fr": "now", "topic": "Time", "s": 100, "note": ""}, {"id": "b-duerno-dono-herno", "lb": "duerno / dono / herno", "fr": "afterwards / later", "topic": "Time", "s": 100, "note": ""}, {"id": "b-virdrun", "lb": "virdrun", "fr": "before / beforehand", "topic": "Time", "s": 100, "note": ""}, {"id": "b-haut", "lb": "haut", "fr": "today", "topic": "Time", "s": 100, "note": ""}, {"id": "b-muer", "lb": "muer", "fr": "tomorrow", "topic": "Time", "s": 100, "note": ""}, {"id": "b-geschter", "lb": "gëschter", "fr": "yesterday", "topic": "Time", "s": 100, "note": ""}, {"id": "b-all-dag", "lb": "all Dag", "fr": "every day", "topic": "Time", "s": 100, "note": ""}, {"id": "b-den-dag", "lb": "den Dag", "fr": "the day", "topic": "Time", "s": 100, "note": ""}, {"id": "b-d-nuecht", "lb": "d'Nuecht", "fr": "the night", "topic": "Time", "s": 100, "note": ""}, {"id": "b-de-moien", "lb": "de Moien", "fr": "the morning", "topic": "Time", "s": 100, "note": ""}, {"id": "b-den-owend", "lb": "den Owend", "fr": "the evening", "topic": "Time", "s": 100, "note": ""}, {"id": "b-d-woch", "lb": "d'Woch", "fr": "the week", "topic": "Time", "s": 100, "note": ""}, {"id": "b-de-mount", "lb": "de Mount", "fr": "the month", "topic": "Time", "s": 100, "note": ""}, {"id": "b-d-joer", "lb": "d'Joer", "fr": "the year", "topic": "Time", "s": 100, "note": ""}, {"id": "b-d-stonn", "lb": "d'Stonn", "fr": "the hour", "topic": "Time", "s": 100, "note": ""}, {"id": "b-des-woch", "lb": "dës Woch", "fr": "this week", "topic": "Time", "s": 100, "note": ""}, {"id": "b-dese-mount", "lb": "dëse Mount", "fr": "this month", "topic": "Time", "s": 100, "note": ""}, {"id": "b-dest-joer", "lb": "dëst Joer", "fr": "this year", "topic": "Time", "s": 100, "note": ""}, {"id": "b-d-lescht-joer", "lb": "d'lescht Joer", "fr": "last year", "topic": "Time", "s": 100, "note": ""}, {"id": "b-d-nachst-joer", "lb": "d'nächst Joer", "fr": "next year", "topic": "Time", "s": 100, "note": ""}, {"id": "b-kucken", "lb": "kucken", "fr": "to look / watch", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-lauschteren", "lb": "lauschteren", "fr": "to listen", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-liesen", "lb": "liesen", "fr": "to read", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-soen", "lb": "soen", "fr": "to say", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-du-sees", "lb": "du sees", "fr": "you say (informal)", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-hie-si-seet", "lb": "hie/si seet", "fr": "he/she says", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-schwatzen", "lb": "schwätzen", "fr": "to speak / talk", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-hie-schwatzt", "lb": "hie schwätzt", "fr": "he speaks", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-leieren", "lb": "léieren", "fr": "to learn", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-verstoen", "lb": "verstoen", "fr": "to understand", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-ech-verstinn", "lb": "ech verstinn", "fr": "I understand", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-maachen", "lb": "maachen", "fr": "to make / do", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-hunn", "lb": "hunn", "fr": "to have", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-ech-hu-hunn", "lb": "ech hu / hunn", "fr": "I have", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-schlofen", "lb": "schlofen", "fr": "to sleep", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-schaffen", "lb": "schaffen", "fr": "to work", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-drenken", "lb": "drénken", "fr": "to drink", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-iessen", "lb": "iessen", "fr": "to eat", "topic": "Verbs", "s": 100, "note": ""}, {"id": "b-wei-seet-een-dat-op-letzebuergesch", "lb": "Wéi seet een dat op Lëtzebuergesch?", "fr": "How do you say that in Luxembourgish?", "topic": "Phrases", "s": 100, "note": ""}, {"id": "b-schwatz-mei-lues-wann-ech-gelift", "lb": "Schwätz méi lues, wann ech gelift.", "fr": "Speak more slowly, please.", "topic": "Phrases", "s": 100, "note": ""}, {"id": "b-ech-liese-gar-d-zeitung", "lb": "Ech liese gär d'Zeitung", "fr": "I like reading the newspaper", "topic": "Phrases", "s": 100, "note": ""}, {"id": "b-kucks-du-de-match", "lb": "Kucks du de Match?", "fr": "Are you watching the match?", "topic": "Phrases", "s": 100, "note": ""}, {"id": "b-e-bessen", "lb": "e bëssen", "fr": "a bit / a little", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-scho-nn", "lb": "scho(nn)", "fr": "already", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-ma", "lb": "mä", "fr": "but", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-gell", "lb": "gell", "fr": "right? (tag question)", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-richteg", "lb": "richteg", "fr": "right / correct", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-mei-lues", "lb": "méi lues", "fr": "more slowly", "topic": "Particles", "s": 100, "note": ""}, {"id": "b-seier", "lb": "séier", "fr": "fast", "topic": "Adjectives", "s": 100, "note": ""}, {"id": "b-lues", "lb": "lues", "fr": "slowly", "topic": "Adjectives", "s": 100, "note": ""}, {"id": "b-speit", "lb": "spéit", "fr": "late", "topic": "Adjectives", "s": 100, "note": ""}, {"id": "b-kuerz", "lb": "kuerz", "fr": "short", "topic": "Adjectives", "s": 100, "note": ""}, {"id": "b-laang", "lb": "laang", "fr": "long", "topic": "Adjectives", "s": 100, "note": ""}, {"id": "b-einfach", "lb": "einfach", "fr": "easy", "topic": "Adjectives", "s": 100, "note": ""}, {"id": "b-interessant", "lb": "interessant", "fr": "interesting", "topic": "Adjectives", "s": 100, "note": ""}, {"id": "b-naischt", "lb": "näischt", "fr": "nothing", "topic": "Adjectives", "s": 100, "note": ""}, {"id": "b-emmer", "lb": "ëmmer", "fr": "always", "topic": "Adjectives", "s": 100, "note": ""}, {"id": "b-gar-garen", "lb": "gär / gären", "fr": "to like / gladly", "topic": "Gär-construction", "s": 100, "note": ""}, {"id": "b-ganz-gar", "lb": "ganz gär", "fr": "very much", "topic": "Gär-construction", "s": 100, "note": ""}, {"id": "b-immens-gar", "lb": "immens gär", "fr": "very much", "topic": "Gär-construction", "s": 100, "note": ""}, {"id": "b-net-gar", "lb": "net gär", "fr": "don't like", "topic": "Gär-construction", "s": 100, "note": ""}, {"id": "b-guer-net-gar", "lb": "guer net gär", "fr": "really don't like at all", "topic": "Gär-construction", "s": 100, "note": ""}, {"id": "b-ech-hu-x-gar", "lb": "Ech hu [X] gär", "fr": "I like [X]", "topic": "Gär-construction", "s": 100, "note": ""}, {"id": "b-ech-hu-fussball-gar", "lb": "Ech hu Fussball gär", "fr": "I like football", "topic": "Gär-construction", "s": 100, "note": ""}, {"id": "b-ech-hunn-dech-gar", "lb": "Ech hunn dech gär", "fr": "I like you", "topic": "Gär-construction", "s": 100, "note": ""}, {"id": "b-wann-ech-gelift", "lb": "wann ech gelift", "fr": "please", "topic": "Politeness", "s": 100, "note": ""}, {"id": "b-jo-gar-jo-garen", "lb": "Jo, gär / Jo, gären", "fr": "Yes, please / gladly", "topic": "Politeness", "s": 100, "note": ""}, {"id": "b-nee-merci", "lb": "Nee merci", "fr": "No thank you", "topic": "Politeness", "s": 100, "note": ""}, {"id": "b-keng-ursaach", "lb": "Keng Ursaach", "fr": "You're welcome", "topic": "Politeness", "s": 100, "note": ""}, {"id": "b-entschellegt", "lb": "Entschëllegt", "fr": "Sorry / excuse me", "topic": "Politeness", "s": 100, "note": ""}, {"id": "b-wellt-dir", "lb": "Wëllt Dir...?", "fr": "Would you like...? (formal)", "topic": "Politeness", "s": 100, "note": ""}, {"id": "b-wells-du", "lb": "Wëlls du...?", "fr": "Would you like...? (informal)", "topic": "Politeness", "s": 100, "note": ""}, {"id": "b-wien", "lb": "Wien", "fr": "who", "topic": "Question words", "s": 100, "note": ""}, {"id": "b-wat", "lb": "Wat", "fr": "what", "topic": "Question words", "s": 100, "note": ""}, {"id": "b-wou", "lb": "Wou", "fr": "where", "topic": "Question words", "s": 100, "note": ""}, {"id": "b-vu-wou", "lb": "Vu wou", "fr": "where from", "topic": "Question words", "s": 100, "note": ""}, {"id": "b-wei", "lb": "Wéi", "fr": "how", "topic": "Question words", "s": 100, "note": ""}, {"id": "b-weini", "lb": "Wéini", "fr": "when", "topic": "Question words", "s": 100, "note": ""}, {"id": "b-firwat", "lb": "Firwat", "fr": "why", "topic": "Question words", "s": 100, "note": ""}, {"id": "b-des", "lb": "dës", "fr": "this (feminine)", "topic": "Demonstratives", "s": 100, "note": ""}, {"id": "b-dese-desen", "lb": "dëse / dësen", "fr": "this (masculine)", "topic": "Demonstratives", "s": 100, "note": ""}, {"id": "b-dest", "lb": "dëst", "fr": "this (neuter)", "topic": "Demonstratives", "s": 100, "note": ""}, {"id": "b-desen-owend", "lb": "dësen Owend", "fr": "this evening", "topic": "Demonstratives", "s": 100, "note": ""}, {"id": "b-des-nuecht", "lb": "dës Nuecht", "fr": "tonight", "topic": "Demonstratives", "s": 100, "note": ""}, {"id": "b-d-geschicht", "lb": "d'Geschicht", "fr": "history / story", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-d-festung", "lb": "d'Festung", "fr": "fortress", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-d-maueren", "lb": "d'Maueren", "fr": "the walls", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-d-leit", "lb": "d'Leit", "fr": "people", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-d-zeitung", "lb": "d'Zeitung", "fr": "newspaper", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-e-buch", "lb": "e Buch", "fr": "a book", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-e-beier", "lb": "e Béier", "fr": "a beer", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-e-waasser", "lb": "e Waasser", "fr": "water", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-e-kaffi", "lb": "e Kaffi", "fr": "a coffee", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-e-steck-kuch", "lb": "e Stéck Kuch", "fr": "a piece of cake", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-foussball-fussball", "lb": "Foussball / Fussball", "fr": "football / soccer", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-match", "lb": "Match", "fr": "match / game", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-de-nachste-match", "lb": "de nächste Match", "fr": "the next match", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-mai-frend-kolleeg", "lb": "mäi Frënd / Kolleeg", "fr": "my friend", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-zesummen", "lb": "zesummen", "fr": "together", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-nemmen", "lb": "nëmmen", "fr": "only", "topic": "Story vocab", "s": 100, "note": ""}, {"id": "b-den-dag-2", "lb": "den Dag", "fr": "the day", "topic": "Review", "s": 100, "note": ""}, {"id": "b-dat-geet", "lb": "Dat geet", "fr": "that works / that's fine", "topic": "Reactions", "s": 100, "note": ""}, {"id": "b-dat-geet-net", "lb": "Dat geet net", "fr": "that doesn't work", "topic": "Reactions", "s": 100, "note": ""}, {"id": "b-kee-problem", "lb": "Kee Problem", "fr": "no problem", "topic": "Reactions", "s": 100, "note": ""}, {"id": "b-kucks-du-gar-fussball", "lb": "Kucks du gär Fussball?", "fr": "Do you like watching football?", "topic": "Sports chat", "s": 100, "note": ""}, {"id": "b-jo-ech-kucken-immens-gar-fussball", "lb": "Jo, ech kucken immens gär Fussball", "fr": "Yes, I really like watching football", "topic": "Sports chat", "s": 100, "note": ""}, {"id": "b-weini-ass-de-nachste-match", "lb": "Wéini ass de nächste Match?", "fr": "When is the next match?", "topic": "Sports chat", "s": 100, "note": ""}, {"id": "b-muer-den-owend", "lb": "Muer den Owend", "fr": "Tomorrow evening", "topic": "Sports chat", "s": 100, "note": ""}, {"id": "b-wells-du-de-match-zesumme-kucken", "lb": "Wëlls du de Match zesumme kucken?", "fr": "Do you want to watch the match together?", "topic": "Sports chat", "s": 100, "note": ""}, {"id": "b-wann-ech-gelift-e-kaffi-dobai", "lb": "Wann ech gelift, e Kaffi dobäi.", "fr": "Please, a coffee with it.", "topic": "Sports chat", "s": 100, "note": ""}, {"id": "b-dobai", "lb": "dobäi", "fr": "with it / alongside", "topic": "Sports chat", "s": 100, "note": ""}, {"id": "b-verstees-du-nach", "lb": "Verstees du nach?", "fr": "Do you still understand?", "topic": "Review", "s": 100, "note": ""}, {"id": "b-moies", "lb": "moies", "fr": "in the morning", "topic": "Time", "s": 100, "note": ""}, {"id": "b-mettes", "lb": "mëttes", "fr": "at midday", "topic": "Time", "s": 100, "note": ""}, {"id": "b-owes", "lb": "owes", "fr": "in the evening", "topic": "Time", "s": 100, "note": ""}, {"id": "s1-awar", "lb": "Awar", "fr": "See you! (casual)", "topic": "Saying goodbye", "s": 1, "note": ""}, {"id": "s1-wei-geet-et-dir", "lb": "Wéi geet et dir?", "fr": "How are you? (casual)", "topic": "How are you?", "s": 1, "note": ""}, {"id": "s1-mir-geet-et-gutt", "lb": "Mir geet et gutt", "fr": "I'm fine", "topic": "How are you?", "s": 1, "note": ""}, {"id": "s1-iech", "lb": "Iech", "fr": "you (polite)", "topic": "How are you?", "s": 1, "note": ""}, {"id": "s1-dir", "lb": "dir", "fr": "you (casual)", "topic": "How are you?", "s": 1, "note": ""}, {"id": "s1-tipptopp", "lb": "Tipptopp", "fr": "Great", "topic": "How am I feeling?", "s": 1, "note": ""}, {"id": "s1-gutt", "lb": "gutt", "fr": "good", "topic": "How am I feeling?", "s": 1, "note": ""}, {"id": "s1-net-gutt", "lb": "Net gutt", "fr": "Not good", "topic": "How am I feeling?", "s": 1, "note": ""}, {"id": "s2-kommt-dir-aus", "lb": "Kommt Dir aus …?", "fr": "Do you come from …? (formal)", "topic": "Where are you from?", "s": 2, "note": ""}, {"id": "s2-kenns-du-aus", "lb": "Kënns du aus …?", "fr": "Do you come from …? (informal)", "topic": "Where are you from?", "s": 2, "note": ""}, {"id": "s2-jo-ech-kommen-aus", "lb": "Jo, ech kommen aus …", "fr": "Yes, I come from …", "topic": "Where are you from?", "s": 2, "note": ""}, {"id": "s2-nee-ech-kommen-net-aus", "lb": "Nee, ech kommen net aus …", "fr": "No, I don't come from …", "topic": "Where are you from?", "s": 2, "note": ""}, {"id": "s2-vun-der-stad", "lb": "vun der Stad", "fr": "from Luxembourg City", "topic": "Where are you from?", "s": 2, "note": ""}, {"id": "s2-portugisin", "lb": "Portugisin", "fr": "Portuguese woman", "topic": "Nationality & languages", "s": 2, "note": ""}, {"id": "s2-italienesch", "lb": "Italienesch", "fr": "Italian (language)", "topic": "Nationality & languages", "s": 2, "note": ""}, {"id": "s2-ech-sinn", "lb": "Ech sinn …", "fr": "I am … (nationality)", "topic": "Nationality & languages", "s": 2, "note": ""}, {"id": "s2-wat-fir-eng-nationaliteit-hues-du", "lb": "Wat fir eng Nationalitéit hues du?", "fr": "What's your nationality? (informal)", "topic": "Nationality & languages", "s": 2, "note": ""}, {"id": "s2-wat-fir-sproochen-schwatz-du", "lb": "Wat fir Sproochen schwätz du?", "fr": "What languages do you speak? (informal)", "topic": "Nationality & languages", "s": 2, "note": ""}, {"id": "s2-schwatzt-dir-spuenesch", "lb": "Schwätzt Dir Spuenesch?", "fr": "Do you speak Spanish? (formal)", "topic": "Nationality & languages", "s": 2, "note": ""}, {"id": "s2-schwatz-du-spuenesch", "lb": "Schwätz du Spuenesch?", "fr": "Do you speak Spanish? (informal)", "topic": "Nationality & languages", "s": 2, "note": ""}, {"id": "s2-jo-ech-schwatze-spuenesch", "lb": "Jo, ech schwätze Spuenesch", "fr": "Yes, I speak Spanish", "topic": "Nationality & languages", "s": 2, "note": ""}, {"id": "s2-null", "lb": "null", "fr": "zero", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-wei-ass-deng-telefonsnummer", "lb": "Wéi ass deng Telefonsnummer?", "fr": "What's your phone number? (informal)", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-wei-ass-ar-handysnummer", "lb": "Wéi ass Är Handysnummer?", "fr": "What's your mobile number? (formal)", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-wei-ass-deng-handysnummer", "lb": "Wéi ass deng Handysnummer?", "fr": "What's your mobile number? (informal)", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-wei-al-bass-du", "lb": "Wéi al bass du?", "fr": "How old are you? (informal)", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-weini-hues-du-gebuertsdag", "lb": "Wéini hues du Gebuertsdag?", "fr": "When is your birthday? (informal)", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-meng-ass", "lb": "Meng … ass …", "fr": "My … is …", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-ech-hunn-den-gebuertsdag", "lb": "Ech hunn den … Gebuertsdag", "fr": "My birthday is on the …", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-de-veierten", "lb": "de véierten", "fr": "the 4th", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-den-veierzengten", "lb": "den véierzéngten", "fr": "the 14th", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-den-nonzengten", "lb": "den nonzéngten", "fr": "the 19th", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-den-zwanzegsten", "lb": "den zwanzegsten", "fr": "the 20th", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-den-eenandressegsten", "lb": "den eenandrëssegsten", "fr": "the 31st", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s2-abrell", "lb": "Abrëll", "fr": "April", "topic": "Numbers, phone & age", "s": 2, "note": ""}, {"id": "s3-ech-schwatzen-nach-net-vill", "lb": "Ech schwätzen nach net vill", "fr": "I don't speak much yet", "topic": "Och & nach", "s": 3, "note": ""}, {"id": "s3-ech-wunnen-net-mei-zu-turin", "lb": "Ech wunnen net méi zu Turin", "fr": "I don't live in Turin any more", "topic": "Och & nach", "s": 3, "note": ""}, {"id": "s3-ech-leieren-nach-letzebuergesch", "lb": "Ech léieren nach Lëtzebuergesch", "fr": "I'm still learning Luxembourgish", "topic": "Och & nach", "s": 3, "note": ""}, {"id": "s3-du-kucks", "lb": "du kucks", "fr": "you look / watch (informal)", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-hie-kuckt", "lb": "hie kuckt", "fr": "he looks / watches", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-du-lauschters", "lb": "du lauschters", "fr": "you listen (informal)", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-hie-lauschtert", "lb": "hie lauschtert", "fr": "he listens", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-du-lies", "lb": "du lies", "fr": "you read (informal)", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-hie-liest", "lb": "hie liest", "fr": "he reads", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-du-schwatz", "lb": "du schwätz", "fr": "you speak (informal)", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-dir-sot", "lb": "dir sot", "fr": "you (plural / formal) say", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-du-verstees", "lb": "du verstees", "fr": "you understand (informal)", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-hie-versteet", "lb": "hie versteet", "fr": "he understands", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-wat-sees-du", "lb": "Wat sees du?", "fr": "What are you saying? / What do you mean?", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-ech-lauschtere-gar-radio", "lb": "Ech lauschtere gär Radio", "fr": "I like listening to the radio", "topic": "Five verbs: kucken, lauschteren, liesen, soen, schwätzen", "s": 3, "note": ""}, {"id": "s3-de-ganzen-dag", "lb": "de ganzen Dag", "fr": "all day long", "topic": "Dag, Nuecht, Mount, Joer", "s": 3, "note": ""}, {"id": "s3-de-mound", "lb": "de Mound", "fr": "the moon (not de Mount = the month!)", "topic": "Dag, Nuecht, Mount, Joer", "s": 3, "note": ""}, {"id": "s3-ech-hu-keng-zait", "lb": "Ech hu keng Zäit", "fr": "I have no time", "topic": "Useful whole phrases", "s": 3, "note": ""}, {"id": "s5-ech-kucke-gar-de-match", "lb": "Ech kucke gär de Match", "fr": "I like watching the match", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-ech-leiere-gar-letzebuergesch", "lb": "Ech léiere gär Lëtzebuergesch", "fr": "I like learning Luxembourgish", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-ech-hunn-d-geschicht-gar", "lb": "Ech hunn d'Geschicht gär", "fr": "I like history", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-ech-hu-kaffi-gar", "lb": "Ech hu Kaffi gär", "fr": "I like coffee", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-hues-du-letzebuerg-gar", "lb": "Hues du Lëtzebuerg gär?", "fr": "Do you like Luxembourg?", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-hien-huet-de-match-gar", "lb": "Hien huet de Match gär", "fr": "He likes the match", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-ech-kucken-net-gar-tennis", "lb": "Ech kucken net gär Tennis", "fr": "I don't like watching tennis", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-ech-liesen-net-gar-um-computer", "lb": "Ech liesen net gär um Computer", "fr": "I don't like reading on the computer", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-ech-hu-tennis-net-gar", "lb": "Ech hu Tennis net gär", "fr": "I don't like tennis", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-ech-hu-kal-kaffi-net-gar", "lb": "Ech hu kal Kaffi net gär", "fr": "I don't like cold coffee", "topic": "Gär: liking things", "s": 5, "note": ""}, {"id": "s5-jo-merci", "lb": "Jo, merci", "fr": "Yes, thank you", "topic": "Wann ech gelift · Nee merci", "s": 5, "note": ""}, {"id": "s5-wellt-dir-e-kaffi", "lb": "Wëllt Dir e Kaffi?", "fr": "Would you like a coffee? (polite / plural)", "topic": "Wann ech gelift · Nee merci", "s": 5, "note": ""}, {"id": "s5-wells-du-e-kaffi", "lb": "Wëlls du e Kaffi?", "fr": "Would you like a coffee? (informal)", "topic": "Wann ech gelift · Nee merci", "s": 5, "note": ""}, {"id": "s5-d-ursaach", "lb": "d'Ursaach", "fr": "the cause", "topic": "Wann ech gelift · Nee merci", "s": 5, "note": ""}, {"id": "s5-weini-gees-du-op-letzebuerg", "lb": "Wéini gees du op Lëtzebuerg?", "fr": "When are you going to Luxembourg?", "topic": "Questions", "s": 5, "note": ""}, {"id": "s5-wat-mechs-du-do", "lb": "Wat méchs du do?", "fr": "What are you doing there?", "topic": "Questions", "s": 5, "note": ""}, {"id": "s5-des-stonn", "lb": "dës Stonn", "fr": "this hour", "topic": "dës · dëse · dëst", "s": 5, "note": ""}, {"id": "s5-dese-match", "lb": "dëse Match", "fr": "this match", "topic": "dës · dëse · dëst", "s": 5, "note": ""}, {"id": "s5-desen-dag", "lb": "dësen Dag", "fr": "this day", "topic": "dës · dëse · dëst", "s": 5, "note": ""}, {"id": "s5-haut-den-owend", "lb": "haut den Owend", "fr": "this evening (what people usually say)", "topic": "dës · dëse · dëst", "s": 5, "note": ""}, {"id": "s5-dann", "lb": "dann", "fr": "then", "topic": "Story: Eng Woch zu Turin", "s": 5, "note": ""}, {"id": "s5-iwwer", "lb": "iwwer", "fr": "about", "topic": "Story: Eng Woch zu Turin", "s": 5, "note": ""}, {"id": "s5-hie-freet", "lb": "hie freet", "fr": "he asks", "topic": "Story: Eng Woch zu Turin", "s": 5, "note": ""}, {"id": "s5-hoffentlech", "lb": "hoffentlech", "fr": "hopefully", "topic": "Story: Eng Woch zu Turin", "s": 5, "note": ""}, {"id": "s5-dech", "lb": "dech", "fr": "you (object)", "topic": "Story: Eng Woch zu Turin", "s": 5, "note": ""}, {"id": "s5-hie-weess", "lb": "hie weess", "fr": "he knows", "topic": "Story: Eng Woch zu Turin", "s": 5, "note": ""}, {"id": "s5-war", "lb": "war", "fr": "was", "topic": "Story: Eng Woch zu Turin", "s": 5, "note": ""}, {"id": "s6-wou-spillt-d-geschicht", "lb": "Wou spillt d'Geschicht?", "fr": "Where is the story set?", "topic": "Verstees du nach?", "s": 6, "note": ""}, {"id": "s6-wei-ass-d-wieder-do", "lb": "Wéi ass d'Wieder do?", "fr": "What's the weather like?", "topic": "Verstees du nach?", "s": 6, "note": ""}, {"id": "s6-wat-mecht-d-persoun-gar", "lb": "Wat mécht d'Persoun gär?", "fr": "What does the person like doing?", "topic": "Verstees du nach?", "s": 6, "note": ""}, {"id": "s6-wat-drenkt-oder-esst-si-gar", "lb": "Wat drénkt oder ësst si gär?", "fr": "What do they like to eat / drink?", "topic": "Verstees du nach?", "s": 6, "note": ""}, {"id": "s6-weini-ass-si-op-der-plaz", "lb": "Wéini ass si op der Plaz?", "fr": "When is she there? (morning, midday or evening?)", "topic": "Verstees du nach?", "s": 6, "note": ""}, {"id": "s6-ech-spillen-gar-foussball", "lb": "Ech spillen gär Foussball", "fr": "I like playing football", "topic": "Gär — liking", "s": 6, "note": ""}, {"id": "s6-ech-hunn-de-sport-gar", "lb": "Ech hunn de Sport gär", "fr": "I like sport", "topic": "Gär — liking", "s": 6, "note": ""}, {"id": "s6-kenns-du-muer", "lb": "Kënns du muer?", "fr": "Are you coming tomorrow?", "topic": "Froen — asking", "s": 6, "note": ""}, {"id": "s6-ech-soen", "lb": "ech soen", "fr": "I say", "topic": "soen — to say", "s": 6, "note": ""}, {"id": "s6-mir-soen", "lb": "mir soen", "fr": "we say", "topic": "soen — to say", "s": 6, "note": ""}, {"id": "s6-si-soen", "lb": "si soen", "fr": "they say", "topic": "soen — to say", "s": 6, "note": ""}];
+
+/* ============ UI STRINGS ============
+   UI_LANG picks the interface language ("fr" or "en"); deck content (lb/fr fields) is untouched.
+   Every user-visible interface string must live here — never hard-code French/English in the render code. */
+var UI_LANG = "en";
+var UI = {
+  fr: {
+    modeCards:"Cartes", modeQuiz:"Quiz", modeList:"Liste",
+    statNew:"Nouveaux", statDue:"À revoir", statLrn:"En cours", statKnown:"Acquis",
+    totalKnownLabel:"Acquis au total",
+    sensLabel:"Sens",
+    dirFL:"FR → LB", dirLF:"LB → FR", dirMix:"Mélange",
+    ariaMode:"Mode", ariaSens:"Sens", ariaSessions:"Séances", ariaClose:"Fermer", ariaFlip:"Retourner la carte",
+    helpBtn:"Mode d'emploi", saveBtn:"Sauvegarde",
+    helpTitle:"Mode d'emploi",
+    helpIntro:"Tous les mots de tes séances avec Jim. Les nouveaux mots s'ajoutent après chaque séance ; ta progression reste.",
+    helpLi1:'<b>Cartes :</b> lis la carte, <b>dis la réponse à voix haute</b>, puis touche la carte pour vérifier. Ensuite : <i>Pas encore</i>, <i>Presque</i> ou <i>Je sais</i>.',
+    helpLi2:"Ce que tu sais revient de moins en moins souvent (1 jour, 3 jours, 1 semaine…). Ce qui est difficile revient tout de suite.",
+    helpLi3:'<b>FR → LB</b> est le sens le plus utile pour parler. Commence par <b>LB → FR</b> si un mot est tout nouveau.',
+    helpLi4:'<b>Quiz :</b> quatre réponses, une seule est juste.',
+    helpLi5:'<b>Liste :</b> tous les mots par séance. Point vert = acquis.',
+    helpLi6:"10 minutes par jour valent mieux qu'une heure le dimanche.",
+    helpLi7:"Ta progression est enregistrée dans ce navigateur, sur cet appareil, en double. Tous les quelques jours, l'appli te propose un <b>fichier de sauvegarde</b> : accepte-le, 10 secondes. Avec ce fichier, tu récupères tout — même sur un autre téléphone. Voir <b>Sauvegarde</b>, en bas.",
+    helpGo:"On y va",
+    saveTitle:"Sauvegarde",
+    saveIntro:"Ta progression vit dans ce navigateur. Un <b>fichier de sauvegarde</b> la met à l'abri : garde-le (Fichiers, iCloud, un e-mail à toi-même). Pour tout récupérer — ici ou sur un autre appareil — ouvre ce fichier avec <b>Restaurer depuis un fichier</b>.",
+    saveBtnDo:"Enregistrer un fichier de sauvegarde",
+    restoreFileLabel:"Restaurer depuis un fichier",
+    codeSummary:"Ou avec un code (copier / coller)",
+    yourCodeLabel:"Ton code",
+    copyCodeBtn:"Copier le code",
+    restoreCodeLabel:"Restaurer un code",
+    pasteCodePlaceholder:"Colle ton code ici",
+    restoreBtn:"Restaurer",
+    resetSummary:"Tout recommencer",
+    resetIntro:"Efface toute ta progression sur cet appareil.",
+    resetBtn2:"Effacer ma progression",
+    resetConfirmBtn:"Oui, tout effacer",
+    sessionDefault:function(s){ return "Séance "+s; },
+    deckInfo:function(n,ns){ return n+" mots · "+ns+" séances"; },
+    chipAll:"Tout",
+    streakN:function(n){ return n+" jours d'affilée"; },
+    streakToday:"Fait aujourd'hui ✓",
+    streakNone:"Pas encore pratiqué aujourd'hui",
+    bannerAdded:function(n,ss){ return "<b>"+n+" nouveaux mots</b> ajoutés ("+ss+"). Ta progression est intacte."; },
+    bannerBackup:'<b>Mets ta progression à l\'abri.</b> Enregistre ton fichier de sauvegarde — 10 secondes.',
+    bannerBackupBtn:"Sauvegarder",
+    bannerRecovered:"<b>Progression récupérée</b> depuis la copie de secours de cet appareil.",
+    emptyNewCap:function(n){ return "Tu as vu "+n+" nouveaux mots aujourd'hui. C'est assez : ils doivent reposer. Reviens demain."; },
+    emptyNoSelection:"Aucun mot dans cette sélection.",
+    emptyNothingDue:"Rien à revoir pour le moment. Les prochaines cartes reviennent quand ta mémoire en a besoin.",
+    emptyMoreBtn:"Encore 5 nouveaux mots",
+    emptyWord:"Äddi fir haut!",
+    pillNew:"Nouveau", pillKnown:"Acquis", pillLearning:"En cours",
+    langFront:"Français", langLB:"Lëtzebuergesch",
+    cueSpeak:"Dis-le en luxembourgeois, à voix haute.",
+    cueMeaning:"Qu'est-ce que ça veut dire ?",
+    cueRepeat:"Répète-le encore une fois, à voix haute.",
+    revealBtn:"Voir la réponse",
+    rateAgain:"Pas encore", rateAgainSmall:"tout de suite",
+    ratePresque:"Presque", ratePresqueSmall:"bientôt",
+    rateGood:"Je sais",
+    next1Day:"dans 1 jour",
+    nextDays:function(d){ return "dans "+d+" jours"; },
+    nextWeeks:function(w){ return "dans "+w+" sem."; },
+    nextMonth:"dans 1 mois",
+    quizCorrect:"Juste ! Question suivante",
+    quizWrong:"Suivante — ce mot revient bientôt",
+    legendNew:"nouveau", legendLearning:"en cours", legendKnown:"acquis",
+    backupSaved:"Fichier enregistré. Garde-le bien !",
+    backupDeclined:"Pas de fichier cette fois. Tu peux aussi copier le code ci-dessous.",
+    backupRateLimited:"Un instant, puis réessaie.",
+    backupFallback:"Si aucun fichier n'est apparu, copie le code ci-dessous et garde-le dans une note.",
+    backupFallbackErr:"Copie le code ci-dessous et garde-le dans une note.",
+    lastBackupToday:"Dernière sauvegarde : aujourd'hui.",
+    lastBackupAgo:function(s){ return "Dernière sauvegarde : "+s+"."; },
+    noBackupYet:"Pas encore de fichier de sauvegarde.",
+    agoToday:"aujourd'hui", agoYesterday:"hier",
+    agoDays:function(d){ return "il y a "+d+" jours"; },
+    restoreSuccess:"Progression restaurée.",
+    restoreError:function(code){ return "Ce code n'est pas valide. Vérifie qu'il commence par "+code+" et qu'il est complet."; },
+    copyOk:"Code copié.",
+    copyFallback:"Sélectionné : copie-le avec Ctrl/Cmd + C.",
+    resetDone:"Progression effacée.",
+    fileReadError:"Impossible de lire ce fichier.",
+    backupFileWord:"kaarten-sauvegarde"
+  },
+  en: {
+    modeCards:"Cards", modeQuiz:"Quiz", modeList:"List",
+    statNew:"New", statDue:"Due", statLrn:"Learning", statKnown:"Known",
+    totalKnownLabel:"Known overall",
+    sensLabel:"Direction",
+    dirFL:"EN → LB", dirLF:"LB → EN", dirMix:"Mix",
+    ariaMode:"Mode", ariaSens:"Direction", ariaSessions:"Sessions", ariaClose:"Close", ariaFlip:"Flip the card",
+    helpBtn:"How it works", saveBtn:"Backup",
+    helpTitle:"How it works",
+    helpIntro:"All the words from your sessions with Jim. New words are added after each session; your progress stays.",
+    helpLi1:'<b>Cards:</b> read the card, <b>say the answer out loud</b>, then tap the card to check. Then: <i>Not yet</i>, <i>Almost</i> or <i>I know it</i>.',
+    helpLi2:"What you know comes back less and less often (1 day, 3 days, 1 week…). What's hard comes back right away.",
+    helpLi3:'<b>EN → LB</b> is the most useful direction for speaking. Start with <b>LB → EN</b> if a word is brand new.',
+    helpLi4:'<b>Quiz:</b> four answers, only one is correct.',
+    helpLi5:'<b>List:</b> every word by session. Green dot = known.',
+    helpLi6:"10 minutes a day beats an hour on Sunday.",
+    helpLi7:"Your progress is saved in this browser, on this device, twice over. Every few days the app offers you a <b>backup file</b>: accept it, 10 seconds. With this file you get everything back — even on another phone. See <b>Backup</b>, below.",
+    helpGo:"Let's go",
+    saveTitle:"Backup",
+    saveIntro:"Your progress lives in this browser. A <b>backup file</b> keeps it safe: keep it somewhere (Files, iCloud, an email to yourself). To get everything back — here or on another device — open this file with <b>Restore from a file</b>.",
+    saveBtnDo:"Save a backup file",
+    restoreFileLabel:"Restore from a file",
+    codeSummary:"Or with a code (copy / paste)",
+    yourCodeLabel:"Your code",
+    copyCodeBtn:"Copy the code",
+    restoreCodeLabel:"Restore a code",
+    pasteCodePlaceholder:"Paste your code here",
+    restoreBtn:"Restore",
+    resetSummary:"Start over",
+    resetIntro:"Clears all your progress on this device.",
+    resetBtn2:"Clear my progress",
+    resetConfirmBtn:"Yes, clear everything",
+    sessionDefault:function(s){ return "Session "+s; },
+    deckInfo:function(n,ns){ return n+" words · "+ns+" sessions"; },
+    chipAll:"All",
+    streakN:function(n){ return n+" days in a row"; },
+    streakToday:"Done today ✓",
+    streakNone:"Not practised yet today",
+    bannerAdded:function(n,ss){ return "<b>"+n+" new words</b> added ("+ss+"). Your progress is untouched."; },
+    bannerBackup:'<b>Keep your progress safe.</b> Save your backup file — 10 seconds.',
+    bannerBackupBtn:"Save",
+    bannerRecovered:"<b>Progress recovered</b> from this device's backup copy.",
+    emptyNewCap:function(n){ return "You've seen "+n+" new words today. That's enough: they need to rest. Come back tomorrow."; },
+    emptyNoSelection:"No words in this selection.",
+    emptyNothingDue:"Nothing to review right now. The next cards come back when your memory needs them.",
+    emptyMoreBtn:"5 more new words",
+    emptyWord:"Äddi fir haut!",
+    pillNew:"New", pillKnown:"Known", pillLearning:"Learning",
+    langFront:"English", langLB:"Lëtzebuergesch",
+    cueSpeak:"Say it in Luxembourgish, out loud.",
+    cueMeaning:"What does it mean?",
+    cueRepeat:"Say it once more, out loud.",
+    revealBtn:"Show the answer",
+    rateAgain:"Not yet", rateAgainSmall:"right away",
+    ratePresque:"Almost", ratePresqueSmall:"soon",
+    rateGood:"I know it",
+    next1Day:"in 1 day",
+    nextDays:function(d){ return "in "+d+" days"; },
+    nextWeeks:function(w){ return "in "+w+" wk"; },
+    nextMonth:"in 1 month",
+    quizCorrect:"Correct! Next question",
+    quizWrong:"Next — this word will come back soon",
+    legendNew:"new", legendLearning:"learning", legendKnown:"known",
+    backupSaved:"File saved. Keep it safe!",
+    backupDeclined:"No file this time. You can also copy the code below.",
+    backupRateLimited:"One moment, then try again.",
+    backupFallback:"If no file appeared, copy the code below and keep it in a note.",
+    backupFallbackErr:"Copy the code below and keep it in a note.",
+    lastBackupToday:"Last backup: today.",
+    lastBackupAgo:function(s){ return "Last backup: "+s+"."; },
+    noBackupYet:"No backup file yet.",
+    agoToday:"today", agoYesterday:"yesterday",
+    agoDays:function(d){ return d+" days ago"; },
+    restoreSuccess:"Progress restored.",
+    restoreError:function(code){ return "This code isn't valid. Check that it starts with "+code+" and is complete."; },
+    copyOk:"Code copied.",
+    copyFallback:"Selected: copy it with Ctrl/Cmd + C.",
+    resetDone:"Progress cleared.",
+    fileReadError:"Couldn't read this file.",
+    backupFileWord:"cards-backup"
+  }
+};
+var T = UI[UI_LANG] || UI.fr;
+function applyI18n(){
+  document.querySelectorAll("[data-i18n]").forEach(function(el){ var k=el.getAttribute("data-i18n"); if(T[k]!==undefined) el.textContent = T[k]; });
+  document.querySelectorAll("[data-i18n-html]").forEach(function(el){ var k=el.getAttribute("data-i18n-html"); if(T[k]!==undefined) el.innerHTML = T[k]; });
+  document.querySelectorAll("[data-i18n-aria]").forEach(function(el){ var k=el.getAttribute("data-i18n-aria"); if(T[k]!==undefined) el.setAttribute("aria-label", T[k]); });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){ var k=el.getAttribute("data-i18n-placeholder"); if(T[k]!==undefined) el.setAttribute("placeholder", T[k]); });
+}
+
+var KEY = "ahmed-lb-trainer";        /* per-student storage key — never change after go-live */
+var CODE = "AHMED1:";                  /* backup-code prefix, e.g. MARGOT1: */
+var DAY = 864e5;
+var IV = [0, 0, 1, 3, 7, 16, 35]; // days per box
+var NEW_PER_DAY = 12;
+
+function load(){ try{ var r = localStorage.getItem(KEY); return r ? JSON.parse(r) : null; }catch(e){ return null; } }
+/* second copy in IndexedDB — survives a cleared localStorage */
+function idb(cb){ try{ var q=indexedDB.open("ahmed-kaarten",1); q.onupgradeneeded=function(){ q.result.createObjectStore("s"); }; q.onsuccess=function(){ cb(q.result); }; q.onerror=function(){}; }catch(e){} }
+function idbPut(o){ idb(function(db){ try{ db.transaction("s","readwrite").objectStore("s").put(o,"state"); }catch(e){} }); }
+function idbGet(cb){ var done=false; setTimeout(function(){ if(!done){done=true;cb(null);} },1500);
+  idb(function(db){ try{ var r=db.transaction("s").objectStore("s").get("state"); r.onsuccess=function(){ if(!done){done=true;cb(r.result||null);} }; r.onerror=function(){ if(!done){done=true;cb(null);} }; }catch(e){ if(!done){done=true;cb(null);} } }); }
+var idbReady = !!load(); // on a fresh device, read the IndexedDB copy before ever overwriting it
+function save(){ S.savedAt = Date.now(); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} if(idbReady) idbPut(JSON.parse(JSON.stringify(S))); }
+try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+var dlP = (window.claude && window.claude.use) ? window.claude.use("downloads").catch(function(){ return null; }) : Promise.resolve(null);
+
+var S = load();
+var fresh = !S;
+if(!S || S.v !== 1) S = {v:1, p:{}, known:[], dir:"fl", filter:"all", mode:"cards", streak:{d:"",n:0}, newToday:{d:"",n:0}};
+S.p = S.p || {};
+S.bk = S.bk || {t:0, n:0}; // last backup time, reviews since
+// Detect items added since last visit
+var byId = {}; DECK.forEach(function(c){ byId[c.id] = c; });
+var knownSet = {}; (S.known||[]).forEach(function(id){ knownSet[id]=1; });
+var added = fresh ? [] : DECK.filter(function(c){ return !knownSet[c.id]; });
+S.known = Object.keys(Object.assign(knownSet, byId)); // keeps old ids too
+save();
+
+function today(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+function st(id, d){ var p = S.p[id]; return (p && p[d]) || null; }
+function setSt(id, d, v){ S.p[id] = S.p[id] || {}; S.p[id][d] = v; }
+function dirsFor(){ return S.dir === "mix" ? ["fl","lf"] : [S.dir]; }
+
+function inFilter(c){ return S.filter === "all" || String(c.s) === S.filter; }
+function pool(){ return DECK.filter(inFilter); }
+
+function counts(){
+  var now = Date.now(), n=0, due=0, lrn=0, kn=0, total=0, knAll=0, totAll=0;
+  var ds = dirsFor();
+  DECK.forEach(function(c){
+    ds.forEach(function(d){
+      var x = st(c.id, d);
+      totAll++; if(x && x.b>=4) knAll++;
+      if(!inFilter(c)) return;
+      total++;
+      if(!x) n++;
+      else { if(x.due<=now) due++; if(x.b>=4) kn++; else lrn++; }
+    });
+  });
+  return {n:n,due:due,lrn:lrn,kn:kn,total:total,pct: totAll? Math.round(knAll/totAll*100):0};
+}
+
+function newLeft(){ if(S.newToday.d!==today()) S.newToday={d:today(),n:0}; return Math.max(0, NEW_PER_DAY - S.newToday.n); }
+
+var recent = []; // avoid immediate repeats
+function pick(){
+  var now = Date.now(), ds = dirsFor(), dueL = [], newL = [];
+  pool().forEach(function(c, i){
+    ds.forEach(function(d){
+      var x = st(c.id, d), k = c.id+"|"+d;
+      if(recent.indexOf(k) !== -1) return;
+      if(!x) newL.push({c:c,d:d,o:i});
+      else if(x.due<=now) dueL.push({c:c,d:d,due:x.due});
+    });
+  });
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  // Spaced repetition decides WHICH cards are eligible (due cards before new ones,
+  // daily cap on new cards); chance decides the ORDER among the eligible ones.
+  if(dueL.length) return rnd(dueL);
+  if(newL.length && newLeft()>0){
+    // new cards: random, within the earliest session that still has unseen cards
+    var s0 = Math.min.apply(null, newL.map(function(x){ return x.c.s; }));
+    var cand = newL.filter(function(x){ return x.c.s===s0; });
+    // in "Mélange", a word is met LB → FR before FR → LB
+    if(S.dir==="mix"){ var pref = cand.filter(function(x){ return x.d==="lf" || st(x.c.id,"lf"); }); if(pref.length) cand = pref; }
+    return rnd(cand);
+  }
+  return null;
+}
+
+function rate(item, g){
+  var x = st(item.c.id, item.d), wasNew = !x, now = Date.now();
+  x = x || {b:0, due:0, ok:0, ko:0};
+  if(g===0){ x.b=1; x.due=now+60e3; x.ko++; }
+  else if(g===1){ x.b=Math.max(2, x.b); x.due=now+Math.max(0.5, IV[x.b]*0.5)*DAY; x.ok++; }
+  else { x.b=Math.min(6, Math.max(2, x.b+1)); x.due=now+IV[x.b]*DAY; x.ok++; }
+  x.t = now;
+  setSt(item.c.id, item.d, x);
+  if(wasNew){ newLeft(); S.newToday.n++; }
+  S.bk.n++;
+  var t=today();
+  if(S.streak.d!==t){
+    var y=new Date(Date.now()-DAY), yd=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate();
+    S.streak = {d:t, n: S.streak.d===yd ? S.streak.n+1 : 1};
+  }
+  recent.push(item.c.id+"|"+item.d); if(recent.length>3) recent.shift();
+  save();
+}
+
+var $ = function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/[&<>"]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];}); }
+function sideText(c, d, front){ return (d==="fl") === front ? c.fr : c.lb; }
+function sideLang(d, front){ return (d==="fl") === front ? T.langFront : T.langLB; }
+function boxPill(x){ if(!x) return '<span class="pill r new">'+T.pillNew+'</span>'; if(x.b>=4) return '<span class="pill r b'+x.b+'">'+T.pillKnown+'</span>'; return '<span class="pill r b'+x.b+'">'+T.pillLearning+'</span>'; }
+function sesShort(s){ var l = SESSIONS[s] || T.sessionDefault(s); return l.split(" · ")[0]; }
+
+function header(){
+  var k = counts();
+  $("sNew").textContent=k.n; $("sDue").textContent=k.due; $("sLrn").textContent=k.lrn; $("sKnown").textContent=k.kn;
+  $("fill").style.width=k.pct+"%"; $("pct").textContent=k.pct+"%";
+  var keys = Object.keys(SESSIONS).sort(function(a,b){return a-b;});
+  $("deckInfo").textContent = T.deckInfo(DECK.length, keys.filter(function(s){return s<90;}).length);
+  var h = '<button class="chip'+(S.filter==="all"?" on":"")+'" data-f="all" type="button">'+T.chipAll+' <small>'+DECK.length+'</small></button>';
+  keys.forEach(function(s){
+    var n = DECK.filter(function(c){return String(c.s)===s;}).length;
+    h += '<button class="chip'+(S.filter===s?" on":"")+'" data-f="'+s+'" type="button">'+esc(SESSIONS[s])+' <small>'+n+'</small></button>';
+  });
+  $("chips").innerHTML = h;
+  Array.prototype.forEach.call($("dirSeg").children, function(b){ b.classList.toggle("on", b.dataset.d===S.dir); });
+  ["Cards","Quiz","List"].forEach(function(m){ $("m"+m).classList.toggle("on", S.mode===m.toLowerCase()); });
+  $("dirSeg").parentNode.hidden = S.mode==="list";
+  $("streak").textContent = S.streak.n>1 && (S.streak.d===today()) ? T.streakN(S.streak.n) : (S.streak.d===today() ? T.streakToday : T.streakNone);
+}
+
+function banners(){
+  var h = "";
+  if(added.length){
+    var ss = {}; added.forEach(function(c){ ss[c.s]=1; });
+    h += '<div class="banner" id="bNew"><span>'+T.bannerAdded(added.length, Object.keys(ss).map(sesShort).join(", "))+'</span><button type="button" data-dismiss="bNew" aria-label="'+T.ariaClose+'">✕</button></div>';
+  }
+  if(needBackup()){
+    h += '<div class="banner warm" id="bBk"><span>'+T.bannerBackup+'</span><button type="button" class="btn primary" id="bkBanner" style="margin-left:auto;padding:6px 12px;font-size:.82rem;color:#fff">'+T.bannerBackupBtn+'</button></div>';
+  }
+  if(recovered){
+    h += '<div class="banner" id="bRec"><span>'+T.bannerRecovered+'</span><button type="button" data-dismiss="bRec" aria-label="'+T.ariaClose+'">✕</button></div>';
+  }
+  $("banners").innerHTML = h;
+}
+function reviewed(){ return Object.keys(S.p).length > 0; }
+function needBackup(){ return reviewed() && S.bk.n >= 15 && (Date.now() - (S.bk.t||0)) > 3*DAY; }
+var recovered = false;
+
+var cur = null, flipped = false, answered = false;
+
+function empty(){
+  var k = counts(), msg;
+  if(k.n>0 && newLeft()===0) msg = T.emptyNewCap(NEW_PER_DAY);
+  else if(k.total===0) msg = T.emptyNoSelection;
+  else msg = T.emptyNothingDue;
+  var more = (k.n>0 && newLeft()===0) ? '<button class="next" id="moreNew" type="button">'+T.emptyMoreBtn+'</button>' : '';
+  return '<div class="empty"><div class="word">'+T.emptyWord+'</div><p>'+esc(msg)+'</p>'+more+'</div>';
+}
+
+function renderCards(){
+  cur = pick(); flipped = false;
+  if(!cur){ $("main").innerHTML = empty(); return; }
+  var c=cur.c, d=cur.d, x=st(c.id,d);
+  var note = c.note ? '<div class="note">'+esc(c.note)+'</div>' : '';
+  $("main").innerHTML =
+    '<div class="card" id="card" role="button" tabindex="0" aria-label="'+T.ariaFlip+'">'+
+     '<div class="inner">'+
+      '<div class="face"><span class="pill l">'+esc(sesShort(c.s))+' · '+esc(c.topic)+'</span>'+boxPill(x)+
+        '<div class="lang">'+esc(sideLang(d,true))+'</div><div class="word">'+esc(sideText(c,d,true))+'</div>'+
+        (d==="fl"?note:'')+'<div class="cue">'+esc(d==="fl"?T.cueSpeak:T.cueMeaning)+'</div></div>'+
+      '<div class="face back"><span class="pill l">'+esc(sesShort(c.s))+' · '+esc(c.topic)+'</span>'+
+        '<div class="lang">'+esc(sideLang(d,false))+'</div><div class="word">'+esc(sideText(c,d,false))+'</div>'+note+
+        '<div class="echo">'+esc(sideText(c,d,true))+'</div>'+(d==="fl"?'<div class="cue">'+esc(T.cueRepeat)+'</div>':'')+'</div>'+
+     '</div></div>'+
+    '<button class="reveal" id="reveal" type="button">'+esc(T.revealBtn)+'</button>'+
+    '<div class="rate off" id="rate">'+
+      '<button class="a" data-g="0" type="button">'+esc(T.rateAgain)+'<small>'+esc(T.rateAgainSmall)+'</small></button>'+
+      '<button class="h" data-g="1" type="button">'+esc(T.ratePresque)+'<small>'+esc(T.ratePresqueSmall)+'</small></button>'+
+      '<button class="g" data-g="2" type="button">'+esc(T.rateGood)+'<small>'+esc(nextLabel(x))+'</small></button>'+
+    '</div>';
+}
+function nextLabel(x){ var b = x ? Math.min(6, Math.max(2,x.b+1)) : 2; var d=IV[b]; return d===1?T.next1Day:(d<7?T.nextDays(d):(d<30?T.nextWeeks(Math.round(d/7)):T.nextMonth)); }
+function flip(){
+  if(!cur || flipped) return; flipped = true;
+  $("card").classList.add("flip"); $("reveal").hidden = true; $("rate").classList.remove("off");
+}
+
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+function renderQuiz(){
+  cur = pick(); answered = false;
+  if(!cur){ $("main").innerHTML = empty(); return; }
+  var c=cur.c, d=cur.d, ans = sideText(c,d,false);
+  var same = DECK.filter(function(o){ return o.id!==c.id && o.topic===c.topic && sideText(o,d,false)!==ans; });
+  var other = DECK.filter(function(o){ return o.id!==c.id && o.topic!==c.topic && sideText(o,d,false)!==ans; });
+  var picks = shuffle(same).slice(0,3); if(picks.length<3) picks = picks.concat(shuffle(other).slice(0,3-picks.length));
+  var seen = {}; seen[ans]=1;
+  var opts = [ans]; picks.forEach(function(o){ var t=sideText(o,d,false); if(!seen[t]){ seen[t]=1; opts.push(t); } });
+  shuffle(opts);
+  $("main").innerHTML =
+    '<div class="prompt"><span class="pill l">'+esc(sesShort(c.s))+' · '+esc(c.topic)+'</span>'+boxPill(st(c.id,d))+
+      '<div class="lang" style="margin-top:18px">'+esc(sideLang(d,true))+'</div><div class="word">'+esc(sideText(c,d,true))+'</div>'+
+      (c.note?'<div class="note">'+esc(c.note)+'</div>':'')+'</div>'+
+    '<div class="opts" id="opts">'+opts.map(function(o){ return '<button class="opt" type="button" data-v="'+esc(o)+'">'+esc(o)+'</button>'; }).join("")+'</div>';
+  $("main").dataset.ans = ans;
+}
+function answer(btn){
+  if(answered) return; answered = true;
+  var ans = $("main").dataset.ans, ok = btn.dataset.v===ans;
+  Array.prototype.forEach.call($("opts").children, function(b){ b.disabled=true; if(b.dataset.v===ans) b.classList.add("ok"); });
+  if(!ok) btn.classList.add("ko");
+  rate(cur, ok?2:0); header();
+  var nx = document.createElement("button"); nx.className="next"; nx.type="button"; nx.id="nextQ"; nx.textContent = ok ? T.quizCorrect : T.quizWrong;
+  $("main").appendChild(nx); nx.focus();
+}
+
+function renderList(){
+  var keys = Object.keys(SESSIONS).sort(function(a,b){return a-b;}).filter(function(s){ return S.filter==="all"||S.filter===s; });
+  var h = '<div class="legend"><span><i class="dot"></i>'+esc(T.legendNew)+'</span><span><i class="dot l"></i>'+esc(T.legendLearning)+'</span><span><i class="dot k"></i>'+esc(T.legendKnown)+'</span></div><div class="list">';
+  keys.forEach(function(s){
+    var items = DECK.filter(function(c){ return String(c.s)===s; });
+    if(!items.length) return;
+    h += '<section><h3>'+esc(SESSIONS[s])+'</h3><ul>';
+    items.forEach(function(c){
+      var a=st(c.id,"fl"), b=st(c.id,"lf"), best=Math.max(a?a.b:-1, b?b.b:-1);
+      var cls = best<0 ? "" : (best>=4 ? " k" : " l");
+      h += '<li><i class="dot'+cls+'"></i><span class="lb">'+esc(c.lb)+'</span><span class="fr">'+esc(c.fr)+'</span></li>';
+    });
+    h += '</ul></section>';
+  });
+  $("main").innerHTML = h + '</div>';
+}
+
+function render(){ header(); if(S.mode==="quiz") renderQuiz(); else if(S.mode==="list") renderList(); else renderCards(); }
+
+// ---- events
+document.addEventListener("click", function(e){
+  var t = e.target.closest("button,[data-close],#card"); if(!t) return;
+  if(t.id==="card"||t.id==="reveal"){ flip(); return; }
+  if(t.dataset.g!==undefined && cur){ rate(cur, +t.dataset.g); render(); return; }
+  if(t.classList.contains("opt")){ answer(t); return; }
+  if(t.id==="nextQ"){ renderQuiz(); return; }
+  if(t.id==="moreNew"){ S.newToday.n = Math.max(0, S.newToday.n-5); save(); render(); return; }
+  if(t.dataset.f){ S.filter=t.dataset.f; recent=[]; save(); render(); return; }
+  if(t.dataset.d){ S.dir=t.dataset.d; recent=[]; save(); render(); return; }
+  if(t.id==="mCards"||t.id==="mQuiz"||t.id==="mList"){ S.mode=t.id.slice(1).toLowerCase(); save(); render(); return; }
+  if(t.dataset.dismiss){ var b=$(t.dataset.dismiss); if(b) b.remove(); added=[]; return; }
+  if(t.id==="helpBtn"){ $("helpSheet").hidden=false; return; }
+  if(t.id==="saveBtn"){ openSave(); return; }
+  if(t.hasAttribute("data-close")){ t.closest(".sheet").hidden=true; try{localStorage.setItem(KEY+"-help","1");}catch(_){} render(); return; }
+  if(t.id==="copyBtn"){ var v=$("exportBox").value; var ok=function(){ $("saveStatus").textContent=T.copyOk; };
+    try{ navigator.clipboard.writeText(v).then(ok, function(){ $("exportBox").select(); $("saveStatus").textContent=T.copyFallback; }); }
+    catch(_){ $("exportBox").select(); $("saveStatus").textContent=T.copyFallback; } return; }
+  if(t.id==="importBtn"){ doImport(); return; }
+  if(t.id==="bkBtn"||t.id==="bkBanner"){ doBackup(); return; }
+  if(t.id==="resetBtn"){ t.hidden=true; $("resetConfirm").hidden=false; return; }
+  if(t.id==="resetConfirm"){ S.p={}; S.streak={d:"",n:0}; S.newToday={d:"",n:0}; save(); $("saveStatus").textContent=T.resetDone; t.hidden=true; $("resetBtn").hidden=false; render(); return; }
+});
+document.addEventListener("keydown", function(e){
+  if(!$("helpSheet").hidden || !$("saveSheet").hidden) return;
+  if(S.mode!=="cards" || !cur) return;
+  if((e.key===" "||e.key==="Enter") && !flipped){ e.preventDefault(); flip(); }
+  else if(flipped && (e.key==="1"||e.key==="2"||e.key==="3")){ rate(cur, +e.key-1); render(); }
+});
+document.querySelectorAll(".sheet").forEach(function(s){ s.addEventListener("click", function(e){ if(e.target===s){ s.hidden=true; render(); } }); });
+
+function makeCode(){
+  var data = {v:1, p:S.p, streak:S.streak, known:S.known, at:Date.now()};
+  return CODE+btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+}
+function ago(t){ var d=Math.floor((Date.now()-t)/DAY); return d<=0?T.agoToday:(d===1?T.agoYesterday:T.agoDays(d)); }
+function stamp(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
+function backupDone(){ S.bk={t:Date.now(), n:0}; save(); banners(); if(!$("saveSheet").hidden) $("bkInfo").textContent=T.lastBackupToday; }
+function doBackup(){
+  var code = makeCode(), name = "ahmed-"+T.backupFileWord+"-"+stamp()+".txt";
+  var say = function(m){ $("saveStatus").textContent = m; };
+  dlP.then(function(dl){
+    if(dl){
+      return dl.save({filename:name, data:code}).then(function(){ backupDone(); say(T.backupSaved); },
+        function(e){ var c=e&&e.code;
+          if(c==="declined"){ if($("saveSheet").hidden) openSave(); say(T.backupDeclined); }
+          else if(c==="rate_limited"){ say(T.backupRateLimited); }
+          else fallback(); });
+    }
+    fallback();
+  });
+  function fallback(){
+    try{
+      var a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([code],{type:"text/plain"})); a.download=name;
+      document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },1000);
+      backupDone(); if($("saveSheet").hidden) openSave(); say(T.backupFallback);
+    }catch(_){ if($("saveSheet").hidden) openSave(); say(T.backupFallbackErr); }
+  }
+}
+function openSave(){
+  var code = makeCode();
+  $("exportBox").value = code; $("importBox").value=""; $("saveStatus").textContent="";
+  $("resetConfirm").hidden=true; $("resetBtn").hidden=false;
+  $("bkInfo").textContent = S.bk.t ? T.lastBackupAgo(ago(S.bk.t)) : T.noBackupYet;
+  $("saveSheet").hidden=false;
+}
+function doImport(txt){
+  var raw = (typeof txt==="string" ? txt : $("importBox").value).trim();
+  try{
+    if(raw.indexOf(CODE)!==0) throw 0;
+    var d = JSON.parse(decodeURIComponent(escape(atob(raw.slice(CODE.length)))));
+    if(!d || typeof d.p!=="object") throw 0;
+    // merge: for each item/direction keep the more advanced state
+    Object.keys(d.p).forEach(function(id){
+      Object.keys(d.p[id]).forEach(function(dir){
+        var a = st(id,dir), b = d.p[id][dir];
+        if(!a || (b.t||0) > (a.t||0)) setSt(id,dir,b);
+      });
+    });
+    if(d.streak && d.streak.n > S.streak.n) S.streak = d.streak;
+    if(d.at) S.bk = {t: Math.max(S.bk.t||0, d.at), n: 0};
+    $("bkInfo").textContent = S.bk.t ? T.lastBackupAgo(ago(S.bk.t)) : "";
+    save(); $("saveStatus").textContent = T.restoreSuccess; banners(); render();
+  }catch(_){ $("saveStatus").textContent = T.restoreError(CODE); }
+}
+
+$("bkFile").addEventListener("change", function(){
+  var f=this.files && this.files[0]; if(!f) return;
+  var r=new FileReader(); r.onload=function(){ doImport(String(r.result)); }; r.onerror=function(){ $("saveStatus").textContent=T.fileReadError; };
+  r.readAsText(f); this.value="";
+});
+applyI18n(); banners(); render();
+/* localStorage empty but the IndexedDB copy survived → bring it back */
+if(fresh){ idbGet(function(o){
+  idbReady = true;
+  if(!(o && o.v===1 && o.p && Object.keys(o.p).length)){ save(); return; }
+  {
+    S = o; S.bk = S.bk || {t:0,n:0}; S.known = Object.keys(byId); added = []; recovered = true;
+    save(); banners(); render(); $("helpSheet").hidden = true;
+  }
+}); }
+var seenHelp = false; try{ seenHelp = localStorage.getItem(KEY+"-help")==="1"; }catch(_){}
+if(fresh && !seenHelp) $("helpSheet").hidden = false;
+})();
+</script>
+
+</body></html>

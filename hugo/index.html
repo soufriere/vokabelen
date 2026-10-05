@@ -1,0 +1,719 @@
+<!doctype html><html lang="fr"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Hugos Kaarten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+:root{
+  --bg:#EDF1F3; --surface:#FFFFFF; --surface-2:#E2E8EC; --ink:#1B2530; --ink-dim:#56626E; --line:#CDD6DC;
+  --sky:#2F7FB5; --sky-tint:#DCEBF5; --red:#C8323A; --red-tint:#F6DEDF;
+  --amber:#A8741F; --amber-tint:#F3E7CF; --moss:#467A3C; --moss-tint:#DFECD9;
+  --shadow:0 1px 2px rgba(27,37,48,.06),0 10px 24px -14px rgba(27,37,48,.28);
+  --r:18px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#141A20; --surface:#1E262E; --surface-2:#27313A; --ink:#E8EDF1; --ink-dim:#9AA7B2; --line:#33404B;
+  --sky:#7DB8E0; --sky-tint:#1F3342; --red:#EE7A7F; --red-tint:#3D2327;
+  --amber:#E0AE5A; --amber-tint:#3A301F; --moss:#95C688; --moss-tint:#253424;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 28px -14px rgba(0,0,0,.7);}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#141A20; --surface:#1E262E; --surface-2:#27313A; --ink:#E8EDF1; --ink-dim:#9AA7B2; --line:#33404B;
+  --sky:#7DB8E0; --sky-tint:#1F3342; --red:#EE7A7F; --red-tint:#3D2327;
+  --amber:#E0AE5A; --amber-tint:#3A301F; --moss:#95C688; --moss-tint:#253424;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 28px -14px rgba(0,0,0,.7);}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-inline:16px}
+button{font-family:inherit;color:inherit}
+.app{max-width:520px;margin:0 auto;padding-block:18px 28px;display:flex;flex-direction:column;gap:14px;min-height:100%}
+.flag{display:flex;height:5px;border-radius:3px;overflow:hidden;width:54px}
+.flag i{flex:1}.flag i:nth-child(1){background:#C8323A}.flag i:nth-child(2){background:#fff;box-shadow:inset 0 0 0 1px var(--line)}.flag i:nth-child(3){background:#4AA3DF}
+header{display:flex;flex-direction:column;gap:12px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+h1{font-family:"Bricolage Grotesque",Georgia,sans-serif;font-weight:800;font-size:clamp(1.45rem,6vw,1.85rem);letter-spacing:-.02em;margin:4px 0 0;text-wrap:balance;line-height:1.1}
+.sub{color:var(--ink-dim);font-size:.9rem;margin:0}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:7px 13px;font-weight:700;font-size:.82rem;color:var(--ink-dim);cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 4px;text-align:center}
+.stat b{display:block;font-size:1.25rem;font-variant-numeric:tabular-nums;line-height:1.15}
+.stat span{font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-dim)}
+.stat.due b{color:var(--red)}.stat.lrn b{color:var(--amber)}.stat.known b{color:var(--moss)}
+.bar{display:flex;align-items:center;gap:10px;font-size:.78rem;color:var(--ink-dim)}
+.track{flex:1;height:10px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.track i{display:block;height:100%;background:var(--moss);border-radius:99px;transition:width .4s}
+.bar b{color:var(--moss);font-variant-numeric:tabular-nums;min-width:3ch;text-align:right}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:.84rem;font-weight:700;color:var(--ink-dim);cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--sky-tint);border-color:var(--sky);color:var(--sky)}
+.chip small{font-weight:400;opacity:.8}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.lbl{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
+.banner{display:flex;gap:10px;align-items:flex-start;background:var(--sky-tint);border:1px solid var(--sky);color:var(--ink);border-radius:14px;padding:11px 14px;font-size:.92rem}
+.banner.warm{background:var(--amber-tint);border-color:var(--amber)}
+.banner button{margin-left:auto;background:none;border:0;cursor:pointer;color:var(--ink-dim);font-size:1rem;padding:0 4px}
+main{flex:1;display:flex;flex-direction:column;gap:14px}
+.card{position:relative;min-height:290px;perspective:1200px;cursor:pointer;border-radius:var(--r)}
+.inner{position:absolute;inset:0;transition:transform .45s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.card.flip .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px 22px 30px;gap:12px}
+.face.back{transform:rotateY(180deg);background:var(--sky-tint)}
+.pill{position:absolute;top:14px;font-size:.7rem;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-dim)}
+.pill.l{left:14px}.pill.r{right:14px}
+.pill.new{background:var(--red-tint);border-color:var(--red);color:var(--red)}
+.pill.b1,.pill.b2,.pill.b3{background:var(--amber-tint);border-color:var(--amber);color:var(--amber)}
+.pill.b4,.pill.b5,.pill.b6{background:var(--moss-tint);border-color:var(--moss);color:var(--moss)}
+.lang{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
+.word{font-size:clamp(1.55rem,7vw,2.2rem);font-weight:700;line-height:1.25;text-wrap:balance;word-break:break-word}
+.back .word{color:var(--sky)}
+.note{font-size:.88rem;color:var(--ink-dim);font-style:italic}
+.cue{font-size:.86rem;color:var(--ink-dim)}
+.echo{font-size:.95rem;color:var(--ink-dim)}
+.rate{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rate button{border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 4px;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.rate button small{font-weight:400;font-size:.72rem;color:var(--ink-dim)}
+.rate .a{border-color:var(--red);color:var(--red)}.rate .h{border-color:var(--amber);color:var(--amber)}.rate .g{border-color:var(--moss);color:var(--moss)}
+.rate.off{visibility:hidden}
+.reveal{border:0;background:var(--ink);color:var(--bg);border-radius:14px;padding:14px;font-weight:700;font-size:1rem;cursor:pointer}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:14px 16px;font-size:1.05rem;cursor:pointer}
+.opt.ok{border-color:var(--moss);background:var(--moss-tint);color:var(--moss);font-weight:700}
+.opt.ko{border-color:var(--red);background:var(--red-tint);color:var(--red)}
+.opt:disabled{cursor:default}
+.prompt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px 20px;text-align:center;display:flex;flex-direction:column;gap:8px;position:relative}
+.next{border:1.5px solid var(--ink);background:transparent;border-radius:14px;padding:12px;font-weight:700;cursor:pointer}
+.empty{text-align:center;padding:36px 16px;display:flex;flex-direction:column;gap:10px;align-items:center;color:var(--ink-dim)}
+.empty .word{color:var(--moss)}
+.list{display:flex;flex-direction:column;gap:18px}
+.list h3{margin:0 0 6px;font-family:"Bricolage Grotesque",Georgia,sans-serif;font-size:1.05rem}
+.list ul{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.list li{display:grid;grid-template-columns:12px 1fr 1fr;gap:10px;align-items:baseline;padding:9px 12px;border-top:1px solid var(--line);font-size:.93rem}
+.list li:first-child{border-top:0}
+.list li .lb{font-weight:700}.list li .fr{color:var(--ink-dim)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--line);align-self:center}
+.dot.l{background:var(--amber)}.dot.k{background:var(--moss)}
+.legend{display:flex;gap:14px;font-size:.8rem;color:var(--ink-dim);flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+footer{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.8rem;color:var(--ink-dim);flex-wrap:wrap}
+.link{background:none;border:0;color:var(--ink-dim);text-decoration:underline;cursor:pointer;font-size:.8rem;padding:4px}
+.sheet{position:fixed;inset:0;z-index:5;background:rgba(10,14,18,.5);display:flex;align-items:flex-end;justify-content:center;padding:0 12px calc(env(safe-area-inset-bottom,0px) + 12px)}
+[hidden]{display:none!important}
+.sheet-card{width:100%;max-width:500px;max-height:85vh;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.sheet-card h2{margin:0;font-family:"Bricolage Grotesque",Georgia,sans-serif;font-size:1.2rem}
+.sheet-card p,.sheet-card li{font-size:.92rem;margin:0}
+.sheet-card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px}
+textarea{width:100%;font:.75rem/1.4 ui-monospace,Menlo,monospace;background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;resize:vertical}
+.btn{align-self:flex-start;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:9px 15px;font-weight:700;font-size:.88rem;cursor:pointer}
+.btn.primary{background:var(--sky);border-color:var(--sky);color:#fff}
+.btn.danger{background:var(--red-tint);border-color:var(--red);color:var(--red)}
+.status{font-size:.82rem;color:var(--moss);min-height:1.2em}
+details summary{cursor:pointer;font-weight:700;color:var(--red);font-size:.85rem}
+.x{background:none;border:0;cursor:pointer;font-size:1.1rem;color:var(--ink-dim)}
+:focus-visible{outline:2.5px solid var(--sky);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.inner,.track i{transition:none}}
+</style>
+
+<div class="app">
+  <header>
+    <div class="top">
+      <div>
+        <div class="flag" aria-hidden="true"><i></i><i></i><i></i></div>
+        <h1>Hugos Kaarten</h1>
+        <p class="sub" id="deckInfo"></p>
+      </div>
+      <div class="seg" role="group" data-i18n-aria="ariaMode">
+        <button id="mCards" class="on" type="button" data-i18n="modeCards">Cartes</button>
+        <button id="mQuiz" type="button" data-i18n="modeQuiz">Quiz</button>
+        <button id="mList" type="button" data-i18n="modeList">Liste</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="sNew">0</b><span data-i18n="statNew">Nouveaux</span></div>
+      <div class="stat due"><b id="sDue">0</b><span data-i18n="statDue">À revoir</span></div>
+      <div class="stat lrn"><b id="sLrn">0</b><span data-i18n="statLrn">En cours</span></div>
+      <div class="stat known"><b id="sKnown">0</b><span data-i18n="statKnown">Acquis</span></div>
+    </div>
+    <div class="bar"><span data-i18n="totalKnownLabel">Acquis au total</span><div class="track"><i id="fill"></i></div><b id="pct">0%</b></div>
+    <div class="chips" id="chips" role="group" data-i18n-aria="ariaSessions"></div>
+    <div class="row">
+      <span class="lbl" data-i18n="sensLabel">Sens</span>
+      <div class="seg" id="dirSeg" role="group" data-i18n-aria="ariaSens">
+        <button data-d="fl" type="button" data-i18n="dirFL">FR → LB</button>
+        <button data-d="lf" type="button" data-i18n="dirLF">LB → FR</button>
+        <button data-d="mix" type="button" data-i18n="dirMix">Mélange</button>
+      </div>
+    </div>
+  </header>
+  <div id="banners"></div>
+  <main id="main"></main>
+  <footer>
+    <span id="streak"></span>
+    <span><button class="link" id="helpBtn" type="button" data-i18n="helpBtn">Mode d'emploi</button> · <button class="link" id="saveBtn" type="button" data-i18n="saveBtn">Sauvegarde</button></span>
+  </footer>
+</div>
+
+<div class="sheet" id="helpSheet" hidden>
+  <div class="sheet-card">
+    <div class="row"><h2 data-i18n="helpTitle">Mode d'emploi</h2><button class="x" data-close type="button" data-i18n-aria="ariaClose">✕</button></div>
+    <p data-i18n="helpIntro">Tous les mots de tes séances avec Jim. Les nouveaux mots s'ajoutent après chaque séance ; ta progression reste.</p>
+    <ul>
+      <li data-i18n-html="helpLi1"><b>Cartes :</b> lis la carte, <b>dis la réponse à voix haute</b>, puis touche la carte pour vérifier. Ensuite : <i>Pas encore</i>, <i>Presque</i> ou <i>Je sais</i>.</li>
+      <li data-i18n="helpLi2">Ce que tu sais revient de moins en moins souvent (1 jour, 3 jours, 1 semaine…). Ce qui est difficile revient tout de suite.</li>
+      <li data-i18n-html="helpLi3"><b>FR → LB</b> est le sens le plus utile pour parler. Commence par <b>LB → FR</b> si un mot est tout nouveau.</li>
+      <li data-i18n-html="helpLi4"><b>Quiz :</b> quatre réponses, une seule est juste.</li>
+      <li data-i18n-html="helpLi5"><b>Liste :</b> tous les mots par séance. Point vert = acquis.</li>
+      <li data-i18n="helpLi6">10 minutes par jour valent mieux qu'une heure le dimanche.</li>
+      <li data-i18n-html="helpLi7">Ta progression est enregistrée dans ce navigateur, sur cet appareil, en double. Tous les quelques jours, l'appli te propose un <b>fichier de sauvegarde</b> : accepte-le, 10 secondes. Avec ce fichier, tu récupères tout — même sur un autre téléphone. Voir <b>Sauvegarde</b>, en bas.</li>
+    </ul>
+    <button class="btn primary" data-close type="button" data-i18n="helpGo">On y va</button>
+  </div>
+</div>
+
+<div class="sheet" id="saveSheet" hidden>
+  <div class="sheet-card">
+    <div class="row"><h2 data-i18n="saveTitle">Sauvegarde</h2><button class="x" data-close type="button" data-i18n-aria="ariaClose">✕</button></div>
+    <p data-i18n-html="saveIntro">Ta progression vit dans ce navigateur. Un <b>fichier de sauvegarde</b> la met à l'abri : garde-le (Fichiers, iCloud, un e-mail à toi-même). Pour tout récupérer — ici ou sur un autre appareil — ouvre ce fichier avec <b>Restaurer depuis un fichier</b>.</p>
+    <p class="note" id="bkInfo" style="font-style:normal"></p>
+    <button class="btn primary" id="bkBtn" type="button" data-i18n="saveBtnDo">Enregistrer un fichier de sauvegarde</button>
+    <span class="lbl" style="margin-top:6px" data-i18n="restoreFileLabel">Restaurer depuis un fichier</span>
+    <input type="file" id="bkFile" accept=".txt,.json,text/plain,application/json" style="font:inherit;font-size:.85rem">
+    <details style="margin-top:4px"><summary style="color:var(--ink-dim)" data-i18n="codeSummary">Ou avec un code (copier / coller)</summary>
+    <span class="lbl" data-i18n="yourCodeLabel">Ton code</span>
+    <textarea id="exportBox" rows="4" readonly></textarea>
+    <button class="btn" id="copyBtn" type="button" data-i18n="copyCodeBtn">Copier le code</button>
+    <span class="lbl" style="margin-top:6px" data-i18n="restoreCodeLabel">Restaurer un code</span>
+    <textarea id="importBox" rows="3" placeholder="Colle ton code ici" data-i18n-placeholder="pasteCodePlaceholder"></textarea>
+    <button class="btn" id="importBtn" type="button" data-i18n="restoreBtn">Restaurer</button>
+    </details>
+    <p class="status" id="saveStatus" role="status"></p>
+    <details>
+      <summary data-i18n="resetSummary">Tout recommencer</summary>
+      <p style="margin-top:8px" data-i18n="resetIntro">Efface toute ta progression sur cet appareil.</p>
+      <button class="btn danger" id="resetBtn" type="button" data-i18n="resetBtn2">Effacer ma progression</button>
+      <button class="btn danger" id="resetConfirm" type="button" hidden data-i18n="resetConfirmBtn">Oui, tout effacer</button>
+    </details>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ============ DATA ============
+   To add a session: append its label to SESSIONS and its items to DECK.
+   Progress is keyed by each item's "id" — never change an existing id. */
+var SESSIONS = {"2": "Séance 2 · Accident de la route", "3": "Séance 3 · Récits de vie", "4": "Séance 4 · Camp d'archéologie, âges, modaux", "5": "Séance 5 · De Samschdeg Moien", "6": "Séance 6 · Logement et aides étudiantes", "7": "Séance 7 · 50 Joer zesummen", "8": "Séance 8 · 50 Joer zesummen (suite)", "9": "Séance 9 · Eng Hand gebraucht"};
+var DECK = [{"id": "s2-gebuer-ginn", "lb": "gebuer ginn", "fr": "naître", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-d-kandheet", "lb": "d'Kandheet", "fr": "l'enfance", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-an-d-schoul-goen", "lb": "an d'Schoul goen", "fr": "aller à l'école", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-d-puberteit", "lb": "d'Pubertéit", "fr": "l'adolescence", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-erwuesse-ginn", "lb": "erwuesse ginn", "fr": "devenir adulte", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-sech-bestueden-bestuet-sinn", "lb": "sech bestueden / bestuet sinn", "fr": "se marier / être marié", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-kanner-kreien", "lb": "Kanner kréien", "fr": "avoir des enfants", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-an-d-pensioun-goen", "lb": "an d'Pensioun goen", "fr": "partir à la retraite", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-al-ginn", "lb": "al ginn", "fr": "vieillir", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-stierwen-verscheeden", "lb": "stierwen / verscheeden", "fr": "mourir / décéder", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-d-begriefnis-den-enterrement", "lb": "d'Begriefnis, den Enterrement", "fr": "l'enterrement", "topic": "D'Etappen am Liewen — Les étapes de la vie", "s": 2, "note": ""}, {"id": "s2-d-rettungsekipp-en", "lb": "d'Rettungsekipp (-en)", "fr": "l'équipe de secours", "topic": "les secours", "s": 2, "note": ""}, {"id": "s2-de-secouriste-n", "lb": "de Secouriste (-n)", "fr": "le secouriste", "topic": "les secours", "s": 2, "note": ""}, {"id": "s2-de-samu", "lb": "de SAMU", "fr": "le SAMU", "topic": "les secours", "s": 2, "note": ""}, {"id": "s2-d-police-technique", "lb": "d'Police technique", "fr": "la police technique / scientifique", "topic": "les secours", "s": 2, "note": ""}, {"id": "s2-op-der-plaz", "lb": "op der Plaz", "fr": "sur place", "topic": "les secours", "s": 2, "note": ""}, {"id": "s2-am-asaz", "lb": "am Asaz", "fr": "en intervention", "topic": "les secours", "s": 2, "note": ""}, {"id": "s2-d-ursaach-klaren", "lb": "d'Ursaach klären", "fr": "déterminer la cause", "topic": "les secours", "s": 2, "note": ""}, {"id": "s2-d-gefier-er", "lb": "d'Gefier (-er)", "fr": "le véhicule", "topic": "les secours", "s": 2, "note": ""}, {"id": "s2-de-stau", "lb": "de Stau", "fr": "l'embouteillage", "topic": "circulation", "s": 2, "note": ""}, {"id": "s2-d-streck", "lb": "d'Streck", "fr": "le tronçon, l'itinéraire", "topic": "circulation", "s": 2, "note": ""}, {"id": "s2-d-emleedung", "lb": "d'Ëmleedung", "fr": "la déviation", "topic": "circulation", "s": 2, "note": ""}, {"id": "s2-den-trafic-de-verkeier", "lb": "den Trafic / de Verkéier", "fr": "la circulation", "topic": "circulation", "s": 2, "note": ""}, {"id": "s2-cr-n-a", "lb": "CR / N / A", "fr": "chemin repris / route nationale / autoroute", "topic": "circulation", "s": 2, "note": ""}, {"id": "s2-d-aire", "lb": "d'Aire", "fr": "l'aire d'autoroute", "topic": "circulation", "s": 2, "note": ""}, {"id": "s2-doteschent", "lb": "dotëschent", "fr": "entre(temps)", "topic": "circulation", "s": 2, "note": ""}, {"id": "s2-temporar", "lb": "temporär", "fr": "temporairement", "topic": "circulation", "s": 2, "note": ""}, {"id": "s2-aneneerennen", "lb": "aneneerennen", "fr": "se percuter", "topic": "aneneegerannt", "s": 2, "note": ""}, {"id": "s2-aneneefueren", "lb": "aneneefueren", "fr": "se rentrer dedans (en voiture)", "topic": "aneneegerannt", "s": 2, "note": ""}, {"id": "s2-zesummestoussen", "lb": "zesummestoussen", "fr": "entrer en collision (*de Choc, den Zesummestouss*)", "topic": "aneneegerannt", "s": 2, "note": ""}, {"id": "s2-opfueren", "lb": "opfueren", "fr": "emboutir par l'arrière (*hien ass opgefuer*)", "topic": "aneneegerannt", "s": 2, "note": ""}, {"id": "s2-vun-der-streck-ofkommen", "lb": "vun der Streck ofkommen", "fr": "quitter la route", "topic": "aneneegerannt", "s": 2, "note": ""}, {"id": "s2-des-keier", "lb": "dës Kéier", "fr": "cette fois-ci", "topic": "dës Kéier / nächst Kéier", "s": 2, "note": ""}, {"id": "s2-dei-lescht-keier", "lb": "déi lescht Kéier", "fr": "la dernière fois", "topic": "dës Kéier / nächst Kéier", "s": 2, "note": ""}, {"id": "s2-dei-nachst-keier", "lb": "(déi) nächst Kéier", "fr": "la prochaine fois", "topic": "dës Kéier / nächst Kéier", "s": 2, "note": ""}, {"id": "s2-eng-keier", "lb": "eng Kéier", "fr": "une fois", "topic": "dës Kéier / nächst Kéier", "s": 2, "note": ""}, {"id": "s2-all-keier", "lb": "all Kéier", "fr": "à chaque fois", "topic": "dës Kéier / nächst Kéier", "s": 2, "note": ""}, {"id": "s2-beid-keieren", "lb": "béid Kéieren", "fr": "les deux fois", "topic": "dës Kéier / nächst Kéier", "s": 2, "note": ""}, {"id": "s2-e-puer-keieren", "lb": "e puer Kéieren", "fr": "quelques fois", "topic": "dës Kéier / nächst Kéier", "s": 2, "note": ""}, {"id": "s2-op-eemol", "lb": "op eemol", "fr": "d'un coup / soudain", "topic": "dës Kéier / nächst Kéier", "s": 2, "note": ""}, {"id": "s2-woubai", "lb": "woubäi", "fr": "ce faisant, à la suite de quoi", "topic": "Bonus — connecteurs du texte", "s": 2, "note": ""}, {"id": "s2-donieft", "lb": "donieft", "fr": "par ailleurs, en outre", "topic": "Bonus — connecteurs du texte", "s": 2, "note": ""}, {"id": "s2-allerdengs", "lb": "allerdéngs", "fr": "toutefois, cela dit", "topic": "Bonus — connecteurs du texte", "s": 2, "note": ""}, {"id": "s2-tescht-teschent", "lb": "tëscht / tëschent", "fr": "entre", "topic": "Bonus — connecteurs du texte", "s": 2, "note": ""}, {"id": "s2-geint-15-40-auer", "lb": "géint 15:40 Auer", "fr": "vers 15h40", "topic": "Bonus — connecteurs du texte", "s": 2, "note": ""}, {"id": "s2-kuerz-virun-11-auer", "lb": "kuerz virun 11 Auer", "fr": "peu avant 11h", "topic": "Bonus — connecteurs du texte", "s": 2, "note": ""}, {"id": "s2-gutt-veier-stonne-mei-speit", "lb": "gutt véier Stonne méi spéit", "fr": "quatre bonnes heures plus tard", "topic": "Bonus — connecteurs du texte", "s": 2, "note": ""}, {"id": "s2-op-der-selwechter-streck", "lb": "op der selwechter Streck", "fr": "sur le même tronçon", "topic": "Bonus — connecteurs du texte", "s": 2, "note": ""}, {"id": "s2-iwwert-den-dag", "lb": "iwwert den Dag", "fr": "au cours de la journée", "topic": "Bonus — connecteurs du texte", "s": 2, "note": ""}, {"id": "s2-stierwen", "lb": "stierwen", "fr": "mourir", "topic": "Stierwen / D'Etappen am Liewen", "s": 2, "note": "irrégulier, auxiliaire sinn : du stierfs, hie stierft ; parfait : ass gestuerwen"}, {"id": "s2-verscheeden", "lb": "verscheeden", "fr": "décéder", "topic": "Stierwen / D'Etappen am Liewen", "s": 2, "note": "registre formel/presse ; parfait : ass verscheet"}, {"id": "s2-de-laffel-ofginn", "lb": "de Läffel ofginn", "fr": "casser sa pipe", "topic": "Stierwen / D'Etappen am Liewen", "s": 2, "note": "familier"}, {"id": "s2-dout-sinn", "lb": "dout sinn", "fr": "être mort", "topic": "Stierwen / D'Etappen am Liewen", "s": 2, "note": ""}, {"id": "s2-em-d-liewe-kommen", "lb": "ëm d'Liewe kommen", "fr": "perdre la vie", "topic": "Stierwen / D'Etappen am Liewen", "s": 2, "note": "registre formel/presse"}, {"id": "s2-un-enger-krankheet-stierwen", "lb": "un enger Krankheet stierwen", "fr": "mourir d'une maladie", "topic": "Stierwen / D'Etappen am Liewen", "s": 2, "note": "un + datif = des suites de (la cause)"}, {"id": "s2-den-doud", "lb": "den Doud", "fr": "la mort", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": "nom"}, {"id": "s2-dout", "lb": "dout", "fr": "mort(e)", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": "adjectif"}, {"id": "s2-deidlech", "lb": "déidlech", "fr": "mortel / mortellement", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": "adjectif et adverbe ; déidlech blesséiert = la personne est morte"}, {"id": "s2-schweier-blesseiert", "lb": "schwéier blesséiert", "fr": "grièvement blessé", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": "la personne est vivante"}, {"id": "s2-liicht-blesseiert", "lb": "liicht blesséiert", "fr": "légèrement blessé", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": ""}, {"id": "s2-liewensgefeierlech-blesseiert", "lb": "liewensgeféierlech blesséiert", "fr": "en danger de mort", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": ""}, {"id": "s2-deidlech-blesseiert", "lb": "déidlech blesséiert", "fr": "mortellement blessé", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": ""}, {"id": "s2-verwonnt", "lb": "verwonnt", "fr": "blessé", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": "synonyme de blesséiert"}, {"id": "s2-versuergen", "lb": "versuergen", "fr": "soigner, prendre en charge", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": "transitif"}, {"id": "s2-sech-versuergen", "lb": "sech versuergen", "fr": "se débrouiller seul", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": ""}, {"id": "s2-sech-gutt-versuergen", "lb": "sech gutt versuergen", "fr": "bien prendre soin de soi", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": ""}, {"id": "s2-d-versuergung", "lb": "d'Versuergung", "fr": "les soins, l'approvisionnement", "topic": "Déidlech Accidenter / sech versuergen", "s": 2, "note": ""}, {"id": "s2-sparen", "lb": "spären", "fr": "barrer, fermer, bloquer", "topic": "gespaart / d'Spärung am Trafic", "s": 2, "note": "participe passé : gespaart"}, {"id": "s2-d-sparung", "lb": "d'Spärung", "fr": "la fermeture", "topic": "gespaart / d'Spärung am Trafic", "s": 2, "note": ""}, {"id": "s2-ofsparen", "lb": "ofspären", "fr": "boucler, mettre un périmètre", "topic": "gespaart / d'Spärung am Trafic", "s": 2, "note": ""}, {"id": "s2-nees-op", "lb": "nees op", "fr": "de nouveau ouvert", "topic": "gespaart / d'Spärung am Trafic", "s": 2, "note": "opposé : zou"}, {"id": "s2-war", "lb": "war", "fr": "était (prétérit de sinn)", "topic": "gouf / koum — le passé", "s": 2, "note": ""}, {"id": "s2-hat", "lb": "hat", "fr": "avait (prétérit de hunn)", "topic": "gouf / koum — le passé", "s": 2, "note": ""}, {"id": "s2-gouf", "lb": "gouf", "fr": "devenir / donner / auxiliaire du passif", "topic": "gouf / koum — le passé", "s": 2, "note": "parfait : ass ginn ; pluriel : goufen"}, {"id": "s2-koum", "lb": "koum", "fr": "venir (prétérit de kommen)", "topic": "gouf / koum — le passé", "s": 2, "note": "parfait : ass komm ; et koum zu + datif = il s'est produit"}, {"id": "s2-goung", "lb": "goung", "fr": "aller (prétérit de goen)", "topic": "gouf / koum — le passé", "s": 2, "note": "parfait : ass gaang"}, {"id": "s2-sot", "lb": "sot", "fr": "dire (prétérit de soen)", "topic": "gouf / koum — le passé", "s": 2, "note": "parfait : huet gesot"}, {"id": "s2-konnt", "lb": "konnt", "fr": "pouvoir (prétérit de kënnen)", "topic": "gouf / koum — le passé", "s": 2, "note": "parfait : huet kënnen"}, {"id": "s2-wollt", "lb": "wollt", "fr": "vouloir (prétérit de wëllen)", "topic": "gouf / koum — le passé", "s": 2, "note": "parfait : huet wëllen"}, {"id": "s2-aneneegerannt", "lb": "aneneegerannt", "fr": "entrés en collision", "topic": "aneneegerannt", "s": 2, "note": "participe de anenee rennen ; auxiliaire sinn, sujet pluriel"}, {"id": "s2-anenee", "lb": "anenee", "fr": "l'un dans l'autre", "topic": "aneneegerannt", "s": 2, "note": ""}, {"id": "s2-rennen", "lb": "rennen", "fr": "courir, foncer", "topic": "aneneegerannt", "s": 2, "note": "participe : gerannt"}, {"id": "s2-weider", "lb": "weider", "fr": "autre(s), supplémentaire ; plus loin ; continuer", "topic": "weider vs. Wieder", "s": 2, "note": "adj./adv."}, {"id": "s2-d-wieder", "lb": "d'Wieder", "fr": "le temps (météo)", "topic": "weider vs. Wieder", "s": 2, "note": "nom neutre"}, {"id": "s2-de-widder", "lb": "de Widder", "fr": "le bélier / Bélier (zodiaque)", "topic": "weider vs. Wieder", "s": 2, "note": "nom masculin"}, {"id": "s2-weiderfueren", "lb": "weiderfueren", "fr": "continuer à rouler", "topic": "weider vs. Wieder", "s": 2, "note": ""}, {"id": "s2-weiderginn", "lb": "weiderginn", "fr": "transmettre", "topic": "weider vs. Wieder", "s": 2, "note": ""}, {"id": "s2-ouni-weider-problemer", "lb": "ouni weider Problemer", "fr": "sans autres problèmes", "topic": "weider vs. Wieder", "s": 2, "note": ""}, {"id": "s2-de-wiederbericht", "lb": "de Wiederbericht", "fr": "le bulletin météo", "topic": "weider vs. Wieder", "s": 2, "note": ""}, {"id": "s2-nees", "lb": "nees", "fr": "de nouveau", "topic": "nees / schonn erëm / erëm", "s": 2, "note": "neutre"}, {"id": "s2-erem", "lb": "erëm", "fr": "de nouveau", "topic": "nees / schonn erëm / erëm", "s": 2, "note": "neutre, interchangeable avec nees"}, {"id": "s2-schonn-erem", "lb": "schonn erëm", "fr": "encore une fois", "topic": "nees / schonn erëm / erëm", "s": 2, "note": "agacement / surprise"}, {"id": "s2-nach-eng-keier", "lb": "nach eng Kéier", "fr": "encore une fois", "topic": "nees / schonn erëm / erëm", "s": 2, "note": "répétition demandée"}, {"id": "s2-emmer-erem", "lb": "ëmmer erëm", "fr": "sans cesse, à répétition", "topic": "nees / schonn erëm / erëm", "s": 2, "note": ""}, {"id": "s3-fluchten-geflucht", "lb": "flüchten / geflücht", "fr": "fuir / fui", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-d-invasioun", "lb": "d'Invasioun", "fr": "l'invasion", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-den-ugreffskrich", "lb": "den Ugrëffskrich", "fr": "la guerre d'agression", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-d-heemecht", "lb": "d'Heemecht", "fr": "la patrie, le pays natal", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-zerecklooss-zerecklooss", "lb": "zerécklooss (zerécklooss)", "fr": "laisser derrière soi", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-enner-kontroll", "lb": "ënner Kontroll", "fr": "sous contrôle", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-sech-erenneren-un-akk", "lb": "sech erënneren (un + akk.)", "fr": "se souvenir (de)", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-ennerkommen-bei", "lb": "ënnerkommen (bei)", "fr": "être hébergé (chez)", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-opgeholl-ginn-vun", "lb": "opgeholl ginn (vun)", "fr": "être accueilli (par)", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-sech-secher-fillen", "lb": "sech sécher fillen", "fr": "se sentir en sécurité", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-eng-plaz-gi-fir-ze-wunnen", "lb": "eng Plaz gi fir ze wunnen", "fr": "fournir un logement", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-alldagsproduiten", "lb": "Alldagsproduiten", "fr": "produits du quotidien", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-verluer-hunn", "lb": "verluer hunn", "fr": "avoir perdu", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-sech-aliewen", "lb": "sech aliewen", "fr": "s'intégrer, prendre ses marques", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-gegrennt-hunn", "lb": "gegrënnt hunn", "fr": "avoir fondé", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-eng-communauteit", "lb": "eng Communautéit", "fr": "une communauté", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-en-follower-d-follower", "lb": "en Follower / d'Follower", "fr": "un abonné / les abonnés", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-en-impakt-opgraifen", "lb": "en Impakt opgräifen", "fr": "traiter un sujet à impact", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-eng-ressource-ginn-fir", "lb": "eng Ressource ginn (fir)", "fr": "devenir une ressource (pour)", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-uechter-d-land", "lb": "uechter d'Land", "fr": "à travers le pays", "topic": "la mère ukrainienne", "s": 3, "note": ""}, {"id": "s3-erreechen", "lb": "erreechen", "fr": "atteindre", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-erop-klammen", "lb": "erop klammen", "fr": "grimper, faire l'ascension de", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-de-sommet", "lb": "de Sommet", "fr": "le sommet", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-den-hechste-bierg", "lb": "den héchste Bierg", "fr": "la plus haute montagne", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-d-heicht-iwwert-dem-mieresspigel", "lb": "d'Héicht (iwwert dem Mieresspigel)", "fr": "l'altitude (au-dessus du niveau de la mer)", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-d-grenz", "lb": "d'Grenz", "fr": "la frontière", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-beandrockend", "lb": "beandrockend", "fr": "impressionnant", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-verschneit", "lb": "verschneit", "fr": "enneigé", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-de-gletscher", "lb": "de Gletscher", "fr": "le glacier", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-kee-spadseiergang", "lb": "kee Spadséiergang", "fr": "pas une promenade (fig. : pas anodin)", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-onberechenbar", "lb": "onberechenbar", "fr": "imprévisible", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-de-terrain", "lb": "de Terrain", "fr": "le terrain", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-eng-erausfuerderung", "lb": "eng Erausfuerderung", "fr": "un défi", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-sech-an-de-kapp-setzen", "lb": "sech an de Kapp setzen", "fr": "se mettre en tête", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-d-feiwer-paken", "lb": "d'Féiwer paken", "fr": "attraper la fièvre (fig.)", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-sech-prepareieren", "lb": "sech preparéieren", "fr": "se préparer", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-traineieren", "lb": "trainéieren", "fr": "s'entraîner", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-ennert-een-hutt-kreien", "lb": "ënnert een Hutt kréien", "fr": "concilier, jongler avec", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-pauseieren", "lb": "pauséieren", "fr": "mettre en pause", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-sain-zil-erreechen", "lb": "säin Zil erreechen", "fr": "atteindre son but", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-sech-bezuelt-maachen", "lb": "sech bezuelt maachen", "fr": "payer (fig. : porter ses fruits)", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-de-guide", "lb": "de Guide", "fr": "le guide", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-ennerwee-sinn", "lb": "ënnerwee sinn", "fr": "être en chemin", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-eng-leeschtung", "lb": "eng Leeschtung", "fr": "une performance, un exploit", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-jorelaang-erfarung", "lb": "jorelaang Erfarung", "fr": "des années d'expérience", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-de-summit-push", "lb": "de Summit Push", "fr": "l'assaut final (vers le sommet)", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-vertikal-meter", "lb": "vertikal Meter", "fr": "mètres de dénivelé", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-falsch-hoffnung", "lb": "falsch Hoffnung", "fr": "faux espoir", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-motiveieren", "lb": "motivéieren", "fr": "motiver", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s3-houfereg-maachen", "lb": "houfereg maachen", "fr": "rendre fier", "topic": "Anton Fedorov", "s": 3, "note": ""}, {"id": "s4-ausgruewen-huet-ausgegruewen", "lb": "ausgruewen (huet ausgegruewen)", "fr": "déterrer, fouiller (fouilles)", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-ausgruewung-en", "lb": "d'Ausgruewung(en)", "fr": "la fouille (archéologique)", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-graf-pl-d-griewer-d-grief", "lb": "d'Graf (pl. d'Griewer / d'Grief)", "fr": "la tombe (les tombes)", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-fraileeen-huet-fraigeluecht", "lb": "fräileeën (huet fräigeluecht)", "fr": "dégager, mettre au jour", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-fong-en", "lb": "d'Fong(en)", "fr": "la trouvaille, la découverte", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-schank-pl-d-schanken", "lb": "d'Schank (pl. d'Schanken)", "fr": "l'os", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-den-uewerschenkel", "lb": "den Uewerschenkel", "fr": "le fémur", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-kou", "lb": "d'Kou", "fr": "la vache", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-en-harenhaus", "lb": "en Härenhaus", "fr": "une maison de maître", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-wirtschaftsgebai-er", "lb": "d'Wirtschaftsgebai(er)", "fr": "le(s) bâtiment(s) d'exploitation", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-galloreimesch", "lb": "galloréimesch", "fr": "gallo-romain", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-joerhonnert", "lb": "d'Joerhonnert", "fr": "le siècle", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-a-gebrauch-sinn", "lb": "a Gebrauch sinn", "fr": "être en usage", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-lager", "lb": "d'Lager", "fr": "le camp", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-de-camp", "lb": "de Camp", "fr": "le camp (stage)", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-jugend", "lb": "d'Jugend", "fr": "la jeunesse", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-e-jugendlechen-d-jugendlech", "lb": "e Jugendlechen / d'Jugendlech", "fr": "un adolescent / les adolescents", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-e-jonken-d-jonker", "lb": "e Jonken / d'Jonker", "fr": "un jeune / les jeunes", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-zanter-35-joer", "lb": "zanter 35 Joer", "fr": "depuis 35 ans", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-glaichzaiteg", "lb": "gläichzäiteg", "fr": "en même temps", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-eppes-nobrengen-dat", "lb": "eppes nobréngen (+ dat.)", "fr": "faire découvrir qch à qn", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-sech-beschaftege-mat", "lb": "sech beschäftege mat", "fr": "s'occuper de, se pencher sur", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-zesummeliewen", "lb": "d'Zesummeliewen", "fr": "la vie en commun", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-d-zesummenaarbecht", "lb": "d'Zesummenaarbecht", "fr": "la collaboration", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-begeeschteren", "lb": "begeeschteren", "fr": "enthousiasmer", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-e-geigestand-pl-geigestann", "lb": "e Géigestand (pl. Géigestänn)", "fr": "un objet", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-eng-ganz-rei", "lb": "eng ganz Rei", "fr": "toute une série", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-reegelmeisseg", "lb": "reegelméisseg", "fr": "régulièrement", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-en-ausfluch", "lb": "en Ausfluch", "fr": "une excursion", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-op-eng-aner-aart-a-weis", "lb": "op eng aner Aart a Weis", "fr": "d'une autre manière", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-et-handelt-sech-em", "lb": "et handelt sech ëm", "fr": "il s'agit de", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-et-geet-drems-ze", "lb": "et geet drëms, … ze …", "fr": "il s'agit de … (faire qch)", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-befroen-huet-befrot", "lb": "befroen (huet befrot)", "fr": "interroger", "topic": "Camp d'archéologie", "s": 4, "note": ""}, {"id": "s4-jonk-mei-jonk-am-jengsten", "lb": "jonk (méi jonk, am jéngsten)", "fr": "jeune (plus jeune, le plus jeune)", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-al-mei-al-am-eelsten", "lb": "al (méi al, am eelsten)", "fr": "vieux / âgé (plus âgé, le plus âgé)", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-d-alter", "lb": "d'Alter", "fr": "l'âge", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-am-alter-vu-16-joer", "lb": "am Alter vu 16 Joer", "fr": "à l'âge de 16 ans", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-mat-16-joer", "lb": "mat 16 Joer", "fr": "à 16 ans", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-wei-al-bass-du-ech-si-25-joer-al", "lb": "Wéi al bass du? — Ech si 25 (Joer al).", "fr": "Quel âge as-tu ? — J'ai 25 ans.", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-e-puppelchen-e-bebee", "lb": "e Puppelchen / e Bëbee", "fr": "un bébé", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-e-klengt-kand", "lb": "e klengt Kand", "fr": "un tout-petit", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-e-kand-pl-kanner", "lb": "e Kand (pl. Kanner)", "fr": "un enfant", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-en-teenager-e-jugendlechen", "lb": "en Teenager / e Jugendlechen", "fr": "un ado", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-en-erwuessenen-pl-erwuessener", "lb": "en Erwuessenen (pl. Erwuessener)", "fr": "un adulte", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-eng-eeler-persoun", "lb": "eng eeler Persoun", "fr": "une personne âgée", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-e-rentner-eng-rentnerin", "lb": "e Rentner / eng Rentnerin", "fr": "un(e) retraité(e)", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-an-den-20er-an-de-50er", "lb": "an den 20er / an de 50er", "fr": "dans la vingtaine / la cinquantaine", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-mannerjareg-groussjareg", "lb": "mannerjäreg / groussjäreg", "fr": "mineur / majeur", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-d-kandheet-d-jugend", "lb": "d'Kandheet / d'Jugend", "fr": "l'enfance / la jeunesse", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-d-generatioun", "lb": "d'Generatioun", "fr": "la génération", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-hie-gesait-jonk-aus", "lb": "Hie gesäit jonk aus.", "fr": "Il fait jeune.", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-si-ass-zwee-joer-mei-al-wei-ech", "lb": "Si ass zwee Joer méi al wéi ech.", "fr": "Elle a deux ans de plus que moi.", "topic": "D'Alter — les âges", "s": 4, "note": ""}, {"id": "s4-gebuer-ginn-ass-gebuer-ginn", "lb": "gebuer ginn (ass gebuer ginn)", "fr": "naître", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-d-gebuertsdatum-den-anniversaire", "lb": "d'Gebuertsdatum / den Anniversaire", "fr": "la date de naissance / l'anniversaire", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-opwuessen-ass-opgewuess", "lb": "opwuessen (ass opgewuess)", "fr": "grandir", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-studeieren", "lb": "studéieren", "fr": "faire des études", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-eng-leier-maachen", "lb": "eng Léier maachen", "fr": "faire un apprentissage", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-ufanken-ze-schaffen", "lb": "ufänken ze schaffen", "fr": "commencer à travailler", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-auszeien-ass-ausgezunn", "lb": "auszéien (ass ausgezunn)", "fr": "déménager (quitter le domicile parental)", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-zesummenzeien", "lb": "zesummenzéien", "fr": "emménager ensemble", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-sech-verloben", "lb": "sech verloben", "fr": "se fiancer", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-sech-bestueden-huet-sech-bestuet-best", "lb": "sech bestueden (huet sech bestuet) / bestuet sinn", "fr": "se marier / être marié", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-d-hochzait", "lb": "d'Hochzäit", "fr": "le mariage (la noce)", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-e-kand-kreien", "lb": "e Kand kréien", "fr": "avoir un enfant", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-sech-trennen", "lb": "sech trennen", "fr": "se séparer", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-sech-scheede-loossen", "lb": "sech scheede loossen", "fr": "divorcer", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-krank-ginn", "lb": "krank ginn", "fr": "tomber malade", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-stierwen-ass-gestuerwen", "lb": "stierwen (ass gestuerwen)", "fr": "mourir", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-d-begriefnes", "lb": "d'Begriefnes", "fr": "l'enterrement", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-d-liewen-e-ganzt-liewe-laang", "lb": "d'Liewen / e ganzt Liewe laang", "fr": "la vie / toute une vie", "topic": "D'Etappe vum Liewen — les étapes de la vie", "s": 4, "note": ""}, {"id": "s4-eng-keier-zweemol-draimol", "lb": "eng Kéier, zweemol, dräimol", "fr": "une fois, deux fois, trois fois", "topic": "D'Zuelen — les nombres", "s": 4, "note": ""}, {"id": "s4-d-hallschent-en-drettel-e-veierel", "lb": "d'Hallschent / en Drëttel / e Véierel", "fr": "la moitié / un tiers / un quart", "topic": "D'Zuelen — les nombres", "s": 4, "note": ""}, {"id": "s4-ongefeier-ronn", "lb": "ongeféier / ronn", "fr": "environ", "topic": "D'Zuelen — les nombres", "s": 4, "note": ""}, {"id": "s4-e-puer", "lb": "e puer", "fr": "quelques", "topic": "D'Zuelen — les nombres", "s": 4, "note": ""}, {"id": "s4-d-halschent-vun-de-kanner", "lb": "d'Halschent vun de Kanner", "fr": "la moitié des enfants", "topic": "D'Zuelen — les nombres", "s": 4, "note": ""}, {"id": "s4-tescht-dem-eischten-a-veierte-joerhon", "lb": "tëscht dem éischten a véierte Joerhonnert", "fr": "entre le 1er et le 4e siècle", "topic": "D'Zuelen — les nombres", "s": 4, "note": ""}, {"id": "s4-eppes-packen-huet-gepackt", "lb": "eppes packen (huet gepackt)", "fr": "y arriver, réussir qch", "topic": "geléngen ≠ erreechen", "s": 4, "note": ""}, {"id": "s4-faerdegbrengen", "lb": "fäerdegbréngen", "fr": "parvenir à faire", "topic": "geléngen ≠ erreechen", "s": 4, "note": ""}, {"id": "s4-et-huet-geklappt", "lb": "et huet geklappt", "fr": "ça a marché", "topic": "geléngen ≠ erreechen", "s": 4, "note": ""}, {"id": "s4-duerchfalen-ass-duerchgefall", "lb": "duerchfalen (ass duerchgefall)", "fr": "échouer, rater (un examen)", "topic": "geléngen ≠ erreechen", "s": 4, "note": ""}, {"id": "s4-probeieren", "lb": "probéieren", "fr": "essayer", "topic": "geléngen ≠ erreechen", "s": 4, "note": ""}, {"id": "s4-opginn-huet-opginn", "lb": "opginn (huet opginn)", "fr": "abandonner", "topic": "geléngen ≠ erreechen", "s": 4, "note": ""}, {"id": "s4-heich", "lb": "héich", "fr": "haut", "topic": "héich / déif / no / wäit", "s": 4, "note": "méi héich — am héchsten"}, {"id": "s4-deif", "lb": "déif", "fr": "profond, bas", "topic": "héich / déif / no / wäit", "s": 4, "note": "méi déif — am déifsten"}, {"id": "s4-no", "lb": "no", "fr": "proche, près", "topic": "héich / déif / no / wäit", "s": 4, "note": "méi no — am nooste"}, {"id": "s4-wait", "lb": "wäit", "fr": "loin, large", "topic": "héich / déif / no / wäit", "s": 4, "note": "méi wäit — am wäitsten"}, {"id": "s4-eng-heicht-vu-4-805-meter", "lb": "eng Héicht vu 4.805 Meter", "fr": "une altitude de 4805 m", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-heich-iwwert-dem-mieresspigel", "lb": "héich iwwert dem Mieresspigel", "fr": "haut au-dessus du niveau de la mer", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-deif-ennen-deif-am-besch", "lb": "déif ënnen / déif am Bësch", "fr": "tout en bas / au fond de la forêt", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-eng-deif-stemm", "lb": "eng déif Stëmm", "fr": "une voix grave", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-no-bei-der-schoul", "lb": "no bei der Schoul", "fr": "tout près de l'école", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-ech-wunnen-nobai", "lb": "Ech wunnen nobäi.", "fr": "J'habite tout près.", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-d-noperen", "lb": "d'Noperen", "fr": "les voisins", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-wei-wait-ass-et-bis-op-ettelbreck", "lb": "Wéi wäit ass et bis op Ettelbréck?", "fr": "C'est à quelle distance jusqu'à Ettelbruck ?", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-vu-waitem", "lb": "vu wäitem", "fr": "de loin", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-wait-ewech", "lb": "wäit ewech", "fr": "loin d'ici", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-direction-erop-erof", "lb": "Direction : erop / erof", "fr": "vers le haut / vers le bas", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-position-uewen-ennen", "lb": "Position : uewen / ënnen", "fr": "en haut / en bas", "topic": "héich / déif / no / wäit", "s": 4, "note": ""}, {"id": "s4-gelengen", "lb": "geléngen", "fr": "réussir", "topic": "geléngen ≠ erreechen", "s": 4, "note": "impersonnel + datif, ass gelongen, auxiliaire sinn : Dat ass mir gelongen."}, {"id": "s4-kennen", "lb": "kënnen", "fr": "pouvoir, savoir", "topic": "kënnen / mussen / däerfen", "s": 4, "note": "ech kann, mir kënnen ; passé : ech hu kënne goen ; conditionnel : ech kéint"}, {"id": "s4-mussen", "lb": "mussen", "fr": "devoir", "topic": "kënnen / mussen / däerfen", "s": 4, "note": "ech muss, mir mussen ; passé : ech hu misse goen ; Ech muss net = je ne suis pas obligé"}, {"id": "s4-daerfen", "lb": "däerfen", "fr": "avoir le droit", "topic": "kënnen / mussen / däerfen", "s": 4, "note": "ech däerf, mir däerfen ; passé : ech hunn dierfe goen ; Ech däerf net = je n'ai pas le droit"}, {"id": "s4-wellen", "lb": "wëllen", "fr": "vouloir", "topic": "kënnen / mussen / däerfen", "s": 4, "note": "ech wëll, du wëlls, hie wëll"}, {"id": "s4-sollen", "lb": "sollen", "fr": "devoir, être censé", "topic": "kënnen / mussen / däerfen", "s": 4, "note": "ech soll"}, {"id": "s4-brauchen", "lb": "brauchen", "fr": "avoir besoin", "topic": "kënnen / mussen / däerfen", "s": 4, "note": "Du brauchs net ze kommen"}, {"id": "s4-setzen", "lb": "sëtzen", "fr": "être assis", "topic": "sëtzen vs setzen (et leien/leeën, stoen/stellen)", "s": 4, "note": "position ; participe : gesiess ; datif"}, {"id": "s4-setzen-2", "lb": "setzen", "fr": "poser, asseoir", "topic": "sëtzen vs setzen (et leien/leeën, stoen/stellen)", "s": 4, "note": "action ; participe : gesat ; accusatif ; Ech setze mech op de Stull."}, {"id": "s4-leien", "lb": "leien", "fr": "être couché", "topic": "sëtzen vs setzen (et leien/leeën, stoen/stellen)", "s": 4, "note": "position ; participe : geleeën ; datif"}, {"id": "s4-leeen", "lb": "leeën", "fr": "coucher, poser à plat", "topic": "sëtzen vs setzen (et leien/leeën, stoen/stellen)", "s": 4, "note": "action ; participe : geluecht ; accusatif"}, {"id": "s4-stoen", "lb": "stoen", "fr": "être debout", "topic": "sëtzen vs setzen (et leien/leeën, stoen/stellen)", "s": 4, "note": "position ; participe : gestanen ; datif"}, {"id": "s4-stellen", "lb": "stellen", "fr": "mettre debout, poser", "topic": "sëtzen vs setzen (et leien/leeën, stoen/stellen)", "s": 4, "note": "action ; participe : gestallt ; accusatif"}, {"id": "s4-sech-eppes-an-de-kapp-setzen", "lb": "sech eppes an de Kapp setzen", "fr": "se mettre qch en tête", "topic": "sëtzen vs setzen (et leien/leeën, stoen/stellen)", "s": 4, "note": ""}, {"id": "s5-den-hannes", "lb": "den Hännes", "fr": "le nigaud, l'empoté", "topic": "Insultes et gros mots", "s": 5, "note": ""}, {"id": "s5-den-dabo", "lb": "den Dabo", "fr": "l'idiot, le crétin", "topic": "Insultes et gros mots", "s": 5, "note": ""}, {"id": "s5-den-tutebatti", "lb": "den Tutebatti", "fr": "l'imbécile, l'abruti", "topic": "Insultes et gros mots", "s": 5, "note": ""}, {"id": "s5-eng-domm-kou", "lb": "eng domm Kou", "fr": "une idiote (litt. « une vache bête »)", "topic": "Insultes et gros mots", "s": 5, "note": ""}, {"id": "s5-de-sauhond", "lb": "de Sauhond", "fr": "le salaud (litt. « chien-cochon »)", "topic": "Insultes et gros mots", "s": 5, "note": ""}, {"id": "s5-kee-bock-hunn-op-eppes", "lb": "kee Bock hunn (op eppes)", "fr": "ne pas avoir envie (de qch)", "topic": "Expressions familières", "s": 5, "note": ""}, {"id": "s5-hal-deng-schness", "lb": "Hal deng Schnëss!", "fr": "Ferme ta gueule !", "topic": "Expressions familières", "s": 5, "note": ""}, {"id": "s5-ech-si-baff", "lb": "Ech si baff.", "fr": "Je suis sidéré / je n'en reviens pas.", "topic": "Expressions familières", "s": 5, "note": ""}, {"id": "s5-samschdes-moies", "lb": "samschdes moies", "fr": "le samedi matin (habituellement)", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-dreemen-vun-eppes", "lb": "dreemen (vun eppes)", "fr": "rêver (de qch)", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-naischt-besonnesches", "lb": "näischt Besonnesches", "fr": "rien de spécial", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-d-decken-pl", "lb": "d'Decken (pl.)", "fr": "les couvertures", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-zeien-huet-gezunn", "lb": "zéien (huet gezunn)", "fr": "tirer", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-sech-emdreinen", "lb": "sech ëmdréinen", "fr": "se retourner", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-leie-bleiwen", "lb": "leie bleiwen", "fr": "rester couché", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-d-kessen", "lb": "d'Këssen", "fr": "l'oreiller", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-wakereg", "lb": "wakereg", "fr": "réveillé, éveillé", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-d-schlappen-pl", "lb": "d'Schlappen (pl.)", "fr": "les pantoufles, les chaussons", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-d-fenster", "lb": "d'Fënster", "fr": "la fenêtre", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-de-kaffi", "lb": "de Kaffi", "fr": "le café", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-faerdeg", "lb": "fäerdeg", "fr": "prêt, terminé", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-e-steck-taart", "lb": "e Stéck Taart", "fr": "un morceau de tarte", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-komm-eran", "lb": "komm eran!", "fr": "entre !", "topic": "La maison et le matin", "s": 5, "note": ""}, {"id": "s5-de-noper-d-nopesch", "lb": "de Noper / d'Nopesch", "fr": "le voisin / la voisine", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-de-gaart", "lb": "de Gaart", "fr": "le jardin", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-d-gras", "lb": "d'Gras", "fr": "l'herbe, le gazon", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-meien-huet-gemeit", "lb": "méien (huet geméit)", "fr": "tondre", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-d-meimaschinn", "lb": "d'Méimaschinn", "fr": "la tondeuse", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-den-zonk", "lb": "den Zonk", "fr": "la clôture, la barrière", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-d-rous-en", "lb": "d'Rous(en)", "fr": "la rose (les roses)", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-naass", "lb": "naass", "fr": "mouillé", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-brong", "lb": "brong", "fr": "brun, marron", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-knaen-si-knat-huet-geknat", "lb": "knaen (si knat, huet geknat)", "fr": "mâcher, ruminer", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-schmaachen", "lb": "schmaachen", "fr": "avoir bon goût", "topic": "Le jardin", "s": 5, "note": ""}, {"id": "s5-brellen", "lb": "brëllen", "fr": "hurler, gueuler", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-ruffen-hie-rifft", "lb": "ruffen (hie rifft)", "fr": "crier, appeler", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-laachen", "lb": "laachen", "fr": "rire", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-heieren", "lb": "héieren", "fr": "entendre", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-treppelen", "lb": "trëppelen", "fr": "marcher, aller à pied", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-sech-beweegen", "lb": "sech beweegen", "fr": "bouger", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-verreckt-ginn", "lb": "verréckt ginn", "fr": "devenir fou", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-roueg", "lb": "roueg", "fr": "calme, tranquille", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-zefridden", "lb": "zefridden", "fr": "content, satisfait", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-metten-an-dat", "lb": "mëtten an (+ dat.)", "fr": "au milieu de", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-riicht-op-zou", "lb": "riicht op … zou", "fr": "tout droit vers …", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-ewech", "lb": "ewech!", "fr": "va-t'en ! dégage !", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-schonn-nees", "lb": "schonn nees", "fr": "encore une fois, déjà de nouveau", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-dei-selwecht-geschicht", "lb": "déi selwecht Geschicht", "fr": "la même histoire", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-uruffen-huet-ugeruff", "lb": "uruffen (huet ugeruff)", "fr": "appeler (au téléphone)", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-ophiewen-huet-opgehuewen", "lb": "ophiewen (huet opgehuewen)", "fr": "décrocher (le téléphone)", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-ufanken-huet-ugefaangen", "lb": "ufänken (huet ugefaangen)", "fr": "commencer", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-ukennegen-huet-ugekennegt", "lb": "ukënnegen (huet ugekënnegt)", "fr": "annoncer", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-de-kameidi", "lb": "de Kaméidi", "fr": "le bruit, le vacarme", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-als-eenzeg", "lb": "als eenzeg", "fr": "la seule (à …)", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s5-schold-sinn", "lb": "schold sinn", "fr": "être fautif, être coupable", "topic": "Verbes et expressions utiles", "s": 5, "note": ""}, {"id": "s6-de-logement-d-wunneng", "lb": "de Logement / d'Wunneng", "fr": "le logement / le logement (appartement)", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-de-wunnraum", "lb": "de Wunnraum", "fr": "l'espace habitable, le parc de logements", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-de-manktem-u-dat", "lb": "de Manktem u (+ dat.)", "fr": "le manque de", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-abordabel", "lb": "abordabel", "fr": "abordable", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-d-offer-d-nofro", "lb": "d'Offer / d'Nofro", "fr": "l'offre / la demande", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-de-loyer-pl-loyeren", "lb": "de Loyer (pl. Loyeren)", "fr": "le loyer", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-heich-heije-loyer", "lb": "héich / héije Loyer", "fr": "cher / loyer élevé", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-reduzeieren", "lb": "reduzéieren", "fr": "réduire", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-d-konkurrenz", "lb": "d'Konkurrenz", "fr": "la concurrence", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-d-studentewunnung-en", "lb": "d'Studentewunnung(en)", "fr": "le(s) logement(s) étudiant(s)", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-d-studenteresidenz", "lb": "d'Studenteresidenz", "fr": "la résidence étudiante", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-eng-emfro-maachen", "lb": "eng Ëmfro maachen", "fr": "faire un sondage", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-drock-maachen", "lb": "Drock maachen", "fr": "mettre la pression", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-schafen-huet-geschaf", "lb": "schafen (huet geschaf)", "fr": "créer", "topic": "logement (Wunnraum a Loyer)", "s": 6, "note": ""}, {"id": "s6-d-studiebaihellef", "lb": "d'Studiebäihëllef", "fr": "l'aide financière pour études supérieures", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-d-bourse-vum-staat", "lb": "d'Bourse (vum Staat)", "fr": "la bourse (de l'État)", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-de-studentepret", "lb": "de Studenteprêt", "fr": "le prêt étudiant", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-de-zens-pl-zensen", "lb": "de Zëns (pl. Zënsen)", "fr": "le taux d'intérêt", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-deckelen-huet-gedeckelt", "lb": "deckelen (huet gedeckelt)", "fr": "plafonner", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-indexeieren", "lb": "indexéieren", "fr": "indexer", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-d-mobiliteitsprimm", "lb": "d'Mobilitéitsprimm", "fr": "la prime de mobilité", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-de-sproochentest", "lb": "de Sproochentest", "fr": "le test de langue", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-iwwerhuelen-huet-iwwerholl", "lb": "iwwerhuelen (huet iwwerholl)", "fr": "prendre en charge, reprendre", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-d-chamber-stemmen", "lb": "d'Chamber (stëmmen)", "fr": "la Chambre (des députés), voter (une loi)", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-eng-positiv-bilanz-zeien", "lb": "eng positiv Bilanz zéien", "fr": "tirer un bilan positif", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-den-ofschloss-vun-engem-cycle", "lb": "den Ofschloss (vun engem Cycle)", "fr": "l'obtention du diplôme (d'un cycle d'études)", "topic": "aides aux étudiants (volet social)", "s": 6, "note": ""}, {"id": "s6-de-stage-de-stagiaire", "lb": "de Stage / de Stagiaire", "fr": "le stage / le stagiaire", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-de-patron-pl-patronen", "lb": "de Patron (pl. Patronen)", "fr": "l'employeur, le patron", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-bezuelt-ginn", "lb": "bezuelt ginn", "fr": "être rémunéré", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-d-recht-er-an-d-flicht-en", "lb": "d'Recht(er) an d'Flicht(en)", "fr": "le(s) droit(s) et le(s) devoir(s)", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-d-affiliatioun", "lb": "d'Affiliatioun", "fr": "l'affiliation (sécurité sociale)", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-d-cotisatioun-en", "lb": "d'Cotisatioun(en)", "fr": "la cotisation", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-de-code-de-la-securite-sociale", "lb": "de Code de la sécurité sociale", "fr": "le code de la sécurité sociale", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-de-code-du-travail", "lb": "de Code du travail", "fr": "le code du travail", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-d-inkoharenz-en", "lb": "d'Inkohärenz(en)", "fr": "l'incohérence", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-de-mindestloun", "lb": "de Mindestloun", "fr": "le salaire minimum", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-deelzait-schaffen", "lb": "Deelzäit schaffen", "fr": "travailler à temps partiel", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-vun-enger-bourse-profiteieren", "lb": "vun enger Bourse profitéieren", "fr": "bénéficier d'une bourse", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s6-vun-eppes-ausgeschloss-ginn", "lb": "vun eppes ausgeschloss ginn", "fr": "être exclu(e) de qch", "topic": "travail, stages et cotisations", "s": 6, "note": ""}, {"id": "s7-sech-kennegeleieren", "lb": "sech kennegeléieren", "fr": "faire connaissance, se rencontrer", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-sech-erem-gesinn", "lb": "sech erëm gesinn", "fr": "se revoir", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-sech-bestueden", "lb": "sech bestueden", "fr": "se marier", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-zesumme-bleiwen", "lb": "zesumme bleiwen", "fr": "rester ensemble", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-d-bezeiung", "lb": "d'Bezéiung", "fr": "la relation", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-d-bestietnis", "lb": "d'Bestietnis", "fr": "le mariage (l'union)", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-glaichgeschlechtlech", "lb": "gläichgeschlechtlech", "fr": "du même sexe, homosexuel", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-de-partner-d-partnerin", "lb": "de Partner / d'Partnerin", "fr": "le partenaire / la partenaire", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-laangjareg", "lb": "laangjäreg", "fr": "de longue durée", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-grondverschidden", "lb": "grondverschidden", "fr": "fondamentalement différents", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-d-intimiteit", "lb": "d'Intimitéit", "fr": "l'intimité", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-d-fraiheet", "lb": "d'Fräiheet", "fr": "la liberté", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-u-sech", "lb": "u sech", "fr": "en soi, au fond", "topic": "Avant la lecture", "s": 7, "note": ""}, {"id": "s7-sech-begeinen-sinn-sech-begeint", "lb": "sech begéinen (sinn sech begéint)", "fr": "se croiser, se rencontrer", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-sech-bestueden-huet-sech-bestuet", "lb": "sech bestueden (huet sech bestuet)", "fr": "se marier", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-d-hochzait-hunn", "lb": "d'Hochzäit hunn", "fr": "se marier (célébrer le mariage)", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-d-koppel-pl-koppelen", "lb": "d'Koppel (pl. Koppelen)", "fr": "le couple", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-de-bouf-pl-bouwen", "lb": "de Bouf (pl. Bouwen)", "fr": "le garçon, le fils", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-d-eltere", "lb": "d'Eltere", "fr": "les parents", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-frou-sinn", "lb": "frou sinn", "fr": "être content, heureux", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-sech-verstoen-mat", "lb": "sech verstoen (mat)", "fr": "bien s'entendre (avec)", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-de-rezept-d-antwert", "lb": "de Rezept / d'Äntwert", "fr": "la recette / la réponse", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-glecklech", "lb": "glécklech", "fr": "heureux (dans le couple, la vie)", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-d-haaptsaach", "lb": "d'Haaptsaach", "fr": "l'essentiel, la chose principale", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-feelen", "lb": "feelen", "fr": "manquer", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-d-kaz-pl-kazen", "lb": "d'Kaz (pl. Kazen)", "fr": "le chat", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-d-rees-pl-reesen", "lb": "d'Rees (pl. Reesen)", "fr": "le voyage", "topic": "relations et vie de couple", "s": 7, "note": ""}, {"id": "s7-d-oppenheet", "lb": "d'Oppenheet", "fr": "l'ouverture (d'esprit)", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-d-akzeptanz", "lb": "d'Akzeptanz", "fr": "l'acceptation", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-d-gesellschaft", "lb": "d'Gesellschaft", "fr": "la société", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-d-famill", "lb": "d'Famill", "fr": "la famille", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-d-homophobie-den-haass", "lb": "d'Homophobie / den Haass", "fr": "l'homophobie / la haine", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-d-tendenz", "lb": "d'Tendenz", "fr": "la tendance", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-d-meenung-deelen", "lb": "d'Meenung deelen", "fr": "partager l'avis, l'opinion", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-am-austausch-mat-dat-sinn", "lb": "am Austausch mat (+ dat.) sinn", "fr": "être en dialogue avec", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-d-sexualiteit", "lb": "d'Sexualitéit", "fr": "la sexualité", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-den-emzuch", "lb": "den Ëmzuch", "fr": "le défilé, la marche (aussi : le déménagement)", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-eng-parad", "lb": "eng Parad", "fr": "une parade, une marche", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-organiseiert-ginn", "lb": "organiséiert ginn", "fr": "être organisé", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-zweiwelen-un-dat", "lb": "zweiwelen un (+ dat.)", "fr": "douter de", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-participeieren-bei-dat", "lb": "participéieren (bei + dat.)", "fr": "participer (à)", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-effikass", "lb": "effikass", "fr": "efficace", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-aus-dem-stot-gehait-ginn", "lb": "aus dem Stot gehäit ginn", "fr": "être jeté dehors (de chez soi)", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-et-kann-dach-keen-dofir", "lb": "Et kann dach keen dofir", "fr": "ce n'est quand même la faute de personne", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-leed-doen", "lb": "leed doen", "fr": "faire de la peine", "topic": "société, acceptation, ouverture", "s": 7, "note": ""}, {"id": "s7-virgestallt-ginn-dat", "lb": "virgestallt ginn (+ dat.)", "fr": "être présenté (à quelqu'un)", "topic": "verbes utiles du texte", "s": 7, "note": ""}, {"id": "s7-sech-eppes-virstellen", "lb": "sech eppes virstellen", "fr": "s'imaginer quelque chose", "topic": "verbes utiles du texte", "s": 7, "note": ""}, {"id": "s7-zielen-vun-dat", "lb": "zielen vun (+ dat.)", "fr": "raconter, parler de", "topic": "verbes utiles du texte", "s": 7, "note": ""}, {"id": "s7-legal-ginn", "lb": "legal ginn", "fr": "devenir légal (être légalisé)", "topic": "verbes utiles du texte", "s": 7, "note": ""}, {"id": "s7-faerdeg-brengen", "lb": "fäerdeg bréngen", "fr": "arriver à faire, réussir", "topic": "verbes utiles du texte", "s": 7, "note": ""}, {"id": "s7-dobai-sinn", "lb": "dobäi sinn", "fr": "être présent, participer", "topic": "verbes utiles du texte", "s": 7, "note": ""}, {"id": "s7-domadder", "lb": "domadder", "fr": "avec ça (Problème domadder hunn)", "topic": "verbes utiles du texte", "s": 7, "note": ""}, {"id": "s8-d-legaliseierung", "lb": "d'Legaliséierung", "fr": "la légalisation", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-legal-ginn", "lb": "légal ginn", "fr": "devenir légal", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-dei-eischt-dei-zweet", "lb": "déi éischt / déi zweet", "fr": "la première / la deuxième", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-de-feierdag", "lb": "de Feierdag", "fr": "le jour férié", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-d-erfarung-pl-erfarungen", "lb": "d'Erfarung (pl. Erfarungen)", "fr": "l'expérience", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-a-famill", "lb": "a Famill", "fr": "en famille", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-et-schweier-hunn", "lb": "et schwéier hunn", "fr": "avoir du mal, être en difficulté", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-par-contre", "lb": "Par contre", "fr": "par contre", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-de-besoin", "lb": "de Besoin", "fr": "le besoin", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-de-video", "lb": "de Video", "fr": "la vidéo", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-seng-meenung-deelen", "lb": "seng Meenung deelen", "fr": "partager son avis", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-am-austausch-sinn-mat", "lb": "am Austausch sinn (+ mat)", "fr": "être en dialogue (avec)", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-de-richtege-wee", "lb": "de richtege Wee", "fr": "le bon chemin, la bonne voie", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-d-antwert", "lb": "d'Äntwert", "fr": "la réponse", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-verstoen", "lb": "verstoen", "fr": "comprendre", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-sech-erennere-un-acc", "lb": "sech erënnere un (+ acc.)", "fr": "se souvenir de", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s8-eppes-geheiert-hunn", "lb": "eppes gehéiert hunn", "fr": "avoir entendu quelque chose", "topic": "les mots de la fin du texte", "s": 8, "note": ""}, {"id": "s9-op-der-strooss-liewen", "lb": "op der Strooss liewen", "fr": "vivre dans la rue", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-de-bop", "lb": "de Bop", "fr": "le grand-père", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-gebierteg", "lb": "gebierteg", "fr": "de naissance, originaire de", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-drogenofhangeg", "lb": "drogenofhängeg", "fr": "dépendant (à la drogue)", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-op-d-wo-brengen", "lb": "op d'Wo bréngen", "fr": "peser (litt. « mettre sur la balance »)", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-de-rollstull", "lb": "de Rollstull", "fr": "le fauteuil roulant", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-op-e-rollstull-ugewisen-sinn", "lb": "op e Rollstull ugewisen sinn", "fr": "être en fauteuil roulant", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-mental-komplett-fort-sinn", "lb": "mental komplett fort sinn", "fr": "être mentalement complètement perdu", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-den-toxikomane-den-suchtkranke", "lb": "den Toxikomane / den Suchtkranke", "fr": "le toxicomane / le malade de la dépendance", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-reckfalleg-ginn", "lb": "réckfälleg ginn", "fr": "faire une rechute", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-clean-sinn", "lb": "clean sinn", "fr": "être clean (sans drogues)", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-eierlech", "lb": "éierlech", "fr": "honnête", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-d-distanz-huelen", "lb": "d'Distanz huelen", "fr": "prendre ses distances", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-d-dier", "lb": "d'Dier", "fr": "la porte", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-d-police", "lb": "d'Police", "fr": "la police", "topic": "La rue, la dépendance, la santé", "s": 9, "note": ""}, {"id": "s9-d-hellef", "lb": "d'Hëllef", "fr": "l'aide", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-eng-hand-brauchen", "lb": "eng Hand brauchen", "fr": "avoir besoin d'un coup de main", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-hellefen-dat", "lb": "hëllefen (+ dat.)", "fr": "aider", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-sech-hellefen-loossen", "lb": "sech hëllefen loossen", "fr": "se laisser aider", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-d-therapie", "lb": "d'Therapie", "fr": "la thérapie", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-zereck-an-d-gesellschaft-fannen", "lb": "zeréck an d'Gesellschaft fannen", "fr": "retrouver sa place dans la société", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-d-reintegratioun", "lb": "d'Reintegratioun", "fr": "la réintégration", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-den-iwwergank", "lb": "den Iwwergank", "fr": "la transition, le passage", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-d-etikett-eng-etikett-kreien", "lb": "d'Etikett · eng Etikett kréien", "fr": "l'étiquette · être étiqueté", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-e-stigma-stigmatiseieren", "lb": "e Stigma · stigmatiséieren", "fr": "un stigmate · stigmatiser", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-jugeieren", "lb": "jugéieren", "fr": "juger", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-de-benevollen", "lb": "de Benevollen", "fr": "le bénévole", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-de-soziale-secteur", "lb": "de soziale Secteur", "fr": "le secteur social", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-d-ausbildung-sech-qualifizeieren", "lb": "d'Ausbildung · sech qualifizéieren", "fr": "la formation · se qualifier", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-d-drogenhellef", "lb": "d'Drogenhëllef", "fr": "l'aide aux toxicomanes", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-d-emfeld-sech-en-neit-emfeld-opbauen", "lb": "d'Ëmfeld · sech en neit Ëmfeld opbauen", "fr": "l'entourage · se reconstruire un entourage", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-sech-valoriseiert-fillen", "lb": "sech valoriséiert fillen", "fr": "se sentir valorisé", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}, {"id": "s9-eidel", "lb": "eidel", "fr": "vide", "topic": "L'aide sociale, la réinsertion, la société", "s": 9, "note": ""}];
+
+/* ============ UI STRINGS ============
+   UI_LANG picks the interface language ("fr" or "en"); deck content (lb/fr fields) is untouched.
+   Every user-visible interface string must live here — never hard-code French/English in the render code. */
+var UI_LANG = "fr";
+var UI = {
+  fr: {
+    modeCards:"Cartes", modeQuiz:"Quiz", modeList:"Liste",
+    statNew:"Nouveaux", statDue:"À revoir", statLrn:"En cours", statKnown:"Acquis",
+    totalKnownLabel:"Acquis au total",
+    sensLabel:"Sens",
+    dirFL:"FR → LB", dirLF:"LB → FR", dirMix:"Mélange",
+    ariaMode:"Mode", ariaSens:"Sens", ariaSessions:"Séances", ariaClose:"Fermer", ariaFlip:"Retourner la carte",
+    helpBtn:"Mode d'emploi", saveBtn:"Sauvegarde",
+    helpTitle:"Mode d'emploi",
+    helpIntro:"Tous les mots de tes séances avec Jim. Les nouveaux mots s'ajoutent après chaque séance ; ta progression reste.",
+    helpLi1:'<b>Cartes :</b> lis la carte, <b>dis la réponse à voix haute</b>, puis touche la carte pour vérifier. Ensuite : <i>Pas encore</i>, <i>Presque</i> ou <i>Je sais</i>.',
+    helpLi2:"Ce que tu sais revient de moins en moins souvent (1 jour, 3 jours, 1 semaine…). Ce qui est difficile revient tout de suite.",
+    helpLi3:'<b>FR → LB</b> est le sens le plus utile pour parler. Commence par <b>LB → FR</b> si un mot est tout nouveau.',
+    helpLi4:'<b>Quiz :</b> quatre réponses, une seule est juste.',
+    helpLi5:'<b>Liste :</b> tous les mots par séance. Point vert = acquis.',
+    helpLi6:"10 minutes par jour valent mieux qu'une heure le dimanche.",
+    helpLi7:"Ta progression est enregistrée dans ce navigateur, sur cet appareil, en double. Tous les quelques jours, l'appli te propose un <b>fichier de sauvegarde</b> : accepte-le, 10 secondes. Avec ce fichier, tu récupères tout — même sur un autre téléphone. Voir <b>Sauvegarde</b>, en bas.",
+    helpGo:"On y va",
+    saveTitle:"Sauvegarde",
+    saveIntro:"Ta progression vit dans ce navigateur. Un <b>fichier de sauvegarde</b> la met à l'abri : garde-le (Fichiers, iCloud, un e-mail à toi-même). Pour tout récupérer — ici ou sur un autre appareil — ouvre ce fichier avec <b>Restaurer depuis un fichier</b>.",
+    saveBtnDo:"Enregistrer un fichier de sauvegarde",
+    restoreFileLabel:"Restaurer depuis un fichier",
+    codeSummary:"Ou avec un code (copier / coller)",
+    yourCodeLabel:"Ton code",
+    copyCodeBtn:"Copier le code",
+    restoreCodeLabel:"Restaurer un code",
+    pasteCodePlaceholder:"Colle ton code ici",
+    restoreBtn:"Restaurer",
+    resetSummary:"Tout recommencer",
+    resetIntro:"Efface toute ta progression sur cet appareil.",
+    resetBtn2:"Effacer ma progression",
+    resetConfirmBtn:"Oui, tout effacer",
+    sessionDefault:function(s){ return "Séance "+s; },
+    deckInfo:function(n,ns){ return n+" mots · "+ns+" séances"; },
+    chipAll:"Tout",
+    streakN:function(n){ return n+" jours d'affilée"; },
+    streakToday:"Fait aujourd'hui ✓",
+    streakNone:"Pas encore pratiqué aujourd'hui",
+    bannerAdded:function(n,ss){ return "<b>"+n+" nouveaux mots</b> ajoutés ("+ss+"). Ta progression est intacte."; },
+    bannerBackup:'<b>Mets ta progression à l\'abri.</b> Enregistre ton fichier de sauvegarde — 10 secondes.',
+    bannerBackupBtn:"Sauvegarder",
+    bannerRecovered:"<b>Progression récupérée</b> depuis la copie de secours de cet appareil.",
+    emptyNewCap:function(n){ return "Tu as vu "+n+" nouveaux mots aujourd'hui. C'est assez : ils doivent reposer. Reviens demain."; },
+    emptyNoSelection:"Aucun mot dans cette sélection.",
+    emptyNothingDue:"Rien à revoir pour le moment. Les prochaines cartes reviennent quand ta mémoire en a besoin.",
+    emptyMoreBtn:"Encore 5 nouveaux mots",
+    emptyWord:"Äddi fir haut!",
+    pillNew:"Nouveau", pillKnown:"Acquis", pillLearning:"En cours",
+    langFront:"Français", langLB:"Lëtzebuergesch",
+    cueSpeak:"Dis-le en luxembourgeois, à voix haute.",
+    cueMeaning:"Qu'est-ce que ça veut dire ?",
+    cueRepeat:"Répète-le encore une fois, à voix haute.",
+    revealBtn:"Voir la réponse",
+    rateAgain:"Pas encore", rateAgainSmall:"tout de suite",
+    ratePresque:"Presque", ratePresqueSmall:"bientôt",
+    rateGood:"Je sais",
+    next1Day:"dans 1 jour",
+    nextDays:function(d){ return "dans "+d+" jours"; },
+    nextWeeks:function(w){ return "dans "+w+" sem."; },
+    nextMonth:"dans 1 mois",
+    quizCorrect:"Juste ! Question suivante",
+    quizWrong:"Suivante — ce mot revient bientôt",
+    legendNew:"nouveau", legendLearning:"en cours", legendKnown:"acquis",
+    backupSaved:"Fichier enregistré. Garde-le bien !",
+    backupDeclined:"Pas de fichier cette fois. Tu peux aussi copier le code ci-dessous.",
+    backupRateLimited:"Un instant, puis réessaie.",
+    backupFallback:"Si aucun fichier n'est apparu, copie le code ci-dessous et garde-le dans une note.",
+    backupFallbackErr:"Copie le code ci-dessous et garde-le dans une note.",
+    lastBackupToday:"Dernière sauvegarde : aujourd'hui.",
+    lastBackupAgo:function(s){ return "Dernière sauvegarde : "+s+"."; },
+    noBackupYet:"Pas encore de fichier de sauvegarde.",
+    agoToday:"aujourd'hui", agoYesterday:"hier",
+    agoDays:function(d){ return "il y a "+d+" jours"; },
+    restoreSuccess:"Progression restaurée.",
+    restoreError:function(code){ return "Ce code n'est pas valide. Vérifie qu'il commence par "+code+" et qu'il est complet."; },
+    copyOk:"Code copié.",
+    copyFallback:"Sélectionné : copie-le avec Ctrl/Cmd + C.",
+    resetDone:"Progression effacée.",
+    fileReadError:"Impossible de lire ce fichier.",
+    backupFileWord:"kaarten-sauvegarde"
+  },
+  en: {
+    modeCards:"Cards", modeQuiz:"Quiz", modeList:"List",
+    statNew:"New", statDue:"Due", statLrn:"Learning", statKnown:"Known",
+    totalKnownLabel:"Known overall",
+    sensLabel:"Direction",
+    dirFL:"EN → LB", dirLF:"LB → EN", dirMix:"Mix",
+    ariaMode:"Mode", ariaSens:"Direction", ariaSessions:"Sessions", ariaClose:"Close", ariaFlip:"Flip the card",
+    helpBtn:"How it works", saveBtn:"Backup",
+    helpTitle:"How it works",
+    helpIntro:"All the words from your sessions with Jim. New words are added after each session; your progress stays.",
+    helpLi1:'<b>Cards:</b> read the card, <b>say the answer out loud</b>, then tap the card to check. Then: <i>Not yet</i>, <i>Almost</i> or <i>I know it</i>.',
+    helpLi2:"What you know comes back less and less often (1 day, 3 days, 1 week…). What's hard comes back right away.",
+    helpLi3:'<b>EN → LB</b> is the most useful direction for speaking. Start with <b>LB → EN</b> if a word is brand new.',
+    helpLi4:'<b>Quiz:</b> four answers, only one is correct.',
+    helpLi5:'<b>List:</b> every word by session. Green dot = known.',
+    helpLi6:"10 minutes a day beats an hour on Sunday.",
+    helpLi7:"Your progress is saved in this browser, on this device, twice over. Every few days the app offers you a <b>backup file</b>: accept it, 10 seconds. With this file you get everything back — even on another phone. See <b>Backup</b>, below.",
+    helpGo:"Let's go",
+    saveTitle:"Backup",
+    saveIntro:"Your progress lives in this browser. A <b>backup file</b> keeps it safe: keep it somewhere (Files, iCloud, an email to yourself). To get everything back — here or on another device — open this file with <b>Restore from a file</b>.",
+    saveBtnDo:"Save a backup file",
+    restoreFileLabel:"Restore from a file",
+    codeSummary:"Or with a code (copy / paste)",
+    yourCodeLabel:"Your code",
+    copyCodeBtn:"Copy the code",
+    restoreCodeLabel:"Restore a code",
+    pasteCodePlaceholder:"Paste your code here",
+    restoreBtn:"Restore",
+    resetSummary:"Start over",
+    resetIntro:"Clears all your progress on this device.",
+    resetBtn2:"Clear my progress",
+    resetConfirmBtn:"Yes, clear everything",
+    sessionDefault:function(s){ return "Session "+s; },
+    deckInfo:function(n,ns){ return n+" words · "+ns+" sessions"; },
+    chipAll:"All",
+    streakN:function(n){ return n+" days in a row"; },
+    streakToday:"Done today ✓",
+    streakNone:"Not practised yet today",
+    bannerAdded:function(n,ss){ return "<b>"+n+" new words</b> added ("+ss+"). Your progress is untouched."; },
+    bannerBackup:'<b>Keep your progress safe.</b> Save your backup file — 10 seconds.',
+    bannerBackupBtn:"Save",
+    bannerRecovered:"<b>Progress recovered</b> from this device's backup copy.",
+    emptyNewCap:function(n){ return "You've seen "+n+" new words today. That's enough: they need to rest. Come back tomorrow."; },
+    emptyNoSelection:"No words in this selection.",
+    emptyNothingDue:"Nothing to review right now. The next cards come back when your memory needs them.",
+    emptyMoreBtn:"5 more new words",
+    emptyWord:"Äddi fir haut!",
+    pillNew:"New", pillKnown:"Known", pillLearning:"Learning",
+    langFront:"English", langLB:"Lëtzebuergesch",
+    cueSpeak:"Say it in Luxembourgish, out loud.",
+    cueMeaning:"What does it mean?",
+    cueRepeat:"Say it once more, out loud.",
+    revealBtn:"Show the answer",
+    rateAgain:"Not yet", rateAgainSmall:"right away",
+    ratePresque:"Almost", ratePresqueSmall:"soon",
+    rateGood:"I know it",
+    next1Day:"in 1 day",
+    nextDays:function(d){ return "in "+d+" days"; },
+    nextWeeks:function(w){ return "in "+w+" wk"; },
+    nextMonth:"in 1 month",
+    quizCorrect:"Correct! Next question",
+    quizWrong:"Next — this word will come back soon",
+    legendNew:"new", legendLearning:"learning", legendKnown:"known",
+    backupSaved:"File saved. Keep it safe!",
+    backupDeclined:"No file this time. You can also copy the code below.",
+    backupRateLimited:"One moment, then try again.",
+    backupFallback:"If no file appeared, copy the code below and keep it in a note.",
+    backupFallbackErr:"Copy the code below and keep it in a note.",
+    lastBackupToday:"Last backup: today.",
+    lastBackupAgo:function(s){ return "Last backup: "+s+"."; },
+    noBackupYet:"No backup file yet.",
+    agoToday:"today", agoYesterday:"yesterday",
+    agoDays:function(d){ return d+" days ago"; },
+    restoreSuccess:"Progress restored.",
+    restoreError:function(code){ return "This code isn't valid. Check that it starts with "+code+" and is complete."; },
+    copyOk:"Code copied.",
+    copyFallback:"Selected: copy it with Ctrl/Cmd + C.",
+    resetDone:"Progress cleared.",
+    fileReadError:"Couldn't read this file.",
+    backupFileWord:"cards-backup"
+  }
+};
+var T = UI[UI_LANG] || UI.fr;
+function applyI18n(){
+  document.querySelectorAll("[data-i18n]").forEach(function(el){ var k=el.getAttribute("data-i18n"); if(T[k]!==undefined) el.textContent = T[k]; });
+  document.querySelectorAll("[data-i18n-html]").forEach(function(el){ var k=el.getAttribute("data-i18n-html"); if(T[k]!==undefined) el.innerHTML = T[k]; });
+  document.querySelectorAll("[data-i18n-aria]").forEach(function(el){ var k=el.getAttribute("data-i18n-aria"); if(T[k]!==undefined) el.setAttribute("aria-label", T[k]); });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){ var k=el.getAttribute("data-i18n-placeholder"); if(T[k]!==undefined) el.setAttribute("placeholder", T[k]); });
+}
+
+var KEY = "hugo-lb-trainer";        /* per-student storage key — never change after go-live */
+var CODE = "HUGO1:";                  /* backup-code prefix, e.g. MARGOT1: */
+var DAY = 864e5;
+var IV = [0, 0, 1, 3, 7, 16, 35]; // days per box
+var NEW_PER_DAY = 12;
+
+function load(){ try{ var r = localStorage.getItem(KEY); return r ? JSON.parse(r) : null; }catch(e){ return null; } }
+/* second copy in IndexedDB — survives a cleared localStorage */
+function idb(cb){ try{ var q=indexedDB.open("hugo-kaarten",1); q.onupgradeneeded=function(){ q.result.createObjectStore("s"); }; q.onsuccess=function(){ cb(q.result); }; q.onerror=function(){}; }catch(e){} }
+function idbPut(o){ idb(function(db){ try{ db.transaction("s","readwrite").objectStore("s").put(o,"state"); }catch(e){} }); }
+function idbGet(cb){ var done=false; setTimeout(function(){ if(!done){done=true;cb(null);} },1500);
+  idb(function(db){ try{ var r=db.transaction("s").objectStore("s").get("state"); r.onsuccess=function(){ if(!done){done=true;cb(r.result||null);} }; r.onerror=function(){ if(!done){done=true;cb(null);} }; }catch(e){ if(!done){done=true;cb(null);} } }); }
+var idbReady = !!load(); // on a fresh device, read the IndexedDB copy before ever overwriting it
+function save(){ S.savedAt = Date.now(); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} if(idbReady) idbPut(JSON.parse(JSON.stringify(S))); }
+try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+var dlP = (window.claude && window.claude.use) ? window.claude.use("downloads").catch(function(){ return null; }) : Promise.resolve(null);
+
+var S = load();
+var fresh = !S;
+if(!S || S.v !== 1) S = {v:1, p:{}, known:[], dir:"fl", filter:"all", mode:"cards", streak:{d:"",n:0}, newToday:{d:"",n:0}};
+S.p = S.p || {};
+S.bk = S.bk || {t:0, n:0}; // last backup time, reviews since
+// Detect items added since last visit
+var byId = {}; DECK.forEach(function(c){ byId[c.id] = c; });
+var knownSet = {}; (S.known||[]).forEach(function(id){ knownSet[id]=1; });
+var added = fresh ? [] : DECK.filter(function(c){ return !knownSet[c.id]; });
+S.known = Object.keys(Object.assign(knownSet, byId)); // keeps old ids too
+save();
+
+function today(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+function st(id, d){ var p = S.p[id]; return (p && p[d]) || null; }
+function setSt(id, d, v){ S.p[id] = S.p[id] || {}; S.p[id][d] = v; }
+function dirsFor(){ return S.dir === "mix" ? ["fl","lf"] : [S.dir]; }
+
+function inFilter(c){ return S.filter === "all" || String(c.s) === S.filter; }
+function pool(){ return DECK.filter(inFilter); }
+
+function counts(){
+  var now = Date.now(), n=0, due=0, lrn=0, kn=0, total=0, knAll=0, totAll=0;
+  var ds = dirsFor();
+  DECK.forEach(function(c){
+    ds.forEach(function(d){
+      var x = st(c.id, d);
+      totAll++; if(x && x.b>=4) knAll++;
+      if(!inFilter(c)) return;
+      total++;
+      if(!x) n++;
+      else { if(x.due<=now) due++; if(x.b>=4) kn++; else lrn++; }
+    });
+  });
+  return {n:n,due:due,lrn:lrn,kn:kn,total:total,pct: totAll? Math.round(knAll/totAll*100):0};
+}
+
+function newLeft(){ if(S.newToday.d!==today()) S.newToday={d:today(),n:0}; return Math.max(0, NEW_PER_DAY - S.newToday.n); }
+
+var recent = []; // avoid immediate repeats
+function pick(){
+  var now = Date.now(), ds = dirsFor(), dueL = [], newL = [];
+  pool().forEach(function(c, i){
+    ds.forEach(function(d){
+      var x = st(c.id, d), k = c.id+"|"+d;
+      if(recent.indexOf(k) !== -1) return;
+      if(!x) newL.push({c:c,d:d,o:i});
+      else if(x.due<=now) dueL.push({c:c,d:d,due:x.due});
+    });
+  });
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  // Spaced repetition decides WHICH cards are eligible (due cards before new ones,
+  // daily cap on new cards); chance decides the ORDER among the eligible ones.
+  if(dueL.length) return rnd(dueL);
+  if(newL.length && newLeft()>0){
+    // new cards: random, within the earliest session that still has unseen cards
+    var s0 = Math.min.apply(null, newL.map(function(x){ return x.c.s; }));
+    var cand = newL.filter(function(x){ return x.c.s===s0; });
+    // in "Mélange", a word is met LB → FR before FR → LB
+    if(S.dir==="mix"){ var pref = cand.filter(function(x){ return x.d==="lf" || st(x.c.id,"lf"); }); if(pref.length) cand = pref; }
+    return rnd(cand);
+  }
+  return null;
+}
+
+function rate(item, g){
+  var x = st(item.c.id, item.d), wasNew = !x, now = Date.now();
+  x = x || {b:0, due:0, ok:0, ko:0};
+  if(g===0){ x.b=1; x.due=now+60e3; x.ko++; }
+  else if(g===1){ x.b=Math.max(2, x.b); x.due=now+Math.max(0.5, IV[x.b]*0.5)*DAY; x.ok++; }
+  else { x.b=Math.min(6, Math.max(2, x.b+1)); x.due=now+IV[x.b]*DAY; x.ok++; }
+  x.t = now;
+  setSt(item.c.id, item.d, x);
+  if(wasNew){ newLeft(); S.newToday.n++; }
+  S.bk.n++;
+  var t=today();
+  if(S.streak.d!==t){
+    var y=new Date(Date.now()-DAY), yd=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate();
+    S.streak = {d:t, n: S.streak.d===yd ? S.streak.n+1 : 1};
+  }
+  recent.push(item.c.id+"|"+item.d); if(recent.length>3) recent.shift();
+  save();
+}
+
+var $ = function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/[&<>"]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];}); }
+function sideText(c, d, front){ return (d==="fl") === front ? c.fr : c.lb; }
+function sideLang(d, front){ return (d==="fl") === front ? T.langFront : T.langLB; }
+function boxPill(x){ if(!x) return '<span class="pill r new">'+T.pillNew+'</span>'; if(x.b>=4) return '<span class="pill r b'+x.b+'">'+T.pillKnown+'</span>'; return '<span class="pill r b'+x.b+'">'+T.pillLearning+'</span>'; }
+function sesShort(s){ var l = SESSIONS[s] || T.sessionDefault(s); return l.split(" · ")[0]; }
+
+function header(){
+  var k = counts();
+  $("sNew").textContent=k.n; $("sDue").textContent=k.due; $("sLrn").textContent=k.lrn; $("sKnown").textContent=k.kn;
+  $("fill").style.width=k.pct+"%"; $("pct").textContent=k.pct+"%";
+  var keys = Object.keys(SESSIONS).sort(function(a,b){return a-b;});
+  $("deckInfo").textContent = T.deckInfo(DECK.length, keys.filter(function(s){return s<90;}).length);
+  var h = '<button class="chip'+(S.filter==="all"?" on":"")+'" data-f="all" type="button">'+T.chipAll+' <small>'+DECK.length+'</small></button>';
+  keys.forEach(function(s){
+    var n = DECK.filter(function(c){return String(c.s)===s;}).length;
+    h += '<button class="chip'+(S.filter===s?" on":"")+'" data-f="'+s+'" type="button">'+esc(SESSIONS[s])+' <small>'+n+'</small></button>';
+  });
+  $("chips").innerHTML = h;
+  Array.prototype.forEach.call($("dirSeg").children, function(b){ b.classList.toggle("on", b.dataset.d===S.dir); });
+  ["Cards","Quiz","List"].forEach(function(m){ $("m"+m).classList.toggle("on", S.mode===m.toLowerCase()); });
+  $("dirSeg").parentNode.hidden = S.mode==="list";
+  $("streak").textContent = S.streak.n>1 && (S.streak.d===today()) ? T.streakN(S.streak.n) : (S.streak.d===today() ? T.streakToday : T.streakNone);
+}
+
+function banners(){
+  var h = "";
+  if(added.length){
+    var ss = {}; added.forEach(function(c){ ss[c.s]=1; });
+    h += '<div class="banner" id="bNew"><span>'+T.bannerAdded(added.length, Object.keys(ss).map(sesShort).join(", "))+'</span><button type="button" data-dismiss="bNew" aria-label="'+T.ariaClose+'">✕</button></div>';
+  }
+  if(needBackup()){
+    h += '<div class="banner warm" id="bBk"><span>'+T.bannerBackup+'</span><button type="button" class="btn primary" id="bkBanner" style="margin-left:auto;padding:6px 12px;font-size:.82rem;color:#fff">'+T.bannerBackupBtn+'</button></div>';
+  }
+  if(recovered){
+    h += '<div class="banner" id="bRec"><span>'+T.bannerRecovered+'</span><button type="button" data-dismiss="bRec" aria-label="'+T.ariaClose+'">✕</button></div>';
+  }
+  $("banners").innerHTML = h;
+}
+function reviewed(){ return Object.keys(S.p).length > 0; }
+function needBackup(){ return reviewed() && S.bk.n >= 15 && (Date.now() - (S.bk.t||0)) > 3*DAY; }
+var recovered = false;
+
+var cur = null, flipped = false, answered = false;
+
+function empty(){
+  var k = counts(), msg;
+  if(k.n>0 && newLeft()===0) msg = T.emptyNewCap(NEW_PER_DAY);
+  else if(k.total===0) msg = T.emptyNoSelection;
+  else msg = T.emptyNothingDue;
+  var more = (k.n>0 && newLeft()===0) ? '<button class="next" id="moreNew" type="button">'+T.emptyMoreBtn+'</button>' : '';
+  return '<div class="empty"><div class="word">'+T.emptyWord+'</div><p>'+esc(msg)+'</p>'+more+'</div>';
+}
+
+function renderCards(){
+  cur = pick(); flipped = false;
+  if(!cur){ $("main").innerHTML = empty(); return; }
+  var c=cur.c, d=cur.d, x=st(c.id,d);
+  var note = c.note ? '<div class="note">'+esc(c.note)+'</div>' : '';
+  $("main").innerHTML =
+    '<div class="card" id="card" role="button" tabindex="0" aria-label="'+T.ariaFlip+'">'+
+     '<div class="inner">'+
+      '<div class="face"><span class="pill l">'+esc(sesShort(c.s))+' · '+esc(c.topic)+'</span>'+boxPill(x)+
+        '<div class="lang">'+esc(sideLang(d,true))+'</div><div class="word">'+esc(sideText(c,d,true))+'</div>'+
+        (d==="fl"?note:'')+'<div class="cue">'+esc(d==="fl"?T.cueSpeak:T.cueMeaning)+'</div></div>'+
+      '<div class="face back"><span class="pill l">'+esc(sesShort(c.s))+' · '+esc(c.topic)+'</span>'+
+        '<div class="lang">'+esc(sideLang(d,false))+'</div><div class="word">'+esc(sideText(c,d,false))+'</div>'+note+
+        '<div class="echo">'+esc(sideText(c,d,true))+'</div>'+(d==="fl"?'<div class="cue">'+esc(T.cueRepeat)+'</div>':'')+'</div>'+
+     '</div></div>'+
+    '<button class="reveal" id="reveal" type="button">'+esc(T.revealBtn)+'</button>'+
+    '<div class="rate off" id="rate">'+
+      '<button class="a" data-g="0" type="button">'+esc(T.rateAgain)+'<small>'+esc(T.rateAgainSmall)+'</small></button>'+
+      '<button class="h" data-g="1" type="button">'+esc(T.ratePresque)+'<small>'+esc(T.ratePresqueSmall)+'</small></button>'+
+      '<button class="g" data-g="2" type="button">'+esc(T.rateGood)+'<small>'+esc(nextLabel(x))+'</small></button>'+
+    '</div>';
+}
+function nextLabel(x){ var b = x ? Math.min(6, Math.max(2,x.b+1)) : 2; var d=IV[b]; return d===1?T.next1Day:(d<7?T.nextDays(d):(d<30?T.nextWeeks(Math.round(d/7)):T.nextMonth)); }
+function flip(){
+  if(!cur || flipped) return; flipped = true;
+  $("card").classList.add("flip"); $("reveal").hidden = true; $("rate").classList.remove("off");
+}
+
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+function renderQuiz(){
+  cur = pick(); answered = false;
+  if(!cur){ $("main").innerHTML = empty(); return; }
+  var c=cur.c, d=cur.d, ans = sideText(c,d,false);
+  var same = DECK.filter(function(o){ return o.id!==c.id && o.topic===c.topic && sideText(o,d,false)!==ans; });
+  var other = DECK.filter(function(o){ return o.id!==c.id && o.topic!==c.topic && sideText(o,d,false)!==ans; });
+  var picks = shuffle(same).slice(0,3); if(picks.length<3) picks = picks.concat(shuffle(other).slice(0,3-picks.length));
+  var seen = {}; seen[ans]=1;
+  var opts = [ans]; picks.forEach(function(o){ var t=sideText(o,d,false); if(!seen[t]){ seen[t]=1; opts.push(t); } });
+  shuffle(opts);
+  $("main").innerHTML =
+    '<div class="prompt"><span class="pill l">'+esc(sesShort(c.s))+' · '+esc(c.topic)+'</span>'+boxPill(st(c.id,d))+
+      '<div class="lang" style="margin-top:18px">'+esc(sideLang(d,true))+'</div><div class="word">'+esc(sideText(c,d,true))+'</div>'+
+      (c.note?'<div class="note">'+esc(c.note)+'</div>':'')+'</div>'+
+    '<div class="opts" id="opts">'+opts.map(function(o){ return '<button class="opt" type="button" data-v="'+esc(o)+'">'+esc(o)+'</button>'; }).join("")+'</div>';
+  $("main").dataset.ans = ans;
+}
+function answer(btn){
+  if(answered) return; answered = true;
+  var ans = $("main").dataset.ans, ok = btn.dataset.v===ans;
+  Array.prototype.forEach.call($("opts").children, function(b){ b.disabled=true; if(b.dataset.v===ans) b.classList.add("ok"); });
+  if(!ok) btn.classList.add("ko");
+  rate(cur, ok?2:0); header();
+  var nx = document.createElement("button"); nx.className="next"; nx.type="button"; nx.id="nextQ"; nx.textContent = ok ? T.quizCorrect : T.quizWrong;
+  $("main").appendChild(nx); nx.focus();
+}
+
+function renderList(){
+  var keys = Object.keys(SESSIONS).sort(function(a,b){return a-b;}).filter(function(s){ return S.filter==="all"||S.filter===s; });
+  var h = '<div class="legend"><span><i class="dot"></i>'+esc(T.legendNew)+'</span><span><i class="dot l"></i>'+esc(T.legendLearning)+'</span><span><i class="dot k"></i>'+esc(T.legendKnown)+'</span></div><div class="list">';
+  keys.forEach(function(s){
+    var items = DECK.filter(function(c){ return String(c.s)===s; });
+    if(!items.length) return;
+    h += '<section><h3>'+esc(SESSIONS[s])+'</h3><ul>';
+    items.forEach(function(c){
+      var a=st(c.id,"fl"), b=st(c.id,"lf"), best=Math.max(a?a.b:-1, b?b.b:-1);
+      var cls = best<0 ? "" : (best>=4 ? " k" : " l");
+      h += '<li><i class="dot'+cls+'"></i><span class="lb">'+esc(c.lb)+'</span><span class="fr">'+esc(c.fr)+'</span></li>';
+    });
+    h += '</ul></section>';
+  });
+  $("main").innerHTML = h + '</div>';
+}
+
+function render(){ header(); if(S.mode==="quiz") renderQuiz(); else if(S.mode==="list") renderList(); else renderCards(); }
+
+// ---- events
+document.addEventListener("click", function(e){
+  var t = e.target.closest("button,[data-close],#card"); if(!t) return;
+  if(t.id==="card"||t.id==="reveal"){ flip(); return; }
+  if(t.dataset.g!==undefined && cur){ rate(cur, +t.dataset.g); render(); return; }
+  if(t.classList.contains("opt")){ answer(t); return; }
+  if(t.id==="nextQ"){ renderQuiz(); return; }
+  if(t.id==="moreNew"){ S.newToday.n = Math.max(0, S.newToday.n-5); save(); render(); return; }
+  if(t.dataset.f){ S.filter=t.dataset.f; recent=[]; save(); render(); return; }
+  if(t.dataset.d){ S.dir=t.dataset.d; recent=[]; save(); render(); return; }
+  if(t.id==="mCards"||t.id==="mQuiz"||t.id==="mList"){ S.mode=t.id.slice(1).toLowerCase(); save(); render(); return; }
+  if(t.dataset.dismiss){ var b=$(t.dataset.dismiss); if(b) b.remove(); added=[]; return; }
+  if(t.id==="helpBtn"){ $("helpSheet").hidden=false; return; }
+  if(t.id==="saveBtn"){ openSave(); return; }
+  if(t.hasAttribute("data-close")){ t.closest(".sheet").hidden=true; try{localStorage.setItem(KEY+"-help","1");}catch(_){} render(); return; }
+  if(t.id==="copyBtn"){ var v=$("exportBox").value; var ok=function(){ $("saveStatus").textContent=T.copyOk; };
+    try{ navigator.clipboard.writeText(v).then(ok, function(){ $("exportBox").select(); $("saveStatus").textContent=T.copyFallback; }); }
+    catch(_){ $("exportBox").select(); $("saveStatus").textContent=T.copyFallback; } return; }
+  if(t.id==="importBtn"){ doImport(); return; }
+  if(t.id==="bkBtn"||t.id==="bkBanner"){ doBackup(); return; }
+  if(t.id==="resetBtn"){ t.hidden=true; $("resetConfirm").hidden=false; return; }
+  if(t.id==="resetConfirm"){ S.p={}; S.streak={d:"",n:0}; S.newToday={d:"",n:0}; save(); $("saveStatus").textContent=T.resetDone; t.hidden=true; $("resetBtn").hidden=false; render(); return; }
+});
+document.addEventListener("keydown", function(e){
+  if(!$("helpSheet").hidden || !$("saveSheet").hidden) return;
+  if(S.mode!=="cards" || !cur) return;
+  if((e.key===" "||e.key==="Enter") && !flipped){ e.preventDefault(); flip(); }
+  else if(flipped && (e.key==="1"||e.key==="2"||e.key==="3")){ rate(cur, +e.key-1); render(); }
+});
+document.querySelectorAll(".sheet").forEach(function(s){ s.addEventListener("click", function(e){ if(e.target===s){ s.hidden=true; render(); } }); });
+
+function makeCode(){
+  var data = {v:1, p:S.p, streak:S.streak, known:S.known, at:Date.now()};
+  return CODE+btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+}
+function ago(t){ var d=Math.floor((Date.now()-t)/DAY); return d<=0?T.agoToday:(d===1?T.agoYesterday:T.agoDays(d)); }
+function stamp(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
+function backupDone(){ S.bk={t:Date.now(), n:0}; save(); banners(); if(!$("saveSheet").hidden) $("bkInfo").textContent=T.lastBackupToday; }
+function doBackup(){
+  var code = makeCode(), name = "hugo-"+T.backupFileWord+"-"+stamp()+".txt";
+  var say = function(m){ $("saveStatus").textContent = m; };
+  dlP.then(function(dl){
+    if(dl){
+      return dl.save({filename:name, data:code}).then(function(){ backupDone(); say(T.backupSaved); },
+        function(e){ var c=e&&e.code;
+          if(c==="declined"){ if($("saveSheet").hidden) openSave(); say(T.backupDeclined); }
+          else if(c==="rate_limited"){ say(T.backupRateLimited); }
+          else fallback(); });
+    }
+    fallback();
+  });
+  function fallback(){
+    try{
+      var a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([code],{type:"text/plain"})); a.download=name;
+      document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },1000);
+      backupDone(); if($("saveSheet").hidden) openSave(); say(T.backupFallback);
+    }catch(_){ if($("saveSheet").hidden) openSave(); say(T.backupFallbackErr); }
+  }
+}
+function openSave(){
+  var code = makeCode();
+  $("exportBox").value = code; $("importBox").value=""; $("saveStatus").textContent="";
+  $("resetConfirm").hidden=true; $("resetBtn").hidden=false;
+  $("bkInfo").textContent = S.bk.t ? T.lastBackupAgo(ago(S.bk.t)) : T.noBackupYet;
+  $("saveSheet").hidden=false;
+}
+function doImport(txt){
+  var raw = (typeof txt==="string" ? txt : $("importBox").value).trim();
+  try{
+    if(raw.indexOf(CODE)!==0) throw 0;
+    var d = JSON.parse(decodeURIComponent(escape(atob(raw.slice(CODE.length)))));
+    if(!d || typeof d.p!=="object") throw 0;
+    // merge: for each item/direction keep the more advanced state
+    Object.keys(d.p).forEach(function(id){
+      Object.keys(d.p[id]).forEach(function(dir){
+        var a = st(id,dir), b = d.p[id][dir];
+        if(!a || (b.t||0) > (a.t||0)) setSt(id,dir,b);
+      });
+    });
+    if(d.streak && d.streak.n > S.streak.n) S.streak = d.streak;
+    if(d.at) S.bk = {t: Math.max(S.bk.t||0, d.at), n: 0};
+    $("bkInfo").textContent = S.bk.t ? T.lastBackupAgo(ago(S.bk.t)) : "";
+    save(); $("saveStatus").textContent = T.restoreSuccess; banners(); render();
+  }catch(_){ $("saveStatus").textContent = T.restoreError(CODE); }
+}
+
+$("bkFile").addEventListener("change", function(){
+  var f=this.files && this.files[0]; if(!f) return;
+  var r=new FileReader(); r.onload=function(){ doImport(String(r.result)); }; r.onerror=function(){ $("saveStatus").textContent=T.fileReadError; };
+  r.readAsText(f); this.value="";
+});
+applyI18n(); banners(); render();
+/* localStorage empty but the IndexedDB copy survived → bring it back */
+if(fresh){ idbGet(function(o){
+  idbReady = true;
+  if(!(o && o.v===1 && o.p && Object.keys(o.p).length)){ save(); return; }
+  {
+    S = o; S.bk = S.bk || {t:0,n:0}; S.known = Object.keys(byId); added = []; recovered = true;
+    save(); banners(); render(); $("helpSheet").hidden = true;
+  }
+}); }
+var seenHelp = false; try{ seenHelp = localStorage.getItem(KEY+"-help")==="1"; }catch(_){}
+if(fresh && !seenHelp) $("helpSheet").hidden = false;
+})();
+</script>
+
+</body></html>
