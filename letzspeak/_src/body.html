@@ -1,0 +1,619 @@
+<style>
+.langsw{display:inline-flex;align-items:center;gap:6px}
+.warn{display:flex;gap:10px;align-items:flex-start;background:var(--amber-tint);border:1.5px solid var(--amber);border-radius:14px;padding:10px 13px;font-size:.86rem;line-height:1.4}
+.warn b:first-child{display:block;font-size:.9rem;letter-spacing:.01em}
+.warn .ico{font-size:1.2rem;line-height:1}
+.prog{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.prog .now{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.prog .now b{font-family:"Bricolage Grotesque",Georgia,sans-serif;font-size:1rem}
+.prog .now span{font-size:.8rem;color:var(--ink-dim);white-space:nowrap}
+.mods{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:5px}
+.mod{position:relative;border:1.5px solid var(--line);background:var(--surface-2);border-radius:10px;height:44px;cursor:pointer;padding:0;overflow:hidden;font-weight:800;font-size:.85rem;color:var(--ink-dim)}
+.mod i{position:absolute;left:0;bottom:0;height:100%;background:var(--moss-tint);z-index:0}
+.mod span{position:relative;z-index:1}
+.mod.done{background:var(--moss);border-color:var(--moss);color:#fff}
+.mod.done i{display:none}
+.mod.cur{border-color:var(--sky);box-shadow:0 0 0 2px var(--sky-tint)}
+.mod.sel{outline:2.5px solid var(--ink);outline-offset:1px}
+.mod.locked{opacity:.55;background:repeating-linear-gradient(135deg,var(--surface-2) 0 6px,var(--surface) 6px 12px)}
+.mod.rev{font-size:.72rem}
+.mod.rev.has{border-color:var(--red);color:var(--red)}
+.modtitle{display:flex;flex-direction:column;gap:2px}
+.modtitle h2{margin:0;font-family:"Bricolage Grotesque",Georgia,sans-serif;font-size:1.25rem;line-height:1.15}
+.modtitle p{margin:0;color:var(--ink-dim);font-size:.88rem}
+.done-box{background:var(--moss-tint);border:1.5px solid var(--moss);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:.92rem}
+.pick{display:flex;flex-direction:column;gap:12px;align-items:stretch;text-align:center}
+.pick .btn{align-self:stretch;padding:14px;font-size:1rem}
+.spk{border:1.5px solid var(--sky);background:var(--surface);color:var(--sky);border-radius:999px;width:46px;height:46px;font-size:1.25rem;cursor:pointer;align-self:center;line-height:1;padding:0}
+.spk.sm{width:30px;height:30px;font-size:.85rem;border-width:1px}
+.list li{grid-template-columns:12px 1fr 1fr 30px}
+.sndt{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 12px;font-weight:700;font-size:.82rem;color:var(--ink-dim);cursor:pointer}
+.sndt.on{background:var(--sky-tint);border-color:var(--sky);color:var(--sky)}
+</style>
+
+<div class="app">
+  <header>
+    <div class="top">
+      <div>
+        <div class="flag" aria-hidden="true"><i></i><i></i><i></i></div>
+        <h1>Lëtz Speak Vocab</h1>
+        <p class="sub" id="deckInfo"></p>
+      </div>
+      <div class="seg" role="group" id="langSeg" aria-label="Langue / Language">
+        <button data-lang="fr" type="button">FR</button>
+        <button data-lang="en" type="button">EN</button>
+      </div>
+    </div>
+    <div class="warn" role="note"><span class="ico" aria-hidden="true">⚠️</span><span data-i18n-html="warnStorage"></span></div>
+    <div class="prog" id="prog"></div>
+    <div class="row">
+      <div class="seg" role="group" data-i18n-aria="ariaMode">
+        <button id="mCards" class="on" type="button" data-i18n="modeCards"></button>
+        <button id="mQuiz" type="button" data-i18n="modeQuiz"></button>
+        <button id="mList" type="button" data-i18n="modeList"></button>
+      </div>
+      <div class="seg" id="dirSeg" role="group" data-i18n-aria="ariaSens">
+        <button data-d="fl" type="button"></button>
+        <button data-d="lf" type="button"></button>
+        <button data-d="mix" type="button" data-i18n="dirMix"></button>
+      </div>
+      <button class="sndt" id="sndBtn" type="button" hidden></button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="sNew">0</b><span data-i18n="statNew"></span></div>
+      <div class="stat due"><b id="sDue">0</b><span data-i18n="statDue"></span></div>
+      <div class="stat lrn"><b id="sLrn">0</b><span data-i18n="statLrn"></span></div>
+      <div class="stat known"><b id="sKnown">0</b><span data-i18n="statKnown"></span></div>
+    </div>
+  </header>
+  <div id="banners"></div>
+  <main id="main"></main>
+  <footer>
+    <span id="streak"></span>
+    <span><button class="link" id="helpBtn" type="button" data-i18n="helpBtn"></button> · <button class="link" id="saveBtn" type="button" data-i18n="saveBtn"></button></span>
+  </footer>
+</div>
+
+<div class="sheet" id="langSheet" hidden>
+  <div class="sheet-card pick">
+    <div class="flag" aria-hidden="true" style="align-self:center"><i></i><i></i><i></i></div>
+    <h2>Lëtz Speak Vocab</h2>
+    <p>Choisis ta langue · Choose your language</p>
+    <button class="btn primary" data-pick="fr" type="button">Français</button>
+    <button class="btn primary" data-pick="en" type="button">English</button>
+  </div>
+</div>
+
+<div class="sheet" id="lockSheet" hidden>
+  <div class="sheet-card">
+    <div class="row"><h2 id="lockTitle"></h2><button class="x" data-close type="button" data-i18n-aria="ariaClose">✕</button></div>
+    <p id="lockText"></p>
+    <button class="btn primary" id="lockGo" type="button"></button>
+    <button class="btn" data-close type="button" data-i18n="lockCancel"></button>
+  </div>
+</div>
+
+<div class="sheet" id="helpSheet" hidden>
+  <div class="sheet-card">
+    <div class="row"><h2 data-i18n="helpTitle"></h2><button class="x" data-close type="button" data-i18n-aria="ariaClose">✕</button></div>
+    <p data-i18n-html="helpIntro"></p>
+    <ul>
+      <li data-i18n-html="helpLi0"></li>
+      <li data-i18n-html="helpLi1"></li>
+      <li data-i18n="helpLi2"></li>
+      <li data-i18n-html="helpLi3"></li>
+      <li data-i18n-html="helpLi4"></li>
+      <li data-i18n="helpLi6"></li>
+      <li data-i18n-html="helpLi7"></li>
+    </ul>
+    <button class="btn primary" data-close type="button" data-i18n="helpGo"></button>
+  </div>
+</div>
+
+<div class="sheet" id="saveSheet" hidden>
+  <div class="sheet-card">
+    <div class="row"><h2 data-i18n="saveTitle"></h2><button class="x" data-close type="button" data-i18n-aria="ariaClose">✕</button></div>
+    <p data-i18n-html="saveIntro"></p>
+    <p class="note" id="bkInfo" style="font-style:normal"></p>
+    <button class="btn primary" id="bkBtn" type="button" data-i18n="saveBtnDo"></button>
+    <span class="lbl" style="margin-top:6px" data-i18n="restoreFileLabel"></span>
+    <input type="file" id="bkFile" accept=".txt,.json,text/plain,application/json" style="font:inherit;font-size:.85rem">
+    <details style="margin-top:4px"><summary style="color:var(--ink-dim)" data-i18n="codeSummary"></summary>
+    <span class="lbl" data-i18n="yourCodeLabel"></span>
+    <textarea id="exportBox" rows="4" readonly></textarea>
+    <button class="btn" id="copyBtn" type="button" data-i18n="copyCodeBtn"></button>
+    <span class="lbl" style="margin-top:6px" data-i18n="restoreCodeLabel"></span>
+    <textarea id="importBox" rows="3" data-i18n-placeholder="pasteCodePlaceholder"></textarea>
+    <button class="btn" id="importBtn" type="button" data-i18n="restoreBtn"></button>
+    </details>
+    <p class="status" id="saveStatus" role="status"></p>
+    <details>
+      <summary data-i18n="resetSummary"></summary>
+      <p style="margin-top:8px" data-i18n="resetIntro"></p>
+      <button class="btn danger" id="resetBtn" type="button" data-i18n="resetBtn2"></button>
+      <button class="btn danger" id="resetConfirm" type="button" hidden data-i18n="resetConfirmBtn"></button>
+    </details>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ============ DATA ============
+   MODULES: number → [Luxembourgish title, FR subtitle, EN subtitle].
+   DECK items: id, lb, fr, en, note, m (module). Progress is keyed by id — never change an existing id. */
+var MODULES = __MODULES__;
+var DECK = __DECK__;
+var AUDIO = __AUDIO__;   /* ids with a pronunciation clip in audio/<id>.mp3 (clip matches current spelling) */
+
+/* ============ UI STRINGS (fr / en) ============ */
+var UI = {
+ fr: {
+  warnStorage:"<b>Ta progression est enregistrée uniquement dans ce navigateur, sur cet appareil.</b> Utilise TOUJOURS le même navigateur (p. ex. Safari sur ton téléphone). Pas de mode privé. Nouvel appareil ? Fais une <b>Sauvegarde</b> (en bas) ou passe directement à ton module.",
+  deckInfo:function(n,m){ return n+" mots · "+m+" modules · luxembourgeois pour débutants"; },
+  progNow:function(m,n){ return "Tu es au module "+m+" / "+n; },
+  progOverall:function(d,n){ return d+" / "+n+" modules terminés"; },
+  modLearnt:function(a,b){ return a+" / "+b+" mots appris"; },
+  review:"Révision", reviewTitle:"Révision", reviewSub:"Les mots à revoir de tous tes modules",
+  modeCards:"Cartes", modeQuiz:"Quiz", modeList:"Liste",
+  statNew:"Nouveaux", statDue:"À revoir", statLrn:"En cours", statKnown:"Acquis",
+  dirFL:"FR → LB", dirLF:"LB → FR", dirMix:"Mélange",
+  ariaMode:"Mode", ariaSens:"Sens", ariaClose:"Fermer", ariaFlip:"Retourner la carte",
+  helpBtn:"Mode d'emploi", saveBtn:"Sauvegarde",
+  helpTitle:"Mode d'emploi",
+  helpIntro:"Le vocabulaire de base du luxembourgeois, en <b>10 modules</b>. Termine un module pour débloquer le suivant.",
+  helpLi0:"<b>Un module est terminé</b> quand tu as répondu <i>Je sais</i> au moins une fois pour chaque mot. Tu as déjà fait les premiers modules (ou tu as changé d'appareil) ? Touche un module verrouillé 🔒 pour le débloquer.",
+  helpLi1:"<b>Cartes :</b> lis la carte, <b>dis la réponse à voix haute</b>, puis touche la carte pour vérifier. Ensuite : <i>Pas encore</i>, <i>Presque</i> ou <i>Je sais</i>.",
+  helpLi2:"Ce que tu sais revient de moins en moins souvent (1 jour, 3 jours, 1 semaine…). Ce qui est difficile revient tout de suite. Les mots des anciens modules reviennent dans <b>Révision</b>.",
+  helpLi3:"<b>LB → FR</b> pour découvrir un mot, <b>FR → LB</b> pour apprendre à le dire.",
+  helpLi4:"<b>Quiz :</b> quatre réponses, une seule est juste. <b>Liste :</b> tous les mots du module.",
+  helpLi6:"10 minutes par jour valent mieux qu'une heure le dimanche.",
+  helpLi7:"<b>Important :</b> ta progression est enregistrée <b>uniquement dans ce navigateur</b>. Utilise toujours le même navigateur sur le même appareil. Pour changer d'appareil, fais une <b>Sauvegarde</b> et ouvre le fichier sur l'autre appareil.",
+  helpGo:"On y va",
+  saveTitle:"Sauvegarde",
+  saveIntro:"Ta progression vit dans ce navigateur. Un <b>fichier de sauvegarde</b> la met à l'abri : garde-le (Fichiers, iCloud, un e-mail à toi-même). Pour tout récupérer — ici ou sur un autre appareil — ouvre ce fichier avec <b>Restaurer depuis un fichier</b>.",
+  saveBtnDo:"Enregistrer un fichier de sauvegarde",
+  restoreFileLabel:"Restaurer depuis un fichier",
+  codeSummary:"Ou avec un code (copier / coller)",
+  yourCodeLabel:"Ton code", copyCodeBtn:"Copier le code", restoreCodeLabel:"Restaurer un code",
+  pasteCodePlaceholder:"Colle ton code ici", restoreBtn:"Restaurer",
+  resetSummary:"Tout recommencer", resetIntro:"Efface toute ta progression sur cet appareil.",
+  resetBtn2:"Effacer ma progression", resetConfirmBtn:"Oui, tout effacer",
+  lockTitle:function(m){ return "Module "+m+" verrouillé 🔒"; },
+  lockText:function(m,p){ return "Normalement, tu termines d'abord le module "+p+". Tu as déjà appris ces mots, ou tu as perdu ta progression (nouvel appareil, autre navigateur) ? Tu peux débloquer jusqu'au module "+m+"."; },
+  lockGo:function(m){ return "Débloquer jusqu'au module "+m; },
+  lockCancel:"Non, je continue dans l'ordre",
+  doneBox:function(m){ return "Bravo ! Module "+m+" terminé 🎉"; },
+  doneNext:function(m){ return "Module "+m+" →"; },
+  bannerUnlocked:function(m){ return "<b>Module "+m+" débloqué !</b> Les mots déjà appris reviendront dans Révision."; },
+  bannerAdded:function(n){ return "<b>"+n+" nouveaux mots</b> ajoutés. Ta progression reste."; },
+  bannerBackup:"<b>Mets ta progression à l'abri.</b> Enregistre ton fichier de sauvegarde — 10 secondes.",
+  bannerBackupBtn:"Enregistrer",
+  bannerRecovered:"<b>Progression récupérée</b> depuis la copie de secours de cet appareil.",
+  streakN:function(n){ return n+" jours d'affilée"; }, streakToday:"Fait aujourd'hui ✓", streakNone:"Pas encore pratiqué aujourd'hui",
+  emptyNewCap:function(n){ return "Tu as vu "+n+" nouveaux mots aujourd'hui. Ça suffit : ils doivent reposer. Reviens demain."; },
+  emptyNoSelection:"Pas de mots ici pour l'instant.",
+  emptyNothingDue:"Rien à revoir pour le moment. Les prochaines cartes reviennent quand ta mémoire en a besoin.",
+  emptyModuleDone:"Tous les mots de ce module sont appris. Ils reviendront dans Révision.",
+  emptyMoreBtn:"5 nouveaux mots de plus",
+  emptyWord:"Äddi fir haut!",
+  pillNew:"Nouveau", pillKnown:"Acquis", pillLearning:"En cours",
+  langFront:"Français", langLB:"Lëtzebuergesch",
+  cueSpeak:"Dis-le en luxembourgeois, à voix haute.", cueMeaning:"Ça veut dire quoi ?", cueRepeat:"Redis-le une fois, à voix haute.",
+  revealBtn:"Voir la réponse",
+  rateAgain:"Pas encore", rateAgainSmall:"tout de suite", ratePresque:"Presque", ratePresqueSmall:"bientôt", rateGood:"Je sais",
+  next1Day:"dans 1 jour", nextDays:function(d){ return "dans "+d+" jours"; }, nextWeeks:function(w){ return "dans "+w+" sem."; }, nextMonth:"dans 1 mois",
+  quizCorrect:"Juste ! Question suivante", quizWrong:"Suivante — ce mot reviendra bientôt",
+  legendNew:"nouveau", legendLearning:"appris (en cours)", legendKnown:"acquis",
+  backupSaved:"Fichier enregistré. Garde-le bien !", backupFallback:"Si aucun fichier n'apparaît, copie le code ci-dessous et garde-le dans une note.", backupFallbackErr:"Copie le code ci-dessous et garde-le dans une note.",
+  lastBackupToday:"Dernière sauvegarde : aujourd'hui.", lastBackupAgo:function(s){ return "Dernière sauvegarde : "+s+"."; }, noBackupYet:"Pas encore de fichier de sauvegarde.",
+  agoToday:"aujourd'hui", agoYesterday:"hier", agoDays:function(d){ return "il y a "+d+" jours"; },
+  restoreSuccess:"Progression restaurée.", restoreError:function(c){ return "Ce code n'est pas valide. Vérifie qu'il commence par "+c+" et qu'il est complet."; },
+  copyOk:"Code copié.", copyFallback:"Sélectionné : copie-le avec Ctrl/Cmd + C.", resetDone:"Progression effacée.", fileReadError:"Impossible de lire ce fichier.",
+  backupFileWord:"sauvegarde", sndOn:"🔊 Son auto", sndOff:"🔇 Son auto", ariaSay:"Écouter"
+ },
+ en: {
+  warnStorage:"<b>Your progress is saved only in this browser, on this device.</b> ALWAYS use the same browser (e.g. Safari on your phone). No private/incognito mode. New device? Make a <b>Backup</b> (bottom of the page) or skip ahead to your module.",
+  deckInfo:function(n,m){ return n+" words · "+m+" modules · Luxembourgish for beginners"; },
+  progNow:function(m,n){ return "You're on module "+m+" / "+n; },
+  progOverall:function(d,n){ return d+" / "+n+" modules complete"; },
+  modLearnt:function(a,b){ return a+" / "+b+" words learnt"; },
+  review:"Review", reviewTitle:"Review", reviewSub:"Words due again from all your modules",
+  modeCards:"Cards", modeQuiz:"Quiz", modeList:"List",
+  statNew:"New", statDue:"Due", statLrn:"Learning", statKnown:"Known",
+  dirFL:"EN → LB", dirLF:"LB → EN", dirMix:"Mix",
+  ariaMode:"Mode", ariaSens:"Direction", ariaClose:"Close", ariaFlip:"Flip the card",
+  helpBtn:"How it works", saveBtn:"Backup",
+  helpTitle:"How it works",
+  helpIntro:"Basic Luxembourgish vocabulary in <b>10 modules</b>. Finish a module to unlock the next one.",
+  helpLi0:"<b>A module is complete</b> when you've answered <i>I know it</i> at least once for every word. Already done the first modules (or switched device)? Tap a locked module 🔒 to unlock it.",
+  helpLi1:"<b>Cards:</b> read the card, <b>say the answer out loud</b>, then tap the card to check. Then: <i>Not yet</i>, <i>Almost</i> or <i>I know it</i>.",
+  helpLi2:"What you know comes back less and less often (1 day, 3 days, 1 week…). What's hard comes back right away. Words from earlier modules come back in <b>Review</b>.",
+  helpLi3:"<b>LB → EN</b> to discover a word, <b>EN → LB</b> to learn to say it.",
+  helpLi4:"<b>Quiz:</b> four answers, only one is correct. <b>List:</b> every word in the module.",
+  helpLi6:"10 minutes a day beats an hour on Sunday.",
+  helpLi7:"<b>Important:</b> your progress is saved <b>only in this browser</b>. Always use the same browser on the same device. To switch device, make a <b>Backup</b> and open the file on the other device.",
+  helpGo:"Let's go",
+  saveTitle:"Backup",
+  saveIntro:"Your progress lives in this browser. A <b>backup file</b> keeps it safe: keep it somewhere (Files, iCloud, an email to yourself). To get everything back — here or on another device — open this file with <b>Restore from a file</b>.",
+  saveBtnDo:"Save a backup file",
+  restoreFileLabel:"Restore from a file",
+  codeSummary:"Or with a code (copy / paste)",
+  yourCodeLabel:"Your code", copyCodeBtn:"Copy the code", restoreCodeLabel:"Restore a code",
+  pasteCodePlaceholder:"Paste your code here", restoreBtn:"Restore",
+  resetSummary:"Start over", resetIntro:"Clears all your progress on this device.",
+  resetBtn2:"Clear my progress", resetConfirmBtn:"Yes, clear everything",
+  lockTitle:function(m){ return "Module "+m+" is locked 🔒"; },
+  lockText:function(m,p){ return "Normally you finish module "+p+" first. Already know these words, or lost your progress (new device, different browser)? You can unlock up to module "+m+"."; },
+  lockGo:function(m){ return "Unlock up to module "+m; },
+  lockCancel:"No, I'll go in order",
+  doneBox:function(m){ return "Well done! Module "+m+" complete 🎉"; },
+  doneNext:function(m){ return "Module "+m+" →"; },
+  bannerUnlocked:function(m){ return "<b>Module "+m+" unlocked!</b> Words you've learnt will come back in Review."; },
+  bannerAdded:function(n){ return "<b>"+n+" new words</b> added. Your progress is untouched."; },
+  bannerBackup:"<b>Keep your progress safe.</b> Save your backup file — 10 seconds.",
+  bannerBackupBtn:"Save",
+  bannerRecovered:"<b>Progress recovered</b> from this device's backup copy.",
+  streakN:function(n){ return n+" days in a row"; }, streakToday:"Done today ✓", streakNone:"Not practised yet today",
+  emptyNewCap:function(n){ return "You've seen "+n+" new words today. That's enough: they need to rest. Come back tomorrow."; },
+  emptyNoSelection:"No words here yet.",
+  emptyNothingDue:"Nothing to review right now. The next cards come back when your memory needs them.",
+  emptyModuleDone:"Every word in this module is learnt. They'll come back in Review.",
+  emptyMoreBtn:"5 more new words",
+  emptyWord:"Äddi fir haut!",
+  pillNew:"New", pillKnown:"Known", pillLearning:"Learning",
+  langFront:"English", langLB:"Lëtzebuergesch",
+  cueSpeak:"Say it in Luxembourgish, out loud.", cueMeaning:"What does it mean?", cueRepeat:"Say it once more, out loud.",
+  revealBtn:"Show the answer",
+  rateAgain:"Not yet", rateAgainSmall:"right away", ratePresque:"Almost", ratePresqueSmall:"soon", rateGood:"I know it",
+  next1Day:"in 1 day", nextDays:function(d){ return "in "+d+" days"; }, nextWeeks:function(w){ return "in "+w+" wk"; }, nextMonth:"in 1 month",
+  quizCorrect:"Correct! Next question", quizWrong:"Next — this word will come back soon",
+  legendNew:"new", legendLearning:"learnt (still practising)", legendKnown:"known",
+  backupSaved:"File saved. Keep it safe!", backupFallback:"If no file appeared, copy the code below and keep it in a note.", backupFallbackErr:"Copy the code below and keep it in a note.",
+  lastBackupToday:"Last backup: today.", lastBackupAgo:function(s){ return "Last backup: "+s+"."; }, noBackupYet:"No backup file yet.",
+  agoToday:"today", agoYesterday:"yesterday", agoDays:function(d){ return d+" days ago"; },
+  restoreSuccess:"Progress restored.", restoreError:function(c){ return "This code isn't valid. Check that it starts with "+c+" and is complete."; },
+  copyOk:"Code copied.", copyFallback:"Selected: copy it with Ctrl/Cmd + C.", resetDone:"Progress cleared.", fileReadError:"Couldn't read this file.",
+  backupFileWord:"backup", sndOn:"🔊 Auto audio", sndOff:"🔇 Auto audio", ariaSay:"Listen"
+ }
+};
+
+var KEY = "letzspeak-vocab-v1";   /* storage key — never change after go-live */
+var CODE = "LETZSPEAK1:";
+var DAY = 864e5;
+var IV = [0, 0, 1, 3, 7, 16, 35];
+var NEW_PER_DAY = 25;
+var MODNUMS = Object.keys(MODULES).map(Number).sort(function(a,b){return a-b;});
+var NMOD = MODNUMS.length;
+
+function load(){ try{ var r = localStorage.getItem(KEY); return r ? JSON.parse(r) : null; }catch(e){ return null; } }
+function idb(cb){ try{ var q=indexedDB.open("letzspeak-vocab",1); q.onupgradeneeded=function(){ q.result.createObjectStore("s"); }; q.onsuccess=function(){ cb(q.result); }; q.onerror=function(){}; }catch(e){} }
+function idbPut(o){ idb(function(db){ try{ db.transaction("s","readwrite").objectStore("s").put(o,"state"); }catch(e){} }); }
+function idbGet(cb){ var done=false; setTimeout(function(){ if(!done){done=true;cb(null);} },1500);
+  idb(function(db){ try{ var r=db.transaction("s").objectStore("s").get("state"); r.onsuccess=function(){ if(!done){done=true;cb(r.result||null);} }; r.onerror=function(){ if(!done){done=true;cb(null);} }; }catch(e){ if(!done){done=true;cb(null);} } }); }
+var idbReady = !!load();
+function save(){ S.savedAt = Date.now(); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} if(idbReady) idbPut(JSON.parse(JSON.stringify(S))); }
+try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+
+var S = load();
+var fresh = !S;
+function blank(){ return {v:1, snd:true, p:{}, known:[], lang:null, dir:"lf", mod:1, unlocked:1, mode:"cards", streak:{d:"",n:0}, newToday:{d:"",n:0}, bk:{t:0,n:0}}; }
+if(!S || S.v !== 1) S = blank();
+function norm(){
+  S.p = S.p || {}; S.bk = S.bk || {t:0,n:0}; S.unlocked = Math.min(NMOD, Math.max(1, +S.unlocked||1));
+  if(S.mod!=="rev"){ S.mod = +S.mod||1; if(S.mod>S.unlocked) S.mod=S.unlocked; }
+  if(S.lang!=="fr" && S.lang!=="en") S.lang = null;
+  if(S.snd===undefined) S.snd = true;
+}
+norm();
+var byId = {}; DECK.forEach(function(c){ byId[c.id]=c; });
+var knownSet = {}; (S.known||[]).forEach(function(id){ knownSet[id]=1; });
+var added = fresh ? [] : DECK.filter(function(c){ return !knownSet[c.id] && c.m<=S.unlocked; });
+S.known = Object.keys(Object.assign(knownSet, byId));
+var T = UI[S.lang||"fr"];
+var flash = 0;   // one-off banner (module unlocked)
+save();
+
+function today(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+function st(id,d){ var p=S.p[id]; return (p && p[d]) || null; }
+function setSt(id,d,v){ S.p[id]=S.p[id]||{}; S.p[id][d]=v; }
+function dirsFor(){ return S.dir==="mix" ? ["fl","lf"] : [S.dir]; }
+function best(c){ var a=st(c.id,"fl"), b=st(c.id,"lf"); return Math.max(a?a.b:-1, b?b.b:-1); }
+function learnt(c){ return best(c)>=2; }
+function modItems(m){ return DECK.filter(function(c){ return c.m===m; }); }
+function modStats(m){ var it=modItems(m), l=it.filter(learnt).length; return {n:it.length, l:l, done: it.length>0 && l===it.length}; }
+function doneCount(){ return MODNUMS.filter(function(m){ return modStats(m).done; }).length; }
+/* the module the student is "on": first unlocked module that isn't complete */
+function curMod(){ for(var i=0;i<MODNUMS.length;i++){ var m=MODNUMS[i]; if(m>S.unlocked) break; if(!modStats(m).done) return m; } return S.unlocked; }
+function checkUnlock(){
+  var cm = curMod();
+  while(S.unlocked<NMOD && modStats(S.unlocked).done){ S.unlocked++; flash = S.unlocked; }
+  return cm;
+}
+function dueRev(){ var now=Date.now(), n=0; DECK.forEach(function(c){ if(c.m>S.unlocked) return; ["fl","lf"].forEach(function(d){ var x=st(c.id,d); if(x && x.due<=now) n++; }); }); return n; }
+
+function inPool(c){ return S.mod==="rev" ? c.m<=S.unlocked : c.m===S.mod; }
+function pool(){ return DECK.filter(inPool); }
+function counts(){
+  var now=Date.now(), n=0,due=0,lrn=0,kn=0,total=0, ds=dirsFor();
+  pool().forEach(function(c){ ds.forEach(function(d){ var x=st(c.id,d); total++;
+    if(!x) n++; else { if(x.due<=now) due++; if(x.b>=4) kn++; else lrn++; } }); });
+  return {n:n,due:due,lrn:lrn,kn:kn,total:total};
+}
+function newLeft(){ if(S.newToday.d!==today()) S.newToday={d:today(),n:0}; return Math.max(0, NEW_PER_DAY-S.newToday.n); }
+
+var recent = [];
+function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+function pick(){
+  var now=Date.now(), ds=dirsFor(), dueL=[], newL=[], unl=[];
+  pool().forEach(function(c){ ds.forEach(function(d){
+    var x=st(c.id,d), k=c.id+"|"+d; if(recent.indexOf(k)!==-1) return;
+    if(!x) newL.push({c:c,d:d});
+    else if(x.due<=now) dueL.push({c:c,d:d});
+    else if(S.mod!=="rev" && !learnt(c)) unl.push({c:c,d:d,due:x.due});
+  }); });
+  if(dueL.length) return rnd(dueL);
+  if(S.mod!=="rev" && newL.length && newLeft()>0){
+    if(S.dir==="mix"){ var pref=newL.filter(function(x){ return x.d==="lf" || st(x.c.id,"lf"); }); if(pref.length) newL=pref; }
+    return rnd(newL);
+  }
+  /* inside a module: words not yet learnt come back right away so the module can be finished in one sitting */
+  if(unl.length){ unl.sort(function(a,b){return a.due-b.due;}); return unl[0]; }
+  return null;
+}
+function rate(item,g){
+  var x=st(item.c.id,item.d), wasNew=!x, now=Date.now();
+  x = x || {b:0,due:0,ok:0,ko:0};
+  if(g===0){ x.b=1; x.due=now+60e3; x.ko++; }
+  else if(g===1){ x.b=Math.max(1,x.b); x.due=now+(x.b>=2?Math.max(0.5,IV[x.b]*0.5)*DAY:3*60e3); x.ok++; }
+  else { x.b=Math.min(6,Math.max(2,x.b+1)); x.due=now+IV[x.b]*DAY; x.ok++; }
+  x.t=now; setSt(item.c.id,item.d,x);
+  if(wasNew){ newLeft(); S.newToday.n++; }
+  S.bk.n++;
+  var t=today();
+  if(S.streak.d!==t){ var y=new Date(Date.now()-DAY), yd=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate(); S.streak={d:t, n:S.streak.d===yd?S.streak.n+1:1}; }
+  recent.push(item.c.id+"|"+item.d); if(recent.length>3) recent.shift();
+  checkUnlock(); save();
+}
+
+var $ = function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/[&<>"]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];}); }
+var HAS_AUDIO = Object.keys(AUDIO).length>0, player = null;
+function say(id){ if(!AUDIO[id]) return; try{ if(player) player.pause(); player = new Audio("audio/"+encodeURIComponent(id)+".mp3"); player.play().catch(function(){}); }catch(_){} }
+function autoSay(id){ if(S.snd) say(id); }
+function spk(id, sm){ return AUDIO[id] ? '<button class="spk'+(sm?" sm":"")+'" type="button" data-say="'+esc(id)+'" aria-label="'+esc(T.ariaSay)+'">🔊</button>' : ''; }
+function gl(c){ return S.lang==="en" ? c.en : c.fr; }
+function sideText(c,d,front){ return (d==="fl")===front ? gl(c) : c.lb; }
+function sideLang(d,front){ return (d==="fl")===front ? T.langFront : T.langLB; }
+function boxPill(x){ if(!x) return '<span class="pill r new">'+T.pillNew+'</span>'; if(x.b>=4) return '<span class="pill r b'+x.b+'">'+T.pillKnown+'</span>'; return '<span class="pill r b'+Math.max(1,x.b)+'">'+T.pillLearning+'</span>'; }
+function modLabel(m){ return MODULES[m][S.lang==="en"?2:1]; }
+function tag(c){ return "M"+c.m+" · "+MODULES[c.m][0]; }
+
+function applyI18n(){
+  document.documentElement.lang = S.lang||"fr";
+  document.querySelectorAll("[data-i18n]").forEach(function(el){ var k=el.getAttribute("data-i18n"); if(typeof T[k]==="string") el.textContent=T[k]; });
+  document.querySelectorAll("[data-i18n-html]").forEach(function(el){ var k=el.getAttribute("data-i18n-html"); if(typeof T[k]==="string") el.innerHTML=T[k]; });
+  document.querySelectorAll("[data-i18n-aria]").forEach(function(el){ var k=el.getAttribute("data-i18n-aria"); if(T[k]) el.setAttribute("aria-label",T[k]); });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){ var k=el.getAttribute("data-i18n-placeholder"); if(T[k]) el.setAttribute("placeholder",T[k]); });
+  var b=$("dirSeg").children; b[0].textContent=T.dirFL; b[1].textContent=T.dirLF;
+}
+
+function header(){
+  $("deckInfo").textContent = T.deckInfo(DECK.length, NMOD);
+  Array.prototype.forEach.call($("langSeg").children, function(b){ b.classList.toggle("on", b.dataset.lang===S.lang); });
+  var cm = S.unlocked, dc = doneCount(), rv = dueRev();
+  var h = '<div class="now"><b>'+esc(T.progNow(cm,NMOD))+'</b><span>'+esc(T.progOverall(dc,NMOD))+'</span></div>';
+  h += '<div class="mods" style="--n:'+(NMOD+1)+'">';
+  MODNUMS.forEach(function(m){
+    var s=modStats(m), lock=m>S.unlocked, pct=s.n?Math.round(s.l/s.n*100):0;
+    var cls="mod"+(s.done?" done":"")+(lock?" locked":"")+(m===cm&&!s.done?" cur":"")+(S.mod===m?" sel":"");
+    h += '<button class="'+cls+'" type="button" data-mod="'+m+'" title="'+esc(MODULES[m][0]+" — "+modLabel(m)+" ("+T.modLearnt(s.l,s.n)+")")+'">'+(lock?'':'<i style="width:'+pct+'%"></i>')+'<span>'+(lock?'🔒':(s.done?'✓':m))+'</span></button>';
+  });
+  h += '<button class="mod rev'+(rv?" has":"")+(S.mod==="rev"?" sel":"")+'" type="button" data-mod="rev" title="'+esc(T.review)+'"><span>↻'+(rv?'<br>'+rv:'')+'</span></button>';
+  h += '</div>';
+  if(S.mod==="rev") h += '<div class="modtitle"><h2>'+esc(T.reviewTitle)+'</h2><p>'+esc(T.reviewSub)+'</p></div>';
+  else { var s=modStats(S.mod);
+    h += '<div class="modtitle"><h2>Module '+S.mod+' · '+esc(MODULES[S.mod][0])+'</h2><p>'+esc(modLabel(S.mod))+'</p></div>';
+    h += '<div class="bar"><span>'+esc(T.modLearnt(s.l,s.n))+'</span><div class="track"><i style="width:'+(s.n?Math.round(s.l/s.n*100):0)+'%"></i></div><b>'+(s.n?Math.round(s.l/s.n*100):0)+'%</b></div>';
+  }
+  $("prog").innerHTML = h;
+  var k=counts();
+  $("sNew").textContent=k.n; $("sDue").textContent=k.due; $("sLrn").textContent=k.lrn; $("sKnown").textContent=k.kn;
+  Array.prototype.forEach.call($("dirSeg").children, function(b){ b.classList.toggle("on", b.dataset.d===S.dir); });
+  ["Cards","Quiz","List"].forEach(function(m){ $("m"+m).classList.toggle("on", S.mode===m.toLowerCase()); });
+  $("dirSeg").hidden = S.mode==="list";
+  $("sndBtn").hidden = !HAS_AUDIO || S.mode==="list"; $("sndBtn").textContent = S.snd?T.sndOn:T.sndOff; $("sndBtn").classList.toggle("on", !!S.snd);
+  $("streak").textContent = S.streak.n>1 && S.streak.d===today() ? T.streakN(S.streak.n) : (S.streak.d===today() ? T.streakToday : T.streakNone);
+}
+
+function banners(){
+  var h="";
+  if(flash) h += '<div class="banner" id="bFlash"><span>'+T.bannerUnlocked(flash)+'</span><button type="button" data-dismiss="bFlash" aria-label="'+T.ariaClose+'">✕</button></div>';
+  if(added.length) h += '<div class="banner" id="bNew"><span>'+T.bannerAdded(added.length)+'</span><button type="button" data-dismiss="bNew" aria-label="'+T.ariaClose+'">✕</button></div>';
+  if(needBackup()) h += '<div class="banner warm" id="bBk"><span>'+T.bannerBackup+'</span><button type="button" class="btn primary" id="bkBanner" style="margin-left:auto;padding:6px 12px;font-size:.82rem;color:#fff">'+T.bannerBackupBtn+'</button></div>';
+  if(recovered) h += '<div class="banner" id="bRec"><span>'+T.bannerRecovered+'</span><button type="button" data-dismiss="bRec" aria-label="'+T.ariaClose+'">✕</button></div>';
+  $("banners").innerHTML = h;
+}
+function reviewed(){ return Object.keys(S.p).length>0; }
+function needBackup(){ return reviewed() && S.bk.n>=40 && (Date.now()-(S.bk.t||0))>3*DAY; }
+var recovered=false;
+var cur=null, flipped=false, answered=false;
+
+function doneBox(){
+  if(S.mod==="rev" || !modStats(S.mod).done) return "";
+  var nx = S.mod<NMOD ? '<button class="btn primary" type="button" data-mod="'+(S.mod+1)+'">'+esc(T.doneNext(S.mod+1))+'</button>' : '';
+  return '<div class="done-box"><b>'+esc(T.doneBox(S.mod))+'</b>'+nx+'</div>';
+}
+function empty(){
+  var k=counts(), msg;
+  if(S.mod!=="rev" && modStats(S.mod).done) msg=T.emptyModuleDone;
+  else if(k.n>0 && newLeft()===0 && S.mod!=="rev") msg=T.emptyNewCap(NEW_PER_DAY);
+  else if(k.total===0) msg=T.emptyNoSelection;
+  else msg=T.emptyNothingDue;
+  var more=(S.mod!=="rev" && k.n>0 && newLeft()===0) ? '<button class="next" id="moreNew" type="button">'+T.emptyMoreBtn+'</button>' : '';
+  return '<div class="empty"><div class="word">'+T.emptyWord+'</div><p>'+esc(msg)+'</p>'+more+'</div>';
+}
+function nextLabel(x){ var b=x?Math.min(6,Math.max(2,x.b+1)):2, d=IV[b]; return d===1?T.next1Day:(d<7?T.nextDays(d):(d<30?T.nextWeeks(Math.round(d/7)):T.nextMonth)); }
+
+function renderCards(){
+  cur=pick(); flipped=false;
+  if(!cur){ $("main").innerHTML = doneBox()+empty(); return; }
+  var c=cur.c, d=cur.d, x=st(c.id,d);
+  var note = c.note ? '<div class="note">'+esc(c.note)+'</div>' : '';
+  $("main").innerHTML = doneBox()+
+    '<div class="card" id="card" role="button" tabindex="0" aria-label="'+T.ariaFlip+'"><div class="inner">'+
+      '<div class="face"><span class="pill l">'+esc(tag(c))+'</span>'+boxPill(x)+
+        '<div class="lang">'+esc(sideLang(d,true))+'</div><div class="word">'+esc(sideText(c,d,true))+'</div>'+(d==="lf"?spk(c.id):'')+
+        '<div class="cue">'+esc(d==="fl"?T.cueSpeak:T.cueMeaning)+'</div></div>'+
+      '<div class="face back"><span class="pill l">'+esc(tag(c))+'</span>'+
+        '<div class="lang">'+esc(sideLang(d,false))+'</div><div class="word">'+esc(sideText(c,d,false))+'</div>'+(d==="fl"?spk(c.id):'')+note+
+        '<div class="echo">'+esc(sideText(c,d,true))+'</div>'+(d==="fl"?'<div class="cue">'+esc(T.cueRepeat)+'</div>':'')+'</div>'+
+    '</div></div>'+
+    '<button class="reveal" id="reveal" type="button">'+esc(T.revealBtn)+'</button>'+
+    '<div class="rate off" id="rate">'+
+      '<button class="a" data-g="0" type="button">'+esc(T.rateAgain)+'<small>'+esc(T.rateAgainSmall)+'</small></button>'+
+      '<button class="h" data-g="1" type="button">'+esc(T.ratePresque)+'<small>'+esc(T.ratePresqueSmall)+'</small></button>'+
+      '<button class="g" data-g="2" type="button">'+esc(T.rateGood)+'<small>'+esc(nextLabel(x))+'</small></button>'+
+    '</div>';
+  if(d==="lf") autoSay(c.id);
+}
+function flip(){ if(!cur||flipped) return; flipped=true; $("card").classList.add("flip"); $("reveal").hidden=true; $("rate").classList.remove("off"); if(cur.d==="fl") autoSay(cur.c.id); }
+
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+function renderQuiz(){
+  cur=pick(); answered=false;
+  if(!cur){ $("main").innerHTML = doneBox()+empty(); return; }
+  var c=cur.c, d=cur.d, ans=sideText(c,d,false);
+  var same=DECK.filter(function(o){ return o.id!==c.id && o.m===c.m && sideText(o,d,false)!==ans; });
+  var other=DECK.filter(function(o){ return o.id!==c.id && o.m!==c.m && o.m<=S.unlocked && sideText(o,d,false)!==ans; });
+  var picks=shuffle(same).slice(0,3); if(picks.length<3) picks=picks.concat(shuffle(other).slice(0,3-picks.length));
+  var seen={}; seen[ans]=1; var opts=[ans];
+  picks.forEach(function(o){ var t=sideText(o,d,false); if(!seen[t]){ seen[t]=1; opts.push(t); } });
+  shuffle(opts);
+  $("main").innerHTML = doneBox()+
+    '<div class="prompt"><span class="pill l">'+esc(tag(c))+'</span>'+boxPill(st(c.id,d))+
+      '<div class="lang" style="margin-top:18px">'+esc(sideLang(d,true))+'</div><div class="word">'+esc(sideText(c,d,true))+'</div>'+(d==="lf"?spk(c.id):'')+'</div>'+
+    '<div class="opts" id="opts">'+opts.map(function(o){ return '<button class="opt" type="button" data-v="'+esc(o)+'">'+esc(o)+'</button>'; }).join("")+'</div>';
+  $("main").dataset.ans=ans;
+  if(d==="lf") autoSay(c.id);
+}
+function answer(btn){
+  if(answered) return; answered=true;
+  var ans=$("main").dataset.ans, ok=btn.dataset.v===ans;
+  Array.prototype.forEach.call($("opts").children, function(b){ b.disabled=true; if(b.dataset.v===ans) b.classList.add("ok"); });
+  if(!ok) btn.classList.add("ko");
+  if(cur.d==="fl") autoSay(cur.c.id);
+  rate(cur, ok?2:0); header(); banners();
+  var nx=document.createElement("button"); nx.className="next"; nx.type="button"; nx.id="nextQ"; nx.textContent= ok?T.quizCorrect:T.quizWrong;
+  $("main").appendChild(nx); nx.focus();
+}
+function renderList(){
+  var mods = S.mod==="rev" ? MODNUMS.filter(function(m){ return m<=S.unlocked; }) : [S.mod];
+  var h='<div class="legend"><span><i class="dot"></i>'+esc(T.legendNew)+'</span><span><i class="dot l"></i>'+esc(T.legendLearning)+'</span><span><i class="dot k"></i>'+esc(T.legendKnown)+'</span></div><div class="list">';
+  mods.forEach(function(m){
+    h+='<section><h3>Module '+m+' · '+esc(MODULES[m][0])+'</h3><ul>';
+    modItems(m).forEach(function(c){ var b=best(c), cls=b<2?"":(b>=4?" k":" l");
+      h+='<li><i class="dot'+cls+'"></i><span class="lb">'+esc(c.lb)+'</span><span class="fr">'+esc(gl(c))+'</span>'+(spk(c.id,true)||'<span></span>')+'</li>'; });
+    h+='</ul></section>';
+  });
+  $("main").innerHTML = h+'</div>';
+}
+function render(){ header(); if(S.mode==="quiz") renderQuiz(); else if(S.mode==="list") renderList(); else renderCards(); }
+
+function setLang(l){ S.lang=l; T=UI[l]; save(); applyI18n(); banners(); render(); }
+function selectMod(v){
+  if(v==="rev"){ S.mod="rev"; recent=[]; save(); render(); return; }
+  var m=+v;
+  if(m>S.unlocked){
+    $("lockTitle").textContent=T.lockTitle(m); $("lockText").textContent=T.lockText(m, S.unlocked);
+    $("lockGo").textContent=T.lockGo(m); $("lockGo").dataset.m=m; $("lockSheet").hidden=false; return;
+  }
+  S.mod=m; recent=[]; save(); render();
+}
+
+document.addEventListener("click", function(e){
+  var t=e.target.closest("button,[data-close],#card"); if(!t) return;
+  if(t.dataset.say){ say(t.dataset.say); return; }
+  if(t.id==="sndBtn"){ S.snd=!S.snd; save(); header(); return; }
+  if(t.id==="card"||t.id==="reveal"){ flip(); return; }
+  if(t.dataset.pick){ $("langSheet").hidden=true; setLang(t.dataset.pick); if(!seenHelp) $("helpSheet").hidden=false; return; }
+  if(t.dataset.lang){ setLang(t.dataset.lang); return; }
+  if(t.dataset.mod){ selectMod(t.dataset.mod); return; }
+  if(t.id==="lockGo"){ var m=+t.dataset.m; S.unlocked=Math.max(S.unlocked,m); S.mod=m; flash=m; $("lockSheet").hidden=true; save(); banners(); render(); return; }
+  if(t.dataset.g!==undefined && cur){ rate(cur,+t.dataset.g); banners(); render(); return; }
+  if(t.classList.contains("opt")){ answer(t); return; }
+  if(t.id==="nextQ"){ render(); return; }
+  if(t.id==="moreNew"){ S.newToday.n=Math.max(0,S.newToday.n-5); save(); render(); return; }
+  if(t.dataset.d){ S.dir=t.dataset.d; recent=[]; save(); render(); return; }
+  if(t.id==="mCards"||t.id==="mQuiz"||t.id==="mList"){ S.mode=t.id.slice(1).toLowerCase(); save(); render(); return; }
+  if(t.dataset.dismiss){ var b=$(t.dataset.dismiss); if(b) b.remove(); if(t.dataset.dismiss==="bFlash") flash=0; if(t.dataset.dismiss==="bNew") added=[]; if(t.dataset.dismiss==="bRec") recovered=false; return; }
+  if(t.id==="helpBtn"){ $("helpSheet").hidden=false; return; }
+  if(t.id==="saveBtn"){ openSave(); return; }
+  if(t.hasAttribute("data-close")){ t.closest(".sheet").hidden=true; try{localStorage.setItem(KEY+"-help","1");}catch(_){} render(); return; }
+  if(t.id==="copyBtn"){ var v=$("exportBox").value, ok=function(){ $("saveStatus").textContent=T.copyOk; };
+    try{ navigator.clipboard.writeText(v).then(ok,function(){ $("exportBox").select(); $("saveStatus").textContent=T.copyFallback; }); }catch(_){ $("exportBox").select(); $("saveStatus").textContent=T.copyFallback; } return; }
+  if(t.id==="importBtn"){ doImport(); return; }
+  if(t.id==="bkBtn"||t.id==="bkBanner"){ doBackup(); return; }
+  if(t.id==="resetBtn"){ t.hidden=true; $("resetConfirm").hidden=false; return; }
+  if(t.id==="resetConfirm"){ var l=S.lang; S=blank(); S.lang=l; S.known=Object.keys(byId); save(); $("saveStatus").textContent=T.resetDone; t.hidden=true; $("resetBtn").hidden=false; banners(); render(); return; }
+});
+document.addEventListener("keydown", function(e){
+  if(document.querySelector(".sheet:not([hidden])")) return;
+  if(S.mode!=="cards"||!cur) return;
+  if((e.key===" "||e.key==="Enter") && !flipped){ e.preventDefault(); flip(); }
+  else if(flipped && (e.key==="1"||e.key==="2"||e.key==="3")){ rate(cur,+e.key-1); banners(); render(); }
+});
+document.querySelectorAll(".sheet").forEach(function(s){ s.addEventListener("click", function(e){ if(e.target===s && s.id!=="langSheet"){ s.hidden=true; render(); } }); });
+
+function makeCode(){ return CODE+btoa(unescape(encodeURIComponent(JSON.stringify({v:1,p:S.p,streak:S.streak,known:S.known,unlocked:S.unlocked,lang:S.lang,at:Date.now()})))); }
+function ago(t){ var d=Math.floor((Date.now()-t)/DAY); return d<=0?T.agoToday:(d===1?T.agoYesterday:T.agoDays(d)); }
+function stamp(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
+function backupDone(){ S.bk={t:Date.now(),n:0}; save(); banners(); if(!$("saveSheet").hidden) $("bkInfo").textContent=T.lastBackupToday; }
+function doBackup(){
+  var code=makeCode(), name="letzspeak-"+T.backupFileWord+"-"+stamp()+".txt";
+  try{
+    var a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([code],{type:"text/plain"})); a.download=name;
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },1000);
+    backupDone(); if($("saveSheet").hidden) openSave(); $("saveStatus").textContent=T.backupFallback;
+  }catch(_){ if($("saveSheet").hidden) openSave(); $("saveStatus").textContent=T.backupFallbackErr; }
+}
+function openSave(){
+  $("exportBox").value=makeCode(); $("importBox").value=""; $("saveStatus").textContent="";
+  $("resetConfirm").hidden=true; $("resetBtn").hidden=false;
+  $("bkInfo").textContent = S.bk.t ? T.lastBackupAgo(ago(S.bk.t)) : T.noBackupYet;
+  $("saveSheet").hidden=false;
+}
+function doImport(txt){
+  var raw=(typeof txt==="string"?txt:$("importBox").value).trim();
+  try{
+    if(raw.indexOf(CODE)!==0) throw 0;
+    var d=JSON.parse(decodeURIComponent(escape(atob(raw.slice(CODE.length)))));
+    if(!d || typeof d.p!=="object") throw 0;
+    Object.keys(d.p).forEach(function(id){ Object.keys(d.p[id]).forEach(function(dir){ var a=st(id,dir), b=d.p[id][dir]; if(!a || (b.t||0)>(a.t||0)) setSt(id,dir,b); }); });
+    if(d.streak && d.streak.n>S.streak.n) S.streak=d.streak;
+    if(d.unlocked) S.unlocked=Math.max(S.unlocked, +d.unlocked);
+    if(d.at) S.bk={t:Math.max(S.bk.t||0,d.at), n:0};
+    norm(); checkUnlock(); S.mod=S.unlocked;
+    $("bkInfo").textContent = S.bk.t ? T.lastBackupAgo(ago(S.bk.t)) : "";
+    save(); $("saveStatus").textContent=T.restoreSuccess; banners(); render();
+  }catch(_){ $("saveStatus").textContent=T.restoreError(CODE); }
+}
+$("bkFile").addEventListener("change", function(){
+  var f=this.files && this.files[0]; if(!f) return;
+  var r=new FileReader(); r.onload=function(){ doImport(String(r.result)); }; r.onerror=function(){ $("saveStatus").textContent=T.fileReadError; };
+  r.readAsText(f); this.value="";
+});
+
+var seenHelp=false; try{ seenHelp=localStorage.getItem(KEY+"-help")==="1"; }catch(_){}
+checkUnlock(); flash=0; save();
+applyI18n(); banners(); render();
+if(!S.lang) $("langSheet").hidden=false;
+else if(fresh && !seenHelp) $("helpSheet").hidden=false;
+if(fresh){ idbGet(function(o){
+  idbReady=true;
+  if(!(o && o.v===1 && o.p && Object.keys(o.p).length)){ save(); return; }
+  S=o; norm(); S.known=Object.keys(byId); added=[]; recovered=true; T=UI[S.lang||"fr"];
+  save(); applyI18n(); banners(); render(); $("helpSheet").hidden=true; $("langSheet").hidden=!!S.lang ? true : false;
+}); }
+})();
+</script>
