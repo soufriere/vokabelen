@@ -1,5 +1,10 @@
 # Lëtz Speak Vocab — beginner deck. Format per line: id | lb | fr | en | note
 # ids are permanent (progress is keyed by them) — never change an existing id.
+# UPDATE RULES (students' progress lives in their browsers, keyed by id + module number):
+#  - fix spelling/glosses freely, but NEVER rename an id; move a word between modules freely
+#  - only ADD modules at the end; never renumber or delete a module
+#  - to remove a word, delete its line AND add its id to RETIRED (build.py refuses otherwise)
+RETIRED = set()
 MODULES = {
  1: ("Moien!", "Saluer et remercier", "Greetings & thanks"),
  2: ("Wéi geet et?", "Ça va ? Oui, non…", "How are you? Yes, no…"),

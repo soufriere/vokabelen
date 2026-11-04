@@ -304,7 +304,7 @@ var UI = {
   doneBox:function(m){ return "Bravo ! Module "+m+" terminé 🎉"; },
   doneNext:function(m){ return "Module "+m+" →"; },
   bannerUnlocked:function(m){ return "<b>Module "+m+" débloqué !</b> Les mots déjà appris reviendront dans Révision."; },
-  bannerAdded:function(n){ return "<b>"+n+" nouveaux mots</b> ajoutés. Ta progression reste."; },
+  bannerAdded:function(n){ return "<b>"+(n===1?"1 nouveau mot ajouté":n+" nouveaux mots ajoutés")+"</b>. Ta progression reste."; },
   bannerBackup:"<b>Mets ta progression à l'abri.</b> Enregistre ton fichier de sauvegarde — 10 secondes.",
   bannerBackupBtn:"Enregistrer",
   bannerRecovered:"<b>Progression récupérée</b> depuis la copie de secours de cet appareil.",
@@ -368,7 +368,7 @@ var UI = {
   doneBox:function(m){ return "Well done! Module "+m+" complete 🎉"; },
   doneNext:function(m){ return "Module "+m+" →"; },
   bannerUnlocked:function(m){ return "<b>Module "+m+" unlocked!</b> Words you've learnt will come back in Review."; },
-  bannerAdded:function(n){ return "<b>"+n+" new words</b> added. Your progress is untouched."; },
+  bannerAdded:function(n){ return "<b>"+(n===1?"1 new word":n+" new words")+"</b> added. Your progress is untouched."; },
   bannerBackup:"<b>Keep your progress safe.</b> Save your backup file — 10 seconds.",
   bannerBackupBtn:"Save",
   bannerRecovered:"<b>Progress recovered</b> from this device's backup copy.",
@@ -416,7 +416,9 @@ try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persis
 var S = load();
 var fresh = !S;
 function blank(){ return {v:1, snd:true, p:{}, known:[], lang:null, dir:"lf", mod:1, unlocked:1, mode:"cards", streak:{d:"",n:0}, newToday:{d:"",n:0}, bk:{t:0,n:0}}; }
-if(!S || S.v !== 1) S = blank();
+/* NEVER wipe saved progress on upgrade: keep every stored field, only fill in fields that newer versions added */
+function upgrade(o){ var d=blank(); if(!o || typeof o!=="object") return d; for(var k in d) if(o[k]===undefined) o[k]=d[k]; if(!o.p || typeof o.p!=="object") o.p={}; o.v=1; return o; }
+S = upgrade(S);
 function norm(){
   S.p = S.p || {}; S.bk = S.bk || {t:0,n:0}; S.unlocked = Math.min(NMOD, Math.max(1, +S.unlocked||1));
   if(S.mod!=="rev"){ S.mod = +S.mod||1; if(S.mod>S.unlocked) S.mod=S.unlocked; }
@@ -729,8 +731,8 @@ if(!S.lang) $("langSheet").hidden=false;
 else if(fresh && !seenHelp) $("helpSheet").hidden=false;
 if(fresh){ idbGet(function(o){
   idbReady=true;
-  if(!(o && o.v===1 && o.p && Object.keys(o.p).length)){ save(); return; }
-  S=o; norm(); S.known=Object.keys(byId); added=[]; recovered=true; T=UI[S.lang||"fr"];
+  if(!(o && o.p && Object.keys(o.p).length)){ save(); return; }
+  S=upgrade(o); norm(); S.known=Object.keys(byId); added=[]; recovered=true; T=UI[S.lang||"fr"];
   save(); applyI18n(); banners(); render(); $("helpSheet").hidden=true; $("langSheet").hidden=!!S.lang ? true : false;
 }); }
 })();
