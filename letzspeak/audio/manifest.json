@@ -23,6 +23,10 @@
   "lb": "de Béier",
   "t": 1793804722944
  },
+ "belsch": {
+  "lb": "d'Belsch",
+  "t": 1793805005347
+ },
  "bestuet": {
   "lb": "Ech si bestuet.",
   "t": 1793804722944
@@ -113,7 +117,11 @@
  },
  "ech-leiere-lb": {
   "lb": "Ech léiere Lëtzebuergesch.",
-  "t": 1793804722944
+  "t": 1793805109342
+ },
+ "ech-och": {
+  "lb": "Ech och.",
+  "t": 1793804981512
  },
  "ech-schaffen-als": {
   "lb": "Ech schaffen als …",
@@ -331,6 +339,10 @@
   "lb": "léieren",
   "t": 1793804722944
  },
+ "letzebuerg": {
+  "lb": "Lëtzebuerg",
+  "t": 1793804997214
+ },
  "letzebuergesch": {
   "lb": "Lëtzebuergesch",
   "t": 1793804722944
@@ -407,6 +419,10 @@
   "lb": "Nach eng Kéier, wann ech gelift.",
   "t": 1793804722944
  },
+ "nee": {
+  "lb": "nee",
+  "t": 1793804969917
+ },
  "nee-merci": {
   "lb": "Nee, merci.",
   "t": 1793804722944
@@ -471,9 +487,13 @@
   "lb": "schaffen",
   "t": 1793804722944
  },
+ "scheinen-dag": {
+  "lb": "Schéinen Dag!",
+  "t": 1793804954665
+ },
  "scheinen-owend": {
   "lb": "Schéinen Owend!",
-  "t": 1793804722944
+  "t": 1793805127776
  },
  "schlecht": {
   "lb": "Schlecht.",
@@ -482,6 +502,10 @@
  "schlofen": {
   "lb": "schlofen",
   "t": 1793804722944
+ },
+ "schwatz-du-lb": {
+  "lb": "Schwätz du Lëtzebuergesch?",
+  "t": 1793805015992
  },
  "schwatzen": {
   "lb": "schwätzen",
