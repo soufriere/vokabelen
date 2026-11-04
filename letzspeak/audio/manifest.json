@@ -1,0 +1,694 @@
+{
+ "aacht": {
+  "lb": "aacht",
+  "t": 1793804722944
+ },
+ "addi": {
+  "lb": "Äddi!",
+  "t": 1793804722944
+ },
+ "an-dir": {
+  "lb": "An dir?",
+  "t": 1793804722944
+ },
+ "an-iech": {
+  "lb": "An Iech?",
+  "t": 1793804722944
+ },
+ "awar": {
+  "lb": "Awar!",
+  "t": 1793804722944
+ },
+ "beier": {
+  "lb": "de Béier",
+  "t": 1793804722944
+ },
+ "bestuet": {
+  "lb": "Ech si bestuet.",
+  "t": 1793804722944
+ },
+ "bezuelen": {
+  "lb": "Ech géif gär bezuelen.",
+  "t": 1793804722944
+ },
+ "bis-geschwenn": {
+  "lb": "Bis geschwënn!",
+  "t": 1793804722944
+ },
+ "bis-muer": {
+  "lb": "Bis muer!",
+  "t": 1793804722944
+ },
+ "bomi": {
+  "lb": "d'Bomi",
+  "t": 1793804722944
+ },
+ "bopi": {
+  "lb": "de Bopi",
+  "t": 1793804722944
+ },
+ "brout": {
+  "lb": "d'Brout",
+  "t": 1793804722944
+ },
+ "brudder": {
+  "lb": "de Brudder",
+  "t": 1793804722944
+ },
+ "dag": {
+  "lb": "den Dag",
+  "t": 1793804722944
+ },
+ "daitsch": {
+  "lb": "Däitsch",
+  "t": 1793804722944
+ },
+ "daitschland": {
+  "lb": "Däitschland",
+  "t": 1793804722944
+ },
+ "denschdeg": {
+  "lb": "Dënschdeg",
+  "t": 1793804722944
+ },
+ "donneschdeg": {
+  "lb": "Donneschdeg",
+  "t": 1793804722944
+ },
+ "drai": {
+  "lb": "dräi",
+  "t": 1793804722944
+ },
+ "draizeng": {
+  "lb": "dräizéng",
+  "t": 1793804722944
+ },
+ "drenken": {
+  "lb": "drénken",
+  "t": 1793804722944
+ },
+ "duechter": {
+  "lb": "d'Duechter",
+  "t": 1793804722944
+ },
+ "e-bessen-lb": {
+  "lb": "Ech schwätzen e bësse Lëtzebuergesch.",
+  "t": 1793804722944
+ },
+ "e-kaffi-weg": {
+  "lb": "E Kaffi, wann ech gelift.",
+  "t": 1793804722944
+ },
+ "ech-hatt-gar": {
+  "lb": "Ech hätt gär …",
+  "t": 1793804722944
+ },
+ "ech-heeschen": {
+  "lb": "Ech heeschen …",
+  "t": 1793804722944
+ },
+ "ech-kommen-aus": {
+  "lb": "Ech kommen aus …",
+  "t": 1793804722944
+ },
+ "ech-leiere-lb": {
+  "lb": "Ech léiere Lëtzebuergesch.",
+  "t": 1793804722944
+ },
+ "ech-schaffen-als": {
+  "lb": "Ech schaffen als …",
+  "t": 1793804722944
+ },
+ "ech-schwatzen": {
+  "lb": "Ech schwätzen …",
+  "t": 1793804722944
+ },
+ "ech-sinn-joer-al": {
+  "lb": "Ech sinn … Joer al.",
+  "t": 1793804722944
+ },
+ "ech-verstinn-net": {
+  "lb": "Ech verstinn net.",
+  "t": 1793804722944
+ },
+ "ech-weess-net": {
+  "lb": "Ech weess et net.",
+  "t": 1793804722944
+ },
+ "ech-wunnen-zu": {
+  "lb": "Ech wunnen zu …",
+  "t": 1793804722944
+ },
+ "eelef": {
+  "lb": "eelef",
+  "t": 1793804722944
+ },
+ "eent": {
+  "lb": "eent",
+  "t": 1793804722944
+ },
+ "elo": {
+  "lb": "elo",
+  "t": 1793804722944
+ },
+ "elteren": {
+  "lb": "d'Elteren",
+  "t": 1793804722944
+ },
+ "eng-fro": {
+  "lb": "Ech hunn eng Fro.",
+  "t": 1793804722944
+ },
+ "englesch": {
+  "lb": "Englesch",
+  "t": 1793804722944
+ },
+ "entschellegt": {
+  "lb": "Entschëllegt!",
+  "t": 1793804722944
+ },
+ "et-freet-mech": {
+  "lb": "Et freet mech!",
+  "t": 1793804722944
+ },
+ "et-geet": {
+  "lb": "Et geet.",
+  "t": 1793804722944
+ },
+ "falsch": {
+  "lb": "falsch",
+  "t": 1793804722944
+ },
+ "famill": {
+  "lb": "d'Famill",
+  "t": 1793804722944
+ },
+ "familljennumm": {
+  "lb": "de Familljennumm",
+  "t": 1793804722944
+ },
+ "fennef": {
+  "lb": "fënnef",
+  "t": 1793804722944
+ },
+ "firwat": {
+  "lb": "Firwat?",
+  "t": 1793804722944
+ },
+ "fofzeng": {
+  "lb": "fofzéng",
+  "t": 1793804722944
+ },
+ "fra": {
+  "lb": "d'Fra",
+  "t": 1793804722944
+ },
+ "frankraich": {
+  "lb": "Frankräich",
+  "t": 1793804722944
+ },
+ "franseisch": {
+  "lb": "Franséisch",
+  "t": 1793804722944
+ },
+ "freideg": {
+  "lb": "Freideg",
+  "t": 1793804722944
+ },
+ "frend": {
+  "lb": "de Frënd / d'Frëndin",
+  "t": 1793804722944
+ },
+ "ganz-gutt": {
+  "lb": "Ganz gutt!",
+  "t": 1793804722944
+ },
+ "geschter": {
+  "lb": "gëschter",
+  "t": 1793804722944
+ },
+ "glaichfalls": {
+  "lb": "Gläichfalls!",
+  "t": 1793804722944
+ },
+ "goen": {
+  "lb": "goen",
+  "t": 1793804722944
+ },
+ "gudde-metteg": {
+  "lb": "Gudde Mëtteg!",
+  "t": 1793804722944
+ },
+ "gudde-moien": {
+  "lb": "Gudde Moien!",
+  "t": 1793804722944
+ },
+ "gudden-appetit": {
+  "lb": "Gudden Appetit!",
+  "t": 1793804722944
+ },
+ "gudden-owend": {
+  "lb": "Gudden Owend!",
+  "t": 1793804722944
+ },
+ "gutt-nuecht": {
+  "lb": "Gutt Nuecht!",
+  "t": 1793804722944
+ },
+ "haut": {
+  "lb": "haut",
+  "t": 1793804722944
+ },
+ "hues-du-kanner": {
+  "lb": "Hues du Kanner?",
+  "t": 1793804722944
+ },
+ "hunn": {
+  "lb": "hunn",
+  "t": 1793804722944
+ },
+ "iessen": {
+  "lb": "iessen",
+  "t": 1793804722944
+ },
+ "italieenesch": {
+  "lb": "Italieenesch",
+  "t": 1793804722944
+ },
+ "italien": {
+  "lb": "Italien",
+  "t": 1793804722944
+ },
+ "jo": {
+  "lb": "jo",
+  "t": 1793804722944
+ },
+ "jo-gar": {
+  "lb": "Jo, gär!",
+  "t": 1793804722944
+ },
+ "jong": {
+  "lb": "de Jong",
+  "t": 1793804722944
+ },
+ "kafen": {
+  "lb": "kafen",
+  "t": 1793804722944
+ },
+ "kaffi": {
+  "lb": "de Kaffi",
+  "t": 1793804722944
+ },
+ "kand": {
+  "lb": "d'Kand",
+  "t": 1793804722944
+ },
+ "kanner": {
+  "lb": "d'Kanner",
+  "t": 1793804722944
+ },
+ "kee-problem": {
+  "lb": "Kee Problem!",
+  "t": 1793804722944
+ },
+ "keng-ursaach": {
+  "lb": "Keng Ursaach!",
+  "t": 1793804722944
+ },
+ "kommen": {
+  "lb": "kommen",
+  "t": 1793804722944
+ },
+ "kuch": {
+  "lb": "de Kuch",
+  "t": 1793804722944
+ },
+ "kucken": {
+  "lb": "kucken",
+  "t": 1793804722944
+ },
+ "leieren": {
+  "lb": "léieren",
+  "t": 1793804722944
+ },
+ "letzebuergesch": {
+  "lb": "Lëtzebuergesch",
+  "t": 1793804722944
+ },
+ "liesen": {
+  "lb": "liesen",
+  "t": 1793804722944
+ },
+ "maachen": {
+  "lb": "maachen",
+  "t": 1793804722944
+ },
+ "mamm": {
+  "lb": "d'Mamm",
+  "t": 1793804722944
+ },
+ "mann": {
+  "lb": "de Mann",
+  "t": 1793804722944
+ },
+ "mat-mellech": {
+  "lb": "mat Mëllech",
+  "t": 1793804722944
+ },
+ "mech-och": {
+  "lb": "Mech och!",
+  "t": 1793804722944
+ },
+ "mei-lues": {
+  "lb": "Méi lues, wann ech gelift.",
+  "t": 1793804722944
+ },
+ "meindeg": {
+  "lb": "Méindeg",
+  "t": 1793804722944
+ },
+ "mellech": {
+  "lb": "d'Mëllech",
+  "t": 1793804722944
+ },
+ "merci": {
+  "lb": "Merci!",
+  "t": 1793804722944
+ },
+ "merci-villmools": {
+  "lb": "Merci villmools!",
+  "t": 1793804722944
+ },
+ "mettes": {
+  "lb": "mëttes",
+  "t": 1793804722944
+ },
+ "mettwoch": {
+  "lb": "Mëttwoch",
+  "t": 1793804722944
+ },
+ "mir-geet-et-gutt": {
+  "lb": "Mir geet et gutt.",
+  "t": 1793804722944
+ },
+ "moien": {
+  "lb": "Moien!",
+  "t": 1793804722944
+ },
+ "moies": {
+  "lb": "moies",
+  "t": 1793804722944
+ },
+ "muer": {
+  "lb": "muer",
+  "t": 1793804722944
+ },
+ "nach-eng-keier": {
+  "lb": "Nach eng Kéier, wann ech gelift.",
+  "t": 1793804722944
+ },
+ "nee-merci": {
+  "lb": "Nee, merci.",
+  "t": 1793804722944
+ },
+ "neng": {
+  "lb": "néng",
+  "t": 1793804722944
+ },
+ "net-gutt": {
+  "lb": "Net gutt.",
+  "t": 1793804722944
+ },
+ "nonzeng": {
+  "lb": "nonzéng",
+  "t": 1793804722944
+ },
+ "null": {
+  "lb": "null",
+  "t": 1793804722944
+ },
+ "ouni-zocker": {
+  "lb": "ouni Zocker",
+  "t": 1793804722944
+ },
+ "owes": {
+  "lb": "owes",
+  "t": 1793804722944
+ },
+ "papp": {
+  "lb": "de Papp",
+  "t": 1793804722944
+ },
+ "portugal": {
+  "lb": "Portugal",
+  "t": 1793804722944
+ },
+ "portugisesch": {
+  "lb": "Portugisesch",
+  "t": 1793804722944
+ },
+ "prost": {
+  "lb": "Prost!",
+  "t": 1793804722944
+ },
+ "rechnung": {
+  "lb": "d'Rechnung",
+  "t": 1793804722944
+ },
+ "richteg": {
+  "lb": "richteg",
+  "t": 1793804722944
+ },
+ "salut": {
+  "lb": "Salut!",
+  "t": 1793804722944
+ },
+ "samschdeg": {
+  "lb": "Samschdeg",
+  "t": 1793804722944
+ },
+ "schaffen": {
+  "lb": "schaffen",
+  "t": 1793804722944
+ },
+ "scheinen-owend": {
+  "lb": "Schéinen Owend!",
+  "t": 1793804722944
+ },
+ "schlecht": {
+  "lb": "Schlecht.",
+  "t": 1793804722944
+ },
+ "schlofen": {
+  "lb": "schlofen",
+  "t": 1793804722944
+ },
+ "schwatzen": {
+  "lb": "schwätzen",
+  "t": 1793804722944
+ },
+ "schwatzt-dir-lb": {
+  "lb": "Schwätzt Dir Lëtzebuergesch?",
+  "t": 1793804722944
+ },
+ "schwester": {
+  "lb": "d'Schwëster",
+  "t": 1793804722944
+ },
+ "sechs": {
+  "lb": "sechs",
+  "t": 1793804722944
+ },
+ "siechzeng": {
+  "lb": "siechzéng",
+  "t": 1793804722944
+ },
+ "sinn": {
+  "lb": "sinn",
+  "t": 1793804722944
+ },
+ "siwen": {
+  "lb": "siwen",
+  "t": 1793804722944
+ },
+ "siwwenzeng": {
+  "lb": "siwwenzéng",
+  "t": 1793804722944
+ },
+ "sonndeg": {
+  "lb": "Sonndeg",
+  "t": 1793804722944
+ },
+ "tei": {
+  "lb": "den Téi",
+  "t": 1793804722944
+ },
+ "tipptopp": {
+  "lb": "Tipptopp!",
+  "t": 1793804722944
+ },
+ "uechtzeng": {
+  "lb": "uechtzéng",
+  "t": 1793804722944
+ },
+ "veier": {
+  "lb": "véier",
+  "t": 1793804722944
+ },
+ "veierzeng": {
+  "lb": "véierzéng",
+  "t": 1793804722944
+ },
+ "verstoen": {
+  "lb": "verstoen",
+  "t": 1793804722944
+ },
+ "virnumm": {
+  "lb": "de Virnumm",
+  "t": 1793804722944
+ },
+ "vu-wou-kenns-du": {
+  "lb": "Vu wou kënns du?",
+  "t": 1793804722944
+ },
+ "vu-wou-kommt-dir": {
+  "lb": "Vu wou kommt Dir?",
+  "t": 1793804722944
+ },
+ "waasser": {
+  "lb": "d'Waasser",
+  "t": 1793804722944
+ },
+ "wain": {
+  "lb": "de Wäin",
+  "t": 1793804722944
+ },
+ "wann-ech-gelift": {
+  "lb": "wann ech gelift",
+  "t": 1793804722944
+ },
+ "wat": {
+  "lb": "Wat?",
+  "t": 1793804722944
+ },
+ "wat-ass-haut": {
+  "lb": "Wat ass haut?",
+  "t": 1793804722944
+ },
+ "wat-heescht-dat": {
+  "lb": "Wat heescht dat?",
+  "t": 1793804722944
+ },
+ "wat-kascht-dat": {
+  "lb": "Wat kascht dat?",
+  "t": 1793804722944
+ },
+ "wat-schaffs-du": {
+  "lb": "Wat schaffs du?",
+  "t": 1793804722944
+ },
+ "weekend": {
+  "lb": "de Weekend",
+  "t": 1793804722944
+ },
+ "wei": {
+  "lb": "Wéi?",
+  "t": 1793804722944
+ },
+ "wei-al-bass-du": {
+  "lb": "Wéi al bass du?",
+  "t": 1793804722944
+ },
+ "wei-al-sidd-dir": {
+  "lb": "Wéi al sidd Dir?",
+  "t": 1793804722944
+ },
+ "wei-geet-et": {
+  "lb": "Wéi geet et?",
+  "t": 1793804722944
+ },
+ "wei-geet-et-dir": {
+  "lb": "Wéi geet et dir?",
+  "t": 1793804722944
+ },
+ "wei-geet-et-iech": {
+  "lb": "Wéi geet et Iech?",
+  "t": 1793804722944
+ },
+ "wei-heeschs-du": {
+  "lb": "Wéi heeschs du?",
+  "t": 1793804722944
+ },
+ "wei-heescht-dir": {
+  "lb": "Wéi heescht Dir?",
+  "t": 1793804722944
+ },
+ "wei-schreift-een": {
+  "lb": "Wéi schreift een dat?",
+  "t": 1793804722944
+ },
+ "wei-seet-een": {
+  "lb": "Wéi seet een dat op Lëtzebuergesch?",
+  "t": 1793804722944
+ },
+ "wei-vill": {
+  "lb": "Wéi vill?",
+  "t": 1793804722944
+ },
+ "weini": {
+  "lb": "Wéini?",
+  "t": 1793804722944
+ },
+ "wien": {
+  "lb": "Wien?",
+  "t": 1793804722944
+ },
+ "woch": {
+  "lb": "d'Woch",
+  "t": 1793804722944
+ },
+ "wou": {
+  "lb": "Wou?",
+  "t": 1793804722944
+ },
+ "wou-wunns-du": {
+  "lb": "Wou wunns du?",
+  "t": 1793804722944
+ },
+ "wou-wunnt-dir": {
+  "lb": "Wou wunnt Dir?",
+  "t": 1793804722944
+ },
+ "wunnen": {
+  "lb": "wunnen",
+  "t": 1793804722944
+ },
+ "zeng": {
+  "lb": "zéng",
+  "t": 1793804722944
+ },
+ "zocker": {
+  "lb": "den Zocker",
+  "t": 1793804722944
+ },
+ "zopp": {
+  "lb": "d'Zopp",
+  "t": 1793804722944
+ },
+ "zwanzeg": {
+  "lb": "zwanzeg",
+  "t": 1793804722944
+ },
+ "zwee": {
+  "lb": "zwee",
+  "t": 1793804722944
+ },
+ "zwee-kanner": {
+  "lb": "Ech hunn zwee Kanner.",
+  "t": 1793804722944
+ },
+ "zwielef": {
+  "lb": "zwielef",
+  "t": 1793804722944
+ }
+}

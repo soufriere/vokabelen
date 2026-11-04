@@ -58,6 +58,7 @@
 var MODULES = __MODULES__;
 var DECK = __DECK__;
 var LIVE = __AUDIO__;          /* id -> lb text of clips already live in the trainer */
+var LIVE_T = __AUDIO_T__;      /* id -> time the live clip was imported; older local clips are superseded */
 var $=function(i){return document.getElementById(i);};
 function esc(s){ return String(s).replace(/[&<>"]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];}); }
 
@@ -68,7 +69,8 @@ function loadAll(cb){ var tx=db.transaction("c"), s=tx.objectStore("c"), r=s.ope
 function put(id,v){ clips[id]=v; db.transaction("c","readwrite").objectStore("c").put(v,id); }
 function del(id){ delete clips[id]; db.transaction("c","readwrite").objectStore("c").delete(id); }
 
-function state(c){ var r=clips[c.id];
+function fresh(id){ var r=clips[id]; return !!r && !(LIVE[id]!==undefined && (LIVE_T[id]||0)>=(r.t||0)); }
+function state(c){ var r=fresh(c.id)?clips[c.id]:null;
   if(r) return r.lb===c.lb ? "rec" : "stale";
   if(LIVE[c.id]!==undefined) return LIVE[c.id]===c.lb ? "live" : "stale";
   return "todo"; }
@@ -83,7 +85,7 @@ function render(){
     '<div style="height:18px"></div><div class="word">'+esc(c.lb)+'</div><div class="gl">'+esc(c.fr)+' · '+esc(c.en)+'</div><div class="note">'+esc(c.note||"")+'</div>';
   var n=DECK.filter(done).length;
   $("cnt").textContent=n+" / "+DECK.length+" recorded"; $("fill").style.width=Math.round(n/DECK.length*100)+"%"; $("pct").textContent=Math.round(n/DECK.length*100)+"%";
-  $("play").disabled=!clips[c.id]; $("del").disabled=!clips[c.id];
+  $("play").disabled=!clips[c.id] && !LIVE[c.id]; $("del").disabled=!clips[c.id];
   var h="", m=0;
   DECK.forEach(function(x,i){ if(x.m!==m){ if(m) h+="</ul></section>"; m=x.m; h+='<section><h3>Module '+m+' · '+esc(MODULES[m][0])+'</h3><ul>'; }
     h+='<li data-i="'+i+'"'+(i===idx?' class="cur"':'')+'><span class="s">'+ICON[state(x)]+'</span><span class="lb">'+esc(x.lb)+'</span></li>'; });
@@ -119,10 +121,11 @@ function level(){
 function start(){
   getMic().then(function(s){
     if(ac.state==="suspended") ac.resume();
-    chunks=[]; mr=new MediaRecorder(s, MIME?{mimeType:MIME}:undefined);
+    chunks=[]; var item=DECK[idx]; mr=new MediaRecorder(s, MIME?{mimeType:MIME}:undefined);
     mr.ondataavailable=function(e){ if(e.data.size) chunks.push(e.data); };
-    mr.onstop=function(){ var c=DECK[idx], m=mr.mimeType||MIME||"audio/webm";
-      put(c.id,{blob:new Blob(chunks,{type:m}),mime:m,lb:c.lb,t:Date.now()}); render(); play(); $("st").textContent="Saved. Keep → Next, or R to redo."; };
+    var rec=mr; rec.onstop=function(){ var m=rec.mimeType||MIME||"audio/webm";
+      put(item.id,{blob:new Blob(chunks,{type:m}),mime:m,lb:item.lb,t:Date.now()}); render();
+      if(DECK[idx].id===item.id){ play(); $("st").textContent="Saved. Keep → Next, or R to redo."; } else $("st").textContent="Saved “"+item.lb+"”."; };
     mr.start(); recording=true; heard=false; silentSince=0; startT=performance.now();
     $("rec").classList.add("on"); $("rec").textContent="STOP"; $("st").textContent="Recording… speak now.";
     if(!raf) level();
@@ -131,7 +134,7 @@ function start(){
 function stop(){ if(!recording) return; recording=false; $("rec").classList.remove("on"); $("rec").textContent="REC"; try{ mr.stop(); }catch(_){} }
 function toggle(){ recording?stop():start(); }
 var au=null;
-function play(){ var r=clips[DECK[idx].id]; if(!r) return; if(au){ au.pause(); URL.revokeObjectURL(au.src); } au=new Audio(URL.createObjectURL(r.blob)); au.play().catch(function(){}); }
+function play(){ var id=DECK[idx].id, r=fresh(id)?clips[id]:null; if(!r){ if(LIVE[id]!==undefined){ if(au) au.pause(); au=new Audio("../audio/"+id+".mp3"); au.play().catch(function(){}); } return; } if(au){ au.pause(); URL.revokeObjectURL(au.src); } au=new Audio(URL.createObjectURL(r.blob)); au.play().catch(function(){}); }
 
 /* ---- zip (store, no compression) ---- */
 var CRC=(function(){ var t=new Uint32Array(256); for(var n=0;n<256;n++){ var c=n; for(var k=0;k<8;k++) c=c&1?0xEDB88320^(c>>>1):c>>>1; t[n]=c>>>0; } return t; })();
@@ -150,7 +153,7 @@ function zip(files){ /* files: [{name, data:Uint8Array}] */
   return new Blob(parts.concat(cen,[new Uint8Array(e.buffer)]),{type:"application/zip"});
 }
 function exportZip(){
-  var ids=Object.keys(clips); if(!ids.length){ $("st").textContent="Nothing recorded yet."; return; }
+  var ids=Object.keys(clips).filter(fresh); if(!ids.length){ $("st").textContent="No new clips since the last import — nothing to export."; return; }
   $("st").textContent="Building zip…";
   Promise.all(ids.map(function(id){ return clips[id].blob.arrayBuffer().then(function(b){ return {name:"clips/"+id+"."+ext(clips[id].mime), data:new Uint8Array(b)}; }); })).then(function(files){
     var man={}; ids.forEach(function(id){ man[id]={lb:clips[id].lb, file:"clips/"+id+"."+ext(clips[id].mime), t:clips[id].t}; });

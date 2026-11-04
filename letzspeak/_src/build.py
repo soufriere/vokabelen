@@ -26,6 +26,7 @@ json.dump(reg, open(reg_p, "w", encoding="utf8"), ensure_ascii=False, indent=0, 
 man_p = os.path.join(ROOT, "audio", "manifest.json")
 man = json.load(open(man_p, encoding="utf8")) if os.path.exists(man_p) else {}
 live = {i: v["lb"] for i, v in man.items() if os.path.exists(os.path.join(ROOT, "audio", i + ".mp3"))}
+live_t = {i: man[i].get("t") or 0 for i in live}
 cur = {c["id"]: c["lb"] for c in deck}
 audio = {i: 1 for i, lb in live.items() if cur.get(i) == lb}
 stale = sorted(i for i, lb in live.items() if i in cur and cur[i] != lb)
@@ -33,5 +34,5 @@ head = rd("head.html").replace("<title>Margots Kaarten</title>", '<title>Lëtz S
 J = lambda o: json.dumps(o, ensure_ascii=False)
 def sub(t): return t.replace("__MODULES__", J(mods)).replace("__DECK__", J(deck)).replace("__AUDIO__", J(audio))
 open(os.path.join(ROOT, "index.html"), "w", encoding="utf8").write(head + sub(rd("body.html")))
-open(os.path.join(ROOT, "record", "index.html"), "w", encoding="utf8").write(head.replace("<title>Lëtz Speak Vocab</title>", "<title>Lëtz Speak · Recorder</title>") + rd("rec_body.html").replace("__MODULES__", J(mods)).replace("__DECK__", J(deck)).replace("__AUDIO__", J(live)))
+open(os.path.join(ROOT, "record", "index.html"), "w", encoding="utf8").write(head.replace("<title>Lëtz Speak Vocab</title>", "<title>Lëtz Speak · Recorder</title>") + rd("rec_body.html").replace("__MODULES__", J(mods)).replace("__DECK__", J(deck)).replace("__AUDIO_T__", J(live_t)).replace("__AUDIO__", J(live)))
 print(f"built: {len(deck)} items, {len(audio)} with audio, {len(deck)-len(audio)} without" + (f", STALE (spelling changed, re-record): {stale}" if stale else ""))
