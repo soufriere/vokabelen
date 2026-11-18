@@ -7,6 +7,10 @@
   "lb": "Äddi!",
   "t": 1793804722944
  },
+ "an-der-woch": {
+  "lb": "an der Woch",
+  "t": 1795000685905
+ },
  "an-dir": {
   "lb": "An dir?",
   "t": 1793804722944
@@ -43,6 +47,10 @@
   "lb": "Bis muer!",
   "t": 1793804722944
  },
+ "bis-sonndes": {
+  "lb": "Bis Sonndes!",
+  "t": 1795000455105
+ },
  "bomi": {
   "lb": "d'Bomi",
   "t": 1793804722944
@@ -59,6 +67,10 @@
   "lb": "de Brudder",
   "t": 1793804722944
  },
+ "cafe": {
+  "lb": "de Café",
+  "t": 1795000733231
+ },
  "dag": {
   "lb": "den Dag",
   "t": 1793804722944
@@ -70,6 +82,18 @@
  "daitschland": {
   "lb": "Däitschland",
   "t": 1793804722944
+ },
+ "dat-geet-leider-net": {
+  "lb": "Nee, dat geet leider net.",
+  "t": 1795000528586
+ },
+ "dat-klengt-gutt": {
+  "lb": "Dat kléngt gutt.",
+  "t": 1795000549539
+ },
+ "de-weekend-kachen-ech-gaer": {
+  "lb": "De Weekend kachen ech gär.",
+  "t": 1795000706743
  },
  "denschdeg": {
   "lb": "Dënschdeg",
@@ -103,6 +127,30 @@
   "lb": "E Kaffi, wann ech gelift.",
   "t": 1793804722944
  },
+ "ech-di-mech-un": {
+  "lb": "Ech di(nn) mech un.",
+  "t": 1795000568227
+ },
+ "ech-drenke-kaffi": {
+  "lb": "Ech drénke(n) Kaffi.",
+  "t": 1795000576694
+ },
+ "ech-erwaechen": {
+  "lb": "Ech erwächen.",
+  "t": 1795000556425
+ },
+ "ech-ginn-an-d-bett": {
+  "lb": "Ech ginn an d'Bett.",
+  "t": 1795000615135
+ },
+ "ech-ginn-heem": {
+  "lb": "Ech ginn heem.",
+  "t": 1795000596964
+ },
+ "ech-ginn-op-d-uni": {
+  "lb": "Ech ginn op d'Uni.",
+  "t": 1795000589979
+ },
  "ech-hatt-gar": {
   "lb": "Ech hätt gär …",
   "t": 1793804722944
@@ -111,13 +159,33 @@
   "lb": "Ech heeschen …",
   "t": 1793804722944
  },
+ "ech-hu-leiwer-wei": {
+  "lb": "Ech hu(nn) … léiwer wéi …",
+  "t": 1795000643451
+ },
+ "ech-iessen-eppes": {
+  "lb": "Ech iessen eppes.",
+  "t": 1795000583413
+ },
+ "ech-kachen": {
+  "lb": "Ech kachen.",
+  "t": 1795000603282
+ },
  "ech-kommen-aus": {
   "lb": "Ech kommen aus …",
   "t": 1793804722944
  },
+ "ech-kucke-fernseh": {
+  "lb": "Ech kucke(n) Fernseh.",
+  "t": 1795000608165
+ },
  "ech-leiere-lb": {
   "lb": "Ech léiere Lëtzebuergesch.",
   "t": 1793805109342
+ },
+ "ech-liese-gaer": {
+  "lb": "Ech liese(n) gär.",
+  "t": 1795000636774
  },
  "ech-och": {
   "lb": "Ech och.",
@@ -134,6 +202,14 @@
  "ech-sinn-joer-al": {
   "lb": "Ech sinn … Joer al.",
   "t": 1793804722944
+ },
+ "ech-stinn-op": {
+  "lb": "Ech stinn op.",
+  "t": 1795000563610
+ },
+ "ech-stinn-um-7-auer-op": {
+  "lb": "Ech stinn um 7 Auer op.",
+  "t": 1795000662884
  },
  "ech-verstinn-net": {
   "lb": "Ech verstinn net.",
@@ -162,6 +238,10 @@
  "elteren": {
   "lb": "d'Elteren",
   "t": 1793804722944
+ },
+ "emmer": {
+  "lb": "ëmmer",
+  "t": 1795000688789
  },
  "eng-fro": {
   "lb": "Ech hunn eng Fro.",
@@ -227,6 +307,10 @@
   "lb": "de Frënd / d'Frëndin",
   "t": 1793804722944
  },
+ "gaeren": {
+  "lb": "Gären!",
+  "t": 1795000543355
+ },
  "ganz-gutt": {
   "lb": "Ganz gutt!",
   "t": 1793804722944
@@ -234,6 +318,18 @@
  "geschter": {
   "lb": "gëschter",
   "t": 1793804722944
+ },
+ "gi-mir-an-de-park": {
+  "lb": "Gi(nn) mir an de Park?",
+  "t": 1795000746547
+ },
+ "gi-mir-e-kaffi-drenken": {
+  "lb": "Gi(nn) mir e Kaffi drénken?",
+  "t": 1795000771520
+ },
+ "gi-mir-eppes-iessen": {
+  "lb": "Gi(nn) mir eppes iessen?",
+  "t": 1795000776537
  },
  "glaichfalls": {
   "lb": "Gläichfalls!",
@@ -267,9 +363,17 @@
   "lb": "haut",
   "t": 1793804722944
  },
+ "heiansdo": {
+  "lb": "heiansdo",
+  "t": 1795000694740
+ },
  "hues-du-kanner": {
   "lb": "Hues du Kanner?",
   "t": 1793804722944
+ },
+ "hues-du-zait": {
+  "lb": "Hues du … Zäit?",
+  "t": 1795000492064
  },
  "hunn": {
   "lb": "hunn",
@@ -290,6 +394,10 @@
  "jo": {
   "lb": "jo",
   "t": 1793804722944
+ },
+ "jo-ech-hunn-zait": {
+  "lb": "Jo, ech hunn Zäit.",
+  "t": 1795000499536
  },
  "jo-gar": {
   "lb": "Jo, gär!",
@@ -323,6 +431,10 @@
   "lb": "Keng Ursaach!",
   "t": 1793804722944
  },
+ "kino": {
+  "lb": "de Kino",
+  "t": 1795000736431
+ },
  "kommen": {
   "lb": "kommen",
   "t": 1793804722944
@@ -338,6 +450,10 @@
  "leieren": {
   "lb": "léieren",
   "t": 1793804722944
+ },
+ "leiwer-net": {
+  "lb": "Léiwer net.",
+  "t": 1795000537086
  },
  "letzebuerg": {
   "lb": "Lëtzebuerg",
@@ -379,6 +495,10 @@
   "lb": "Méindeg",
   "t": 1793804722944
  },
+ "meindes": {
+  "lb": "Méindes",
+  "t": 1795000674833
+ },
  "mellech": {
   "lb": "d'Mëllech",
   "t": 1793804722944
@@ -386,6 +506,10 @@
  "merci": {
   "lb": "Merci!",
   "t": 1793804722944
+ },
+ "merci-a-bis-dei-naechst-keier": {
+  "lb": "Merci a bis déi nächst Kéier!",
+  "t": 1795000481313
  },
  "merci-villmools": {
   "lb": "Merci villmools!",
@@ -399,9 +523,25 @@
   "lb": "Mëttwoch",
   "t": 1793804722944
  },
+ "mir-fuere-mam-velo": {
+  "lb": "Mir fuere(n) mam Vëlo.",
+  "t": 1795000758017
+ },
+ "mir-fuere-mam-zuch": {
+  "lb": "Mir fuere(n) mam Zuch.",
+  "t": 1795000753851
+ },
  "mir-geet-et-gutt": {
   "lb": "Mir geet et gutt.",
   "t": 1793804722944
+ },
+ "mir-ginn-zu-fouss": {
+  "lb": "Mir ginn zu Fouss.",
+  "t": 1795000761684
+ },
+ "mir-huelen-de-bus": {
+  "lb": "Mir huelen de Bus.",
+  "t": 1795000750300
  },
  "moien": {
   "lb": "Moien!",
@@ -415,6 +555,10 @@
   "lb": "muer",
   "t": 1793804722944
  },
+ "musee": {
+  "lb": "de Musée",
+  "t": 1795000742499
+ },
  "nach-eng-keier": {
   "lb": "Nach eng Kéier, wann ech gelift.",
   "t": 1793804722944
@@ -422,6 +566,10 @@
  "nee": {
   "lb": "nee",
   "t": 1793804969917
+ },
+ "nee-ech-hu-keng-zait": {
+  "lb": "Nee, ech hu(nn) keng Zäit.",
+  "t": 1795000506352
  },
  "nee-merci": {
   "lb": "Nee, merci.",
@@ -435,13 +583,29 @@
   "lb": "Net gutt.",
   "t": 1793804722944
  },
+ "ni": {
+  "lb": "ni",
+  "t": 1795000697724
+ },
+ "nomettes": {
+  "lb": "nomëttes",
+  "t": 1795000647228
+ },
  "nonzeng": {
   "lb": "nonzéng",
   "t": 1793804722944
  },
+ "nuets": {
+  "lb": "nuets",
+  "t": 1795000650330
+ },
  "null": {
   "lb": "null",
   "t": 1793804722944
+ },
+ "oft": {
+  "lb": "oft",
+  "t": 1795000691456
  },
  "ouni-zocker": {
   "lb": "ouni Zocker",
@@ -454,6 +618,10 @@
  "papp": {
   "lb": "de Papp",
   "t": 1793804722944
+ },
+ "park": {
+  "lb": "de Park",
+  "t": 1795000739331
  },
  "portugal": {
   "lb": "Portugal",
@@ -471,6 +639,10 @@
   "lb": "d'Rechnung",
   "t": 1793804722944
  },
+ "reesen": {
+  "lb": "reesen",
+  "t": 1795000789770
+ },
  "richteg": {
   "lb": "richteg",
   "t": 1793804722944
@@ -482,6 +654,14 @@
  "samschdeg": {
   "lb": "Samschdeg",
   "t": 1793804722944
+ },
+ "samschdes": {
+  "lb": "Samschdes",
+  "t": 1795000679087
+ },
+ "samschdes-schlofen-ech-laang": {
+  "lb": "Samschdes schlofen ech laang.",
+  "t": 1795000711794
  },
  "schaffen": {
   "lb": "schaffen",
@@ -539,9 +719,25 @@
   "lb": "siwwenzéng",
   "t": 1793804722944
  },
+ "solle-mer-eis-treffen": {
+  "lb": "Solle(n) mer eis treffen?",
+  "t": 1795000514450
+ },
  "sonndeg": {
   "lb": "Sonndeg",
   "t": 1793804722944
+ },
+ "sonndes": {
+  "lb": "Sonndes",
+  "t": 1795000682839
+ },
+ "sonndes-spillen-ech-fussball": {
+  "lb": "Sonndes spillen ech Fussball.",
+  "t": 1795000717135
+ },
+ "spazeieren": {
+  "lb": "spazéieren",
+  "t": 1795000780306
  },
  "tei": {
   "lb": "den Téi",
@@ -554,6 +750,18 @@
  "uechtzeng": {
   "lb": "uechtzéng",
   "t": 1793804722944
+ },
+ "um-3-auer-nomettes": {
+  "lb": "Um 3 Auer nomëttes.",
+  "t": 1795000729895
+ },
+ "um-7-auer": {
+  "lb": "um 7 Auer",
+  "t": 1795000653497
+ },
+ "um-wei-vill-auer": {
+  "lb": "Um wéi vill Auer?",
+  "t": 1795000721312
  },
  "veier": {
   "lb": "véier",
@@ -593,7 +801,7 @@
  },
  "wat": {
   "lb": "Wat?",
-  "t": 1793804722944
+  "t": 1795000798554
  },
  "wat-ass-haut": {
   "lb": "Wat ass haut?",
@@ -607,9 +815,33 @@
   "lb": "Wat kascht dat?",
   "t": 1793804722944
  },
+ "wat-mechs-du-de-weekend": {
+  "lb": "Wat méchs du de Weekend?",
+  "t": 1795000702365
+ },
+ "wat-mechs-du-gaer": {
+  "lb": "Wat méchs du gär?",
+  "t": 1795000632580
+ },
+ "wat-mechs-du-moies": {
+  "lb": "Wat méchs du moies?",
+  "t": 1795000667402
+ },
+ "wat-mechs-du-owes": {
+  "lb": "Wat méchs du owes?",
+  "t": 1795000672168
+ },
  "wat-schaffs-du": {
   "lb": "Wat schaffs du?",
   "t": 1793804722944
+ },
+ "wat-sinn-deng-hobbien": {
+  "lb": "Wat sinn deng Hobbien?",
+  "t": 1795000627313
+ },
+ "wat-studeiers-du": {
+  "lb": "Wat studéiers du?",
+  "t": 1795000622295
  },
  "weekend": {
   "lb": "de Weekend",
@@ -626,6 +858,10 @@
  "wei-al-sidd-dir": {
   "lb": "Wéi al sidd Dir?",
   "t": 1793804722944
+ },
+ "wei-fuere-mir": {
+  "lb": "Wéi fuere(n) mir?",
+  "t": 1795000765367
  },
  "wei-geet-et": {
   "lb": "Wéi geet et?",
@@ -661,11 +897,19 @@
  },
  "weini": {
   "lb": "Wéini?",
-  "t": 1793804722944
+  "t": 1795000811908
+ },
+ "weini-stees-du-op": {
+  "lb": "Wéini stees du op?",
+  "t": 1795000657549
+ },
+ "weini-treffe-mir-eis": {
+  "lb": "Wéini treffe(n) mir eis?",
+  "t": 1795000725062
  },
  "wien": {
   "lb": "Wien?",
-  "t": 1793804722944
+  "t": 1795000794788
  },
  "woch": {
   "lb": "d'Woch",
@@ -673,7 +917,7 @@
  },
  "wou": {
   "lb": "Wou?",
-  "t": 1793804722944
+  "t": 1795000806140
  },
  "wou-wunns-du": {
   "lb": "Wou wunns du?",

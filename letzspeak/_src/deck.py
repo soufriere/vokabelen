@@ -124,8 +124,8 @@ kee-problem | Kee Problem! | Pas de problème ! | No problem! |
 ech-och | Ech och. | Moi aussi. | Me too. |
 hues-du-zait | Hues du … Zäit? | Tu as le temps … ? | Do you have time …? | Hues du Freideg Zäit?
 jo-ech-hunn-zait | Jo, ech hunn Zäit. | Oui, j'ai le temps. | Yes, I have time. |
-nee-ech-hu-keng-zait | Nee, ech hu keng Zäit. | Non, je n'ai pas le temps. | No, I don't have time. |
-solle-mer-eis-treffen | Solle mer eis treffen? | On se voit ? | Shall we meet up? |
+nee-ech-hu-keng-zait | Nee, ech hu(nn) keng Zäit. | Non, je n'ai pas le temps. | No, I don't have time. |
+solle-mer-eis-treffen | Solle(n) mer eis treffen? | On se voit ? | Shall we meet up? |
 dat-geet-leider-net | Nee, dat geet leider net. | Non, malheureusement ça ne va pas. | No, unfortunately that doesn't work. |
 leiwer-net | Léiwer net. | Plutôt pas. | I'd rather not. |
 gaeren | Gären! | Avec plaisir ! | I'd love to! |
@@ -152,19 +152,19 @@ virnumm | de Virnumm | le prénom | first name |
 familljennumm | de Familljennumm | le nom de famille | surname |
 ech-erwaechen | Ech erwächen. | Je me réveille. | I wake up. |
 ech-stinn-op | Ech stinn op. | Je me lève. | I get up. |
-ech-di-mech-un | Ech di mech un. | Je m'habille. | I get dressed. |
-ech-drenke-kaffi | Ech drénke Kaffi. | Je bois du café. | I drink coffee. |
+ech-di-mech-un | Ech di(nn) mech un. | Je m'habille. | I get dressed. |
+ech-drenke-kaffi | Ech drénke(n) Kaffi. | Je bois du café. | I drink coffee. |
 ech-iessen-eppes | Ech iessen eppes. | Je mange quelque chose. | I eat something. |
 ech-ginn-op-d-uni | Ech ginn op d'Uni. | Je vais à l'université. | I go to university. |
 ech-ginn-heem | Ech ginn heem. | Je rentre à la maison. | I go home. |
 ech-kachen | Ech kachen. | Je cuisine. | I cook. |
-ech-kucke-fernseh | Ech kucke Fernseh. | Je regarde la télé. | I watch TV. |
+ech-kucke-fernseh | Ech kucke(n) Fernseh. | Je regarde la télé. | I watch TV. |
 ech-ginn-an-d-bett | Ech ginn an d'Bett. | Je vais me coucher. | I go to bed. |
 wat-studeiers-du | Wat studéiers du? | Tu étudies quoi ? | What do you study? |
 wat-sinn-deng-hobbien | Wat sinn deng Hobbien? | C'est quoi tes loisirs ? | What are your hobbies? |
 wat-mechs-du-gaer | Wat méchs du gär? | Qu'est-ce que tu aimes faire ? | What do you like doing? |
-ech-liese-gaer | Ech liese gär. | J'aime lire. | I like reading. |
-ech-hu-leiwer-wei | Ech hu … léiwer wéi … | Je préfère … à … | I prefer … to … | Ech hu Kaffi léiwer wéi Téi.
+ech-liese-gaer | Ech liese(n) gär. | J'aime lire. | I like reading. |
+ech-hu-leiwer-wei | Ech hu(nn) … léiwer wéi … | Je préfère … à … | I prefer … to … | Ech hu(nn) Kaffi léiwer wéi Téi.
 """,
 4: """
 letzebuerg | Lëtzebuerg | le Luxembourg | Luxembourg |
@@ -248,18 +248,18 @@ de-weekend-kachen-ech-gaer | De Weekend kachen ech gär. | Le week-end, j'aime c
 samschdes-schlofen-ech-laang | Samschdes schlofen ech laang. | Le samedi, je fais la grasse matinée. | On Saturdays I sleep in. |
 sonndes-spillen-ech-fussball | Sonndes spillen ech Fussball. | Le dimanche, je joue au foot. | On Sundays I play football. |
 um-wei-vill-auer | Um wéi vill Auer? | À quelle heure ? | At what time? |
-weini-treffe-mir-eis | Wéini treffe mir eis? | On se retrouve quand ? | When shall we meet? |
+weini-treffe-mir-eis | Wéini treffe(n) mir eis? | On se retrouve quand ? | When shall we meet? |
 um-3-auer-nomettes | Um 3 Auer nomëttes. | À 15 heures. | At 3 p.m. |
 cafe | de Café | le café (l'endroit) | the café |
 kino | de Kino | le cinéma | the cinema |
 park | de Park | le parc | the park |
 musee | de Musée | le musée | the museum |
-gi-mir-an-de-park | Gi mir an de Park? | On va au parc ? | Shall we go to the park? | an de Kino · an de Café · an de Musée
+gi-mir-an-de-park | Gi(nn) mir an de Park? | On va au parc ? | Shall we go to the park? | an de Kino · an de Café · an de Musée
 mir-huelen-de-bus | Mir huelen de Bus. | On prend le bus. | We take the bus. |
-mir-fuere-mam-zuch | Mir fuere mam Zuch. | On prend le train. | We go by train. |
-mir-fuere-mam-velo | Mir fuere mam Vëlo. | On y va à vélo. | We go by bike. |
+mir-fuere-mam-zuch | Mir fuere(n) mam Zuch. | On prend le train. | We go by train. |
+mir-fuere-mam-velo | Mir fuere(n) mam Vëlo. | On y va à vélo. | We go by bike. |
 mir-ginn-zu-fouss | Mir ginn zu Fouss. | On y va à pied. | We go on foot. |
-wei-fuere-mir | Wéi fuere mir? | On y va comment ? | How do we get there? |
+wei-fuere-mir | Wéi fuere(n) mir? | On y va comment ? | How do we get there? |
 """,
 7: """
 famill | d'Famill | la famille | the family |
@@ -301,8 +301,8 @@ bezuelen | Ech géif gär bezuelen. | Je voudrais payer. | I'd like to pay. |
 rechnung | d'Rechnung | l'addition | the bill |
 gudden-appetit | Gudden Appetit! | Bon appétit ! | Enjoy your meal! |
 prost | Prost! | Santé ! | Cheers! |
-gi-mir-e-kaffi-drenken | Gi mir e Kaffi drénken? | On va boire un café ? | Shall we go for a coffee? |
-gi-mir-eppes-iessen | Gi mir eppes iessen? | On va manger quelque chose ? | Shall we go and eat something? |
+gi-mir-e-kaffi-drenken | Gi(nn) mir e Kaffi drénken? | On va boire un café ? | Shall we go for a coffee? |
+gi-mir-eppes-iessen | Gi(nn) mir eppes iessen? | On va manger quelque chose ? | Shall we go and eat something? |
 """,
 9: """
 sinn | sinn | être | to be | ech sinn · du bass
