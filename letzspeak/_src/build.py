@@ -4,7 +4,7 @@ Edit vocab in deck.py (never change an existing id), UI in body.html / rec_body.
 import json, os, sys
 SRC = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(SRC)
 sys.path.insert(0, SRC); import deck as D
-GOATCOUNTER = ""  # your GoatCounter site code, e.g. "letzspeak" → https://letzspeak.goatcounter.com (trainer only, not the recorder)
+GOATCOUNTER = "djkfhsdihfeh"  # your GoatCounter site code, e.g. "letzspeak" → https://letzspeak.goatcounter.com (trainer only, not the recorder)
 rd = lambda f: open(os.path.join(SRC, f), encoding="utf8").read()
 deck = D.deck(); mods = {str(k): list(v) for k, v in D.MODULES.items()}
 # ---- progress-safety guard: published.json is an append-only registry of everything students may have progress on
