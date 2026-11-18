@@ -410,6 +410,8 @@ function idbPut(o){ idb(function(db){ try{ db.transaction("s","readwrite").objec
 function idbGet(cb){ var done=false; setTimeout(function(){ if(!done){done=true;cb(null);} },1500);
   idb(function(db){ try{ var r=db.transaction("s").objectStore("s").get("state"); r.onsuccess=function(){ if(!done){done=true;cb(r.result||null);} }; r.onerror=function(){ if(!done){done=true;cb(null);} }; }catch(e){ if(!done){done=true;cb(null);} } }); }
 var idbReady = !!load();
+/* anonymous usage counts (GoatCounter, no cookies) — no-op if the script isn't loaded */
+function gcEv(n){ try{ if(window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:n, title:n, event:true}); }catch(e){} }
 function save(){ S.savedAt = Date.now(); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} if(idbReady) idbPut(JSON.parse(JSON.stringify(S))); }
 try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
 
@@ -447,7 +449,7 @@ function doneCount(){ return MODNUMS.filter(function(m){ return modStats(m).done
 function curMod(){ for(var i=0;i<MODNUMS.length;i++){ var m=MODNUMS[i]; if(m>S.unlocked) break; if(!modStats(m).done) return m; } return S.unlocked; }
 function checkUnlock(){
   var cm = curMod();
-  while(S.unlocked<NMOD && modStats(S.unlocked).done){ S.unlocked++; flash = S.unlocked; }
+  while(S.unlocked<NMOD && modStats(S.unlocked).done){ gcEv("module-"+S.unlocked+"-done"); S.unlocked++; flash = S.unlocked; }
   return cm;
 }
 function dueRev(){ var now=Date.now(), n=0; DECK.forEach(function(c){ if(c.m>S.unlocked) return; ["fl","lf"].forEach(function(d){ var x=st(c.id,d); if(x && x.due<=now) n++; }); }); return n; }
@@ -640,7 +642,7 @@ function renderList(){
 }
 function render(){ header(); if(S.mode==="quiz") renderQuiz(); else if(S.mode==="list") renderList(); else renderCards(); }
 
-function setLang(l){ S.lang=l; T=UI[l]; save(); applyI18n(); banners(); render(); }
+function setLang(l){ if(S.lang!==l) gcEv("lang-"+l); S.lang=l; T=UI[l]; save(); applyI18n(); banners(); render(); }
 function selectMod(v){
   if(v==="rev"){ S.mod="rev"; recent=[]; save(); render(); return; }
   var m=+v;
