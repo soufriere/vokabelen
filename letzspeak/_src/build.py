@@ -9,6 +9,12 @@ deck = D.deck(); mods = {str(k): list(v) for k, v in D.MODULES.items()}
 # ---- progress-safety guard: published.json is an append-only registry of everything students may have progress on
 reg_p = os.path.join(SRC, "published.json")
 reg = json.load(open(reg_p, encoding="utf8")) if os.path.exists(reg_p) else {"ids": {}, "modules": 0}
+man_p = os.path.join(ROOT, "audio", "manifest.json")
+man = json.load(open(man_p, encoding="utf8")) if os.path.exists(man_p) else {}
+_lbs = {c["id"]: c["lb"] for c in deck}
+_has = {i for i, v in man.items() if os.path.exists(os.path.join(ROOT, "audio", i + ".mp3")) and _lbs.get(i) == v["lb"]}
+pending = set(getattr(D, "PENDING", set())) - _has  # new words stay out of the trainer until their audio is in
+rec_deck = deck; deck = [c for c in deck if c["id"] not in pending]
 cur_ids = {c["id"]: c["m"] for c in deck}
 retired = getattr(D, "RETIRED", set())
 missing = [i for i in reg["ids"] if i not in cur_ids and i not in retired]
@@ -23,16 +29,14 @@ moved = {i: (reg["ids"][i], m) for i, m in cur_ids.items() if i in reg["ids"] an
 if moved: print(f"note: words moved between modules (progress kept): {moved}")
 reg["ids"].update(cur_ids); reg["modules"] = max(reg["modules"], len(nums))
 json.dump(reg, open(reg_p, "w", encoding="utf8"), ensure_ascii=False, indent=0, sort_keys=True)
-man_p = os.path.join(ROOT, "audio", "manifest.json")
-man = json.load(open(man_p, encoding="utf8")) if os.path.exists(man_p) else {}
 live = {i: v["lb"] for i, v in man.items() if os.path.exists(os.path.join(ROOT, "audio", i + ".mp3"))}
 live_t = {i: man[i].get("t") or 0 for i in live}
-cur = {c["id"]: c["lb"] for c in deck}
+cur = {c["id"]: c["lb"] for c in rec_deck}
 audio = {i: 1 for i, lb in live.items() if cur.get(i) == lb}
 stale = sorted(i for i, lb in live.items() if i in cur and cur[i] != lb)
 head = rd("head.html").replace("<title>Margots Kaarten</title>", '<title>Lëtz Speak Vocab</title>\n<meta name="description" content="Lëtzebuergesch fir Ufänker · luxembourgeois pour débutants · Luxembourgish for beginners">\n<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 3 3%22%3E%3Crect width=%223%22 height=%221%22 fill=%22%23C8323A%22/%3E%3Crect y=%221%22 width=%223%22 height=%221%22 fill=%22%23fff%22/%3E%3Crect y=%222%22 width=%223%22 height=%221%22 fill=%22%234AA3DF%22/%3E%3C/svg%3E">')
 J = lambda o: json.dumps(o, ensure_ascii=False)
 def sub(t): return t.replace("__MODULES__", J(mods)).replace("__DECK__", J(deck)).replace("__AUDIO__", J(audio))
 open(os.path.join(ROOT, "index.html"), "w", encoding="utf8").write(head + sub(rd("body.html")))
-open(os.path.join(ROOT, "record", "index.html"), "w", encoding="utf8").write(head.replace("<title>Lëtz Speak Vocab</title>", "<title>Lëtz Speak · Recorder</title>") + rd("rec_body.html").replace("__MODULES__", J(mods)).replace("__DECK__", J(deck)).replace("__AUDIO_T__", J(live_t)).replace("__AUDIO__", J(live)))
-print(f"built: {len(deck)} items, {len(audio)} with audio, {len(deck)-len(audio)} without" + (f", STALE (spelling changed, re-record): {stale}" if stale else ""))
+open(os.path.join(ROOT, "record", "index.html"), "w", encoding="utf8").write(head.replace("<title>Lëtz Speak Vocab</title>", "<title>Lëtz Speak · Recorder</title>") + rd("rec_body.html").replace("__MODULES__", J(mods)).replace("__DECK__", J(rec_deck)).replace("__AUDIO_T__", J(live_t)).replace("__AUDIO__", J(live)))
+print(f"built: {len(deck)} items live, {len(pending)} pending (recorder only), {len(audio)} with audio, {len(deck)-len(audio)} without" + (f", STALE (spelling changed, re-record): {stale}" if stale else ""))

@@ -13,3 +13,6 @@ Progress lives in each student's browser (localStorage key `letzspeak-vocab-v1`)
 - `published.json` is the append-only registry of every id ever published; `build.py` refuses to build if a rule is broken.
 - The loader never wipes saved data: unknown/old formats are upgraded in place (`upgrade()` in body.html).
 - Adding words to a finished module makes it "not complete" again, but unlocked modules stay unlocked.
+
+## Adding new words
+Add the lines to deck.py **and** put their ids in `PENDING`. They then appear only in the recorder; each one goes live in the trainer automatically once `process_audio.py` has imported its clip (no need to edit PENDING afterwards).

@@ -5,6 +5,70 @@
 #  - only ADD modules at the end; never renumber or delete a module
 #  - to remove a word, delete its line AND add its id to RETIRED (build.py refuses otherwise)
 RETIRED = set()
+# PENDING: in the recorder only, hidden from students until their audio is imported (process_audio.py clears them)
+PENDING = set("""
+bis-sonndes
+merci-a-bis-dei-naechst-keier
+hues-du-zait
+jo-ech-hunn-zait
+nee-ech-hu-keng-zait
+solle-mer-eis-treffen
+dat-geet-leider-net
+leiwer-net
+gaeren
+dat-klengt-gutt
+ech-erwaechen
+ech-stinn-op
+ech-di-mech-un
+ech-drenke-kaffi
+ech-iessen-eppes
+ech-ginn-op-d-uni
+ech-ginn-heem
+ech-kachen
+ech-kucke-fernseh
+ech-ginn-an-d-bett
+wat-studeiers-du
+wat-sinn-deng-hobbien
+wat-mechs-du-gaer
+ech-liese-gaer
+ech-hu-leiwer-wei
+nomettes
+nuets
+um-7-auer
+weini-stees-du-op
+ech-stinn-um-7-auer-op
+wat-mechs-du-moies
+wat-mechs-du-owes
+meindes
+samschdes
+sonndes
+an-der-woch
+emmer
+oft
+heiansdo
+ni
+wat-mechs-du-de-weekend
+de-weekend-kachen-ech-gaer
+samschdes-schlofen-ech-laang
+sonndes-spillen-ech-fussball
+um-wei-vill-auer
+weini-treffe-mir-eis
+um-3-auer-nomettes
+cafe
+kino
+park
+musee
+gi-mir-an-de-park
+mir-huelen-de-bus
+mir-fuere-mam-zuch
+mir-fuere-mam-velo
+mir-ginn-zu-fouss
+wei-fuere-mir
+gi-mir-e-kaffi-drenken
+gi-mir-eppes-iessen
+spazeieren
+reesen
+""".split())
 MODULES = {
  1: ("Moien!", "Saluer et remercier", "Greetings & thanks"),
  2: ("Wéi geet et?", "Ça va ? Oui, non…", "How are you? Yes, no…"),
@@ -37,6 +101,8 @@ wann-ech-gelift | wann ech gelift | s'il vous plaît / s'il te plaît | please |
 keng-ursaach | Keng Ursaach! | De rien ! | You're welcome! |
 entschellegt | Entschëllegt! | Excusez-moi ! / Pardon ! | Excuse me! / Sorry! |
 glaichfalls | Gläichfalls! | De même ! / Vous aussi ! | You too! / Likewise! |
+bis-sonndes | Bis Sonndes! | À dimanche ! | See you on Sunday! |
+merci-a-bis-dei-naechst-keier | Merci a bis déi nächst Kéier! | Merci et à la prochaine ! | Thanks, see you next time! |
 """,
 2: """
 wei-geet-et | Wéi geet et? | Ça va ? | How are you? |
@@ -56,6 +122,14 @@ jo-gar | Jo, gär! | Oui, volontiers ! | Yes, gladly! |
 nee-merci | Nee, merci. | Non, merci. | No, thank you. |
 kee-problem | Kee Problem! | Pas de problème ! | No problem! |
 ech-och | Ech och. | Moi aussi. | Me too. |
+hues-du-zait | Hues du … Zäit? | Tu as le temps … ? | Do you have time …? | Hues du Freideg Zäit?
+jo-ech-hunn-zait | Jo, ech hunn Zäit. | Oui, j'ai le temps. | Yes, I have time. |
+nee-ech-hu-keng-zait | Nee, ech hu keng Zäit. | Non, je n'ai pas le temps. | No, I don't have time. |
+solle-mer-eis-treffen | Solle mer eis treffen? | On se voit ? | Shall we meet up? |
+dat-geet-leider-net | Nee, dat geet leider net. | Non, malheureusement ça ne va pas. | No, unfortunately that doesn't work. |
+leiwer-net | Léiwer net. | Plutôt pas. | I'd rather not. |
+gaeren | Gären! | Avec plaisir ! | I'd love to! |
+dat-klengt-gutt | Dat kléngt gutt. | Ça a l'air bien. | That sounds good. |
 """,
 3: """
 wei-heeschs-du | Wéi heeschs du? | Tu t'appelles comment ? | What's your name? (informal) |
@@ -76,6 +150,21 @@ wat-schaffs-du | Wat schaffs du? | Tu fais quoi comme travail ? | What do you do
 ech-schaffen-als | Ech schaffen als … | Je travaille comme … | I work as … |
 virnumm | de Virnumm | le prénom | first name |
 familljennumm | de Familljennumm | le nom de famille | surname |
+ech-erwaechen | Ech erwächen. | Je me réveille. | I wake up. |
+ech-stinn-op | Ech stinn op. | Je me lève. | I get up. |
+ech-di-mech-un | Ech di mech un. | Je m'habille. | I get dressed. |
+ech-drenke-kaffi | Ech drénke Kaffi. | Je bois du café. | I drink coffee. |
+ech-iessen-eppes | Ech iessen eppes. | Je mange quelque chose. | I eat something. |
+ech-ginn-op-d-uni | Ech ginn op d'Uni. | Je vais à l'université. | I go to university. |
+ech-ginn-heem | Ech ginn heem. | Je rentre à la maison. | I go home. |
+ech-kachen | Ech kachen. | Je cuisine. | I cook. |
+ech-kucke-fernseh | Ech kucke Fernseh. | Je regarde la télé. | I watch TV. |
+ech-ginn-an-d-bett | Ech ginn an d'Bett. | Je vais me coucher. | I go to bed. |
+wat-studeiers-du | Wat studéiers du? | Tu étudies quoi ? | What do you study? |
+wat-sinn-deng-hobbien | Wat sinn deng Hobbien? | C'est quoi tes loisirs ? | What are your hobbies? |
+wat-mechs-du-gaer | Wat méchs du gär? | Qu'est-ce que tu aimes faire ? | What do you like doing? |
+ech-liese-gaer | Ech liese gär. | J'aime lire. | I like reading. |
+ech-hu-leiwer-wei | Ech hu … léiwer wéi … | Je préfère … à … | I prefer … to … | Ech hu Kaffi léiwer wéi Téi.
 """,
 4: """
 letzebuerg | Lëtzebuerg | le Luxembourg | Luxembourg |
@@ -136,9 +225,41 @@ dag | den Dag | le jour | the day |
 woch | d'Woch | la semaine | the week |
 weekend | de Weekend | le week-end | the weekend |
 moies | moies | le matin | in the morning |
-mettes | mëttes | à midi / l'après-midi | at midday / in the afternoon |
+mettes | mëttes | à midi | at midday |
 owes | owes | le soir | in the evening |
 wat-ass-haut | Wat ass haut? | On est quel jour ? | What day is it today? |
+nomettes | nomëttes | l'après-midi | in the afternoon |
+nuets | nuets | la nuit | at night |
+um-7-auer | um 7 Auer | à 7 heures | at 7 o'clock |
+weini-stees-du-op | Wéini stees du op? | Tu te lèves quand ? | When do you get up? |
+ech-stinn-um-7-auer-op | Ech stinn um 7 Auer op. | Je me lève à 7 heures. | I get up at 7 o'clock. |
+wat-mechs-du-moies | Wat méchs du moies? | Tu fais quoi le matin ? | What do you do in the morning? |
+wat-mechs-du-owes | Wat méchs du owes? | Tu fais quoi le soir ? | What do you do in the evening? |
+meindes | Méindes | le lundi (chaque lundi) | on Mondays |
+samschdes | Samschdes | le samedi | on Saturdays |
+sonndes | Sonndes | le dimanche | on Sundays |
+an-der-woch | an der Woch | en semaine | during the week |
+emmer | ëmmer | toujours | always |
+oft | oft | souvent | often |
+heiansdo | heiansdo | parfois | sometimes |
+ni | ni | jamais | never |
+wat-mechs-du-de-weekend | Wat méchs du de Weekend? | Tu fais quoi ce week-end ? | What are you doing at the weekend? |
+de-weekend-kachen-ech-gaer | De Weekend kachen ech gär. | Le week-end, j'aime cuisiner. | At the weekend I like cooking. |
+samschdes-schlofen-ech-laang | Samschdes schlofen ech laang. | Le samedi, je fais la grasse matinée. | On Saturdays I sleep in. |
+sonndes-spillen-ech-fussball | Sonndes spillen ech Fussball. | Le dimanche, je joue au foot. | On Sundays I play football. |
+um-wei-vill-auer | Um wéi vill Auer? | À quelle heure ? | At what time? |
+weini-treffe-mir-eis | Wéini treffe mir eis? | On se retrouve quand ? | When shall we meet? |
+um-3-auer-nomettes | Um 3 Auer nomëttes. | À 15 heures. | At 3 p.m. |
+cafe | de Café | le café (l'endroit) | the café |
+kino | de Kino | le cinéma | the cinema |
+park | de Park | le parc | the park |
+musee | de Musée | le musée | the museum |
+gi-mir-an-de-park | Gi mir an de Park? | On va au parc ? | Shall we go to the park? | an de Kino · an de Café · an de Musée
+mir-huelen-de-bus | Mir huelen de Bus. | On prend le bus. | We take the bus. |
+mir-fuere-mam-zuch | Mir fuere mam Zuch. | On prend le train. | We go by train. |
+mir-fuere-mam-velo | Mir fuere mam Vëlo. | On y va à vélo. | We go by bike. |
+mir-ginn-zu-fouss | Mir ginn zu Fouss. | On y va à pied. | We go on foot. |
+wei-fuere-mir | Wéi fuere mir? | On y va comment ? | How do we get there? |
 """,
 7: """
 famill | d'Famill | la famille | the family |
@@ -180,6 +301,8 @@ bezuelen | Ech géif gär bezuelen. | Je voudrais payer. | I'd like to pay. |
 rechnung | d'Rechnung | l'addition | the bill |
 gudden-appetit | Gudden Appetit! | Bon appétit ! | Enjoy your meal! |
 prost | Prost! | Santé ! | Cheers! |
+gi-mir-e-kaffi-drenken | Gi mir e Kaffi drénken? | On va boire un café ? | Shall we go for a coffee? |
+gi-mir-eppes-iessen | Gi mir eppes iessen? | On va manger quelque chose ? | Shall we go and eat something? |
 """,
 9: """
 sinn | sinn | être | to be | ech sinn · du bass
@@ -198,6 +321,8 @@ schlofen | schlofen | dormir | to sleep | ech schlofen · du schléifs
 liesen | liesen | lire | to read | ech liesen · du lies
 kucken | kucken | regarder | to look / to watch | ech kucken
 kafen | kafen | acheter | to buy | ech kafen · du keefs
+spazeieren | spazéieren | se promener | to go for a walk |
+reesen | reesen | voyager | to travel |
 """,
 10: """
 wien | Wien? | Qui ? | Who? |
